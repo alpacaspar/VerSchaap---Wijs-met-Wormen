@@ -23,7 +23,7 @@ public class Location : MonoBehaviour
         var www = UnityWebRequest.Get("http://checkip.dyndns.org");
         yield return www.SendWebRequest();
 
-        if (www.isNetworkError || www.isHttpError)
+        if (www.result is UnityWebRequest.Result.ConnectionError or UnityWebRequest.Result.ProtocolError)
         {
             Debug.Log(www.error);
             yield break;
@@ -50,7 +50,7 @@ public class Location : MonoBehaviour
 
         yield return www.SendWebRequest();
         
-        if (www.isNetworkError || www.isHttpError)
+        if (www.result is UnityWebRequest.Result.ConnectionError or UnityWebRequest.Result.ProtocolError)
         {
             Debug.Log(www.error);
             yield break;
@@ -74,7 +74,7 @@ public class Location : MonoBehaviour
 
         yield return www.SendWebRequest();
         
-        if (www.isNetworkError || www.isHttpError)
+        if (www.result is UnityWebRequest.Result.ConnectionError or UnityWebRequest.Result.ProtocolError)
         {
             Debug.Log(www.error);
             yield break;

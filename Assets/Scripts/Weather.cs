@@ -25,7 +25,7 @@ public class Weather : MonoBehaviour
 
         yield return www.SendWebRequest();
         
-        if (www.isNetworkError || www.isHttpError)
+        if (www.result is UnityWebRequest.Result.ConnectionError or UnityWebRequest.Result.ProtocolError)
         {
             Debug.Log(www.error);
             yield break;
