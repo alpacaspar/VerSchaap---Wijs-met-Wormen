@@ -5,24 +5,29 @@ using UnityEngine.Networking;
 
 public class Weather : MonoBehaviour
 {
-    public WeatherInfo info;
-    private float latitude;
-    private float longitude;
-    private string timezone;
-
     // documentation for open-meteo api: https://open-meteo.com/en/docs
-    private void Start()
+
+    private void OnEnable()
     {
-        UpdateWeather();
+        EventSystem<LocationInfo>.AddListener(EventType.locationDataReceived,OnLocationDataReceived);
     }
 
+    private void OnDisable()
+    {
+        EventSystem<LocationInfo>.RemoveListener(EventType.locationDataReceived,OnLocationDataReceived);
+    }
+
+    private void OnLocationDataReceived(LocationInfo info)
+    {
+        UpdateWeather(info);
+    }
     
     /// <summary>
     /// Update weather information based on the most recently updated location information.
     /// </summary>
-    public void UpdateWeather()
+    public void UpdateWeather(LocationInfo info)
     {
-        StartCoroutine(GetWeather(latitude, longitude, timezone));
+        StartCoroutine(GetWeather(info.lat, info.lon, info.timezone));
     }
     
     private IEnumerator GetWeather(float latitude, float longitude, string timezone)
@@ -40,16 +45,9 @@ public class Weather : MonoBehaviour
             yield break;
         }
 
-        info = JsonUtility.FromJson<WeatherInfo>(www.downloadHandler.text);
-    }
-
-    /// <summary>
-    /// Returns the current weather information.
-    /// </summary>
-    /// <returns>WeatherInfo class.</returns>
-    public WeatherInfo GetWeatherInfo()
-    {
-        return info;
+        var info = JsonUtility.FromJson<WeatherInfo>(www.downloadHandler.text);
+        
+        EventSystem<WeatherInfo>.InvokeEvent(EventType.weatherDataReceived, info);
     }
 }
 

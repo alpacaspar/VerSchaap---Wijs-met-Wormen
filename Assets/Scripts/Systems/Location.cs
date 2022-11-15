@@ -6,27 +6,12 @@ using UnityEngine.Networking;
 public class Location : MonoBehaviour
 {
     private string ipAddress;
-    public LocationInfo info;
-    private float latitude;
-    private float longitude;
-    private string timezone;
-    
-    public WeatherInfo weatherInfo;
-    
+
     private void Start()
     {
         StartCoroutine(GetIPAddress());
     }
 
-    /// <summary>
-    /// Returns the current location information.
-    /// </summary>
-    /// <returns>LocationInfo class.</returns>
-    public LocationInfo GetLocation()
-    {
-        return info;
-    }
-    
     private IEnumerator GetIPAddress()
     {
         var www = UnityWebRequest.Get("http://checkip.dyndns.org");
@@ -65,10 +50,9 @@ public class Location : MonoBehaviour
             yield break;
         }
 
-        info = JsonUtility.FromJson<LocationInfo>(www.downloadHandler.text);
-        latitude = info.lat;
-        longitude = info.lon;
-        timezone = info.timezone;
+        var info = JsonUtility.FromJson<LocationInfo>(www.downloadHandler.text);
+
+        EventSystem<LocationInfo>.InvokeEvent(EventType.locationDataReceived, info);
     }
 }
 

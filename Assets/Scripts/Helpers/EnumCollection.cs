@@ -1,6 +1,7 @@
 public enum EventType
 {
-    
+    locationDataReceived,
+    weatherDataReceived,
 }
 
 public enum MethodType
