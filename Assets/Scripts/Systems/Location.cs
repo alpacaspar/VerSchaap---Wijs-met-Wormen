@@ -17,6 +17,15 @@ public class Location : MonoBehaviour
     {
         StartCoroutine(GetIPAddress());
     }
+
+    /// <summary>
+    /// Returns the current location information.
+    /// </summary>
+    /// <returns>LocationInfo class.</returns>
+    public LocationInfo GetLocation()
+    {
+        return info;
+    }
     
     private IEnumerator GetIPAddress()
     {
@@ -38,7 +47,7 @@ public class Location : MonoBehaviour
 
         ipAddress = a4;
         
-        StartCoroutine(GetCoordinates());
+        yield return StartCoroutine(GetCoordinates());
     }
 
     private IEnumerator GetCoordinates()
@@ -60,27 +69,6 @@ public class Location : MonoBehaviour
         latitude = info.lat;
         longitude = info.lon;
         timezone = info.timezone;
-        
-        StartCoroutine(GetWeather());
-    }
-    
-    // This is a copy of the function in Weather.cs, so this will be gone after the event system has been put in place
-    private IEnumerator GetWeather()
-    {
-        var www = new UnityWebRequest($"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&hourly=temperature_2m,relativehumidity_2m,precipitation,cloudcover&timezone={timezone}")
-        {
-            downloadHandler = new DownloadHandlerBuffer()
-        };
-
-        yield return www.SendWebRequest();
-        
-        if (www.result is UnityWebRequest.Result.ConnectionError or UnityWebRequest.Result.ProtocolError)
-        {
-            Debug.Log(www.error);
-            yield break;
-        }
-
-        weatherInfo = JsonUtility.FromJson<WeatherInfo>(www.downloadHandler.text);
     }
 }
 

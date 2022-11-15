@@ -18,7 +18,7 @@ public class Weather : MonoBehaviour
 
     
     /// <summary>
-    /// Update weather information.
+    /// Update weather information based on the most recently updated location information.
     /// </summary>
     public void UpdateWeather()
     {
@@ -46,7 +46,7 @@ public class Weather : MonoBehaviour
     /// <summary>
     /// Returns the current weather information.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>WeatherInfo class.</returns>
     public WeatherInfo GetWeatherInfo()
     {
         return info;
