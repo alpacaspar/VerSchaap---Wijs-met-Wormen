@@ -90,6 +90,8 @@ public static class Database
 
 public class TemporalDatabaseData
 {
+    public string farmerName;
+    public string farmerUUID;
     public WeideObject[] weides;
     public SheepObject[] sheeps;
     public WormObject[] worms;
@@ -97,7 +99,7 @@ public class TemporalDatabaseData
 
 public struct WeideObject
 {
-    public string weideID;
+    public string weideUUID;
     public int surfaceSqrMtr;
     public float surfaceQuality;
     public GrassType[] grassTypes;
@@ -107,7 +109,7 @@ public struct WeideObject
 
 public struct SheepObject
 {
-    public string sheepID;
+    public string sheepUUID;
     public int tsBorn; // time stamp date of birth
     public float weight;
     public Sex sex;
