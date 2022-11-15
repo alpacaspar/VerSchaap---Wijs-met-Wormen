@@ -1,24 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class WurmAPI : MonoBehaviour
+public static class WurmAPI
 {
     /// <summary>
-    ///     Used to fire methods for database in a save manner
+    ///     Used to fire methods for the database in a secure way
     /// </summary>
     /// <param name="type">
     ///     Which method type is used?
+    ///     This refers to the request type that will be used
     /// </param>
     /// <param name="data">
     ///     Data passed such as keys, info, etc.
+    ///     Basically pass values such as [[key, value],[key, value]],...
+    ///     For get requests the value can be empty
     /// </param>
     /// <returns>
     ///     Http status code with data if required
     /// </returns>
-    public string[] MethodHandler<T>(MethodType type, T data)
+    public static string[] MethodHandler<T>(MethodType type, T data)
     {
-        string[] test = new string[] { Status.Failure0.ToString(), "" };
+        string[] test = new string[] { Status.Error1.ToString(), "" };
 
         switch (type)
         {
@@ -47,8 +46,9 @@ public class WurmAPI : MonoBehaviour
     /// <returns>
     ///     Http status code with data if required
     /// </returns>
-    private string[] GetWurmInfo<T>(T data)
+    private static string[] GetWurmInfo<T>(T data)
     {
+        // return highest level based on specification (depending on nesting)
         // returns json
         string[] test = Database.GetData(data);
         return test;
@@ -63,7 +63,7 @@ public class WurmAPI : MonoBehaviour
     /// <returns>
     ///     Http status code with data if required
     /// </returns>
-    private string[] PostWurmInfo<T>(T data)
+    private static string[] PostWurmInfo<T>(T data)
     {
         // add new data
         string[] test = Database.GetData(data);
@@ -79,7 +79,7 @@ public class WurmAPI : MonoBehaviour
     /// <returns>
     ///     Http status code with data if required
     /// </returns>
-    private string[] PutWurmInfo<T>(T data)
+    private static string[] PutWurmInfo<T>(T data)
     {
         // update data
         string[] test = Database.GetData(data);

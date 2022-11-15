@@ -37,3 +37,48 @@ public enum Status
     Error7 = 507,       // Insufficient Storage
     Error8 = 508,       // Loop Detected
 }
+
+public enum GrassType
+{
+    Grass,              // Just your normal average grass
+}
+
+public enum SheepType
+{
+    Texelaar,           // Texelaar
+}
+
+public enum Sex
+{
+    Female,             // Ooi
+    Male,               // Ram
+}
+
+public enum Decease
+{
+    Myasis,             // idk
+    Leverbot,           // idk
+    Fever,              // idk
+}
+
+public enum WormType
+{
+    Myasis,             // worm
+    Leverbot,           // worm
+}
+
+public enum Medicine
+{
+    Benzodyne,          // probably spelled wrong
+}
+
+public enum Symptom
+{
+    RedEyes,            // red eyes
+}
+
+public enum Conditions
+{
+    Dry,                // dry weather
+    Warm,               // warm weather
+}
