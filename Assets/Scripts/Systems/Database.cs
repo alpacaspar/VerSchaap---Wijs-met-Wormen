@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class Database
@@ -64,6 +66,7 @@ public static class Database
     {
         string[] newData = new string[] { Status.Error1.ToString(), "" };
 
+        // TODO, check if entry exists by UUID otherwise convert to post request
         newData[0] = UpdateDatabase(new TemporalDatabaseData()).ToString();
 
         return newData;
@@ -88,6 +91,7 @@ public static class Database
     }
 }
 
+[Serializable]
 public class TemporalDatabaseData
 {
     public string farmerName;
@@ -97,6 +101,7 @@ public class TemporalDatabaseData
     public WormObject[] worms;
 }
 
+[Serializable]
 public struct WeideObject
 {
     public string weideUUID;
@@ -107,23 +112,41 @@ public struct WeideObject
     public string[] extraRemarks;
 }
 
+[Serializable]
 public struct SheepObject
 {
     public string sheepUUID;
     public int tsBorn; // time stamp date of birth
-    public float weight;
+    public List<SheepWeight> weight;
+    public List<SheepDiseases> diseases;
     public Sex sex;
     public SheepType sheepType;
-    public Decease[] deceases;
     public string[] extraRemarks;
 }
 
+[Serializable]
 public struct WormObject
 {
+    public string wormUUID;
     public WormType wormType; 
     public Medicine[] effectiveMedicines;
     public Medicine[] resistences;
     public Symptom[] symptoms;
-    public Conditions[] faveConditions;
+    public Condition[] faveConditions;
     public string[] extraRemarks;
+}
+
+
+[Serializable]
+public struct SheepWeight
+{
+    public float weight;
+    public int timestamp;
+}
+
+[Serializable]
+public struct SheepDiseases
+{
+    public Disease[] diseases;
+    public int timestamp;
 }
