@@ -1,8 +1,8 @@
-name,age,gender,description
-Anna,5,Female,Baaah
-Kyra,5,Female,BAAAAA
-Colijn,5,Female,Meeh
-Ravi,5,Male,BAA-APP
-Caspar,5,Male,Baahaa
-Mike,5,Male,MEEEEEH
-Tjaard,5,Male,BAAAAAAAAAAAAA
+id,name,age,gender,species,weigth,diseases,description
+1,Irene,5,female,texelaar,50,voorjaarsworm,baah
+2,Ramon,6,male,swifter,55,healthy,baah
+3,Raf,5,male,texelaar,48,lebmaagworm,baah
+4,Stephan,4,male,swifter,52,healthy,baah
+5,Richard,4,male,texelaar,51,healthy,baah
+6,Lotte,3,female,swifter,45,healthy,baah
+7,Tim,4,male,texelaar,47,ontstoken poot,baah

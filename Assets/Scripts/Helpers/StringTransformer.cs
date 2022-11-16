@@ -17,7 +17,6 @@ public static class StringTransformer
         {
             outputString = char.ToUpper(inputString[0]).ToString();
         }
-
         else
         {
             outputString = char.ToUpper(inputString[0]) + inputString.Substring(1);

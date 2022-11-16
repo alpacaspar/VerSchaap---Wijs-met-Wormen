@@ -236,7 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db68a6d0613eec1419bb9f0093438e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sheepDataFile: {fileID: 4900000, guid: 4c7cfa266f41a3f49bf7f1119bd40689, type: 3}
+  sheepDataFile: {fileID: 4900000, guid: d6f8a3c07806f1d4f876d3378e4e6643, type: 3}
   allSheep:
     sheep: []
 --- !u!4 &1717951082

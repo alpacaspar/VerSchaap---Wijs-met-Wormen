@@ -3,9 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
 using System;
+using System.IO;
 
 public static class WurmFileHandler
 {
+    /// <summary>
+    /// Get the number of lines from a file
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <returns></returns>
+    public static int GetNumberOfLines(string filePath)
+    {
+        if (!File.Exists(filePath))
+        {
+            return -1;
+        }
+
+        StreamReader reader = new StreamReader(filePath);
+        int i = 0;
+            
+        while (reader.ReadLine() != null)
+        {
+            i++;
+        }
+
+        reader.Close();
+        return i;
+    }
+
     /// <summary>
     /// Generic function for retrieving a list of objects of type T from a CSV file
     /// </summary>
@@ -36,12 +61,12 @@ public static class WurmFileHandler
         // The number of properties in the input file.
         int numberOfPropertiesInInput = propertyNames.Length;
         // The number of properties to be expected.
-        int numberOfPropertiesInClass = typeof(Sheep).GetProperties().Length;
+        int numberOfPropertiesInClass = typeof(T).GetProperties().Length;
 
         // Stop loading if there are missing properties.
         if (numberOfPropertiesInInput < 1 || numberOfPropertiesInInput != numberOfPropertiesInClass)
         {
-            Debug.Log("Properties missing! Aborting data loading!");
+            Debug.LogError("Properties missing! Aborting data loading!");
             return outList;
         }
 
@@ -49,7 +74,7 @@ public static class WurmFileHandler
         foreach (string propName in propertyNames)
         {
             string propertyName = StringTransformer.MakeFirstLetterUpper(propName);
-            PropertyInfo prop = typeof(Sheep).GetProperty(propertyName);
+            PropertyInfo prop = typeof(T).GetProperty(propertyName);
 
             // Stop loading if the line contains an invalid property.
             if (prop == null)
@@ -87,6 +112,20 @@ public static class WurmFileHandler
                 {
                     propertyValue = Convert.ToSingle(propertyValueString);
                 }
+                else if (propertyType == typeof(int))
+                {
+                    propertyValue = Convert.ToInt32(propertyValueString);
+                }
+                else if (propertyType == typeof(Sex))
+                {
+                    Enum.TryParse<Sex>(propertyValueString, true, out Sex sex);
+                    propertyValue = sex;
+                }
+                else if (propertyType == typeof(SheepType))
+                {
+                    Enum.TryParse<SheepType>(propertyValueString, true, out SheepType sheepType);
+                    propertyValue = sheepType;
+                }
 
                 prop.SetValue(element, propertyValue, null);
             }
@@ -95,5 +134,69 @@ public static class WurmFileHandler
         }
 
         return outList;
+    }
+
+    public static void WriteDataToCsvFile<T>(string fileName, T[] data, bool append = false)
+    {
+        PropertyInfo[] props = typeof(T).GetProperties();
+        int nProps = props.Length;
+        int i = 1;
+
+        string path = Application.persistentDataPath + "/" + fileName + ".csv";
+        int numberOfLines = GetNumberOfLines(path);
+        if (numberOfLines < 2)
+        {
+            append = false;
+        }
+        StreamWriter writer = new StreamWriter(path, append);
+
+        //TODO append needs to check if the file is not empty
+        if (!append)
+        {
+            foreach (var prop in props)
+            {
+                writer.Write(prop.Name.ToLower());
+
+                if (i < nProps)
+                {
+                    writer.Write(",");
+                }
+                else
+                {
+                    writer.Write('\n');
+                }
+
+                i++;
+            }
+        }
+
+        // Iterate elements from input data array
+        foreach (T element in data)
+        {
+            i = 1;
+            // Iterate class properties
+            foreach (var prop in props)
+            {
+                object propertyValue = element.GetType().GetProperty(prop.Name).GetValue(element, null);
+                writer.Write(propertyValue.ToString());
+                
+                if (i < nProps)
+                {
+                    writer.Write(",");
+                }
+                else
+                {
+                    writer.Write('\n');
+                }
+
+                i++;
+            }
+        }
+
+        writer.Close();
+        //StreamReader reader = new StreamReader(path);
+        //Print the text from the file
+        //Debug.Log(reader.ReadToEnd());
+        //reader.Close();
     }
 }

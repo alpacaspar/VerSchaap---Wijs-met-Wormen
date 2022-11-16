@@ -10,10 +10,22 @@ public class SheepDataReader : MonoBehaviour
     public TextAsset sheepDataFile;
     public SheepArray allSheep;
 
-    void Start()
+    public bool writeToFile;
+
+    private void Start()
     {
         LoadSheepData(sheepDataFile);
-        PrintDatabase();
+        //WurmFileHandler.WriteDataToCsvFile("TESTSHEEPDATABASE", allSheep.sheep, false);
+        //PrintDatabase();
+    }
+
+    private void Update()
+    {
+        if (writeToFile)
+        {
+            writeToFile = false;
+            WurmFileHandler.WriteDataToCsvFile("TESTSHEEPDATABASE", allSheep.sheep, false);
+        }
     }
 
     /// <summary>
