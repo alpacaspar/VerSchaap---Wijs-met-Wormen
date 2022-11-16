@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class WeatherReceiver : MonoBehaviour
@@ -24,7 +25,6 @@ public class WeatherReceiver : MonoBehaviour
     /// Returns the predicted temperature at the specified date and time provided.
     /// </summary>
     /// <param name="dateTime"></param>
-    /// <returns>Returns temperature float.</returns>
     public float GetTemperatureAtDateTime(string dateTime)
     {
         var index = Array.IndexOf(weatherInfo.hourly.time, dateTime);
@@ -62,5 +62,37 @@ public class WeatherReceiver : MonoBehaviour
     {
         var index = Array.IndexOf(weatherInfo.hourly.time, dateTime);
         return weatherInfo.hourly.cloudcover[index];
+    }
+    
+    /// <summary>
+    /// Returns the average predicted temperature of the next 7 days.
+    /// </summary>
+    public float GetAverageTemperatureWeekly()
+    {
+        return weatherInfo.hourly.temperature_2m.Average();
+    }
+    
+    /// <summary>
+    /// Returns the average predicted precipitation of the next 7 days.
+    /// </summary>
+    public int GetAveragePrecipitationWeekly()
+    {
+        return weatherInfo.hourly.precipitation.Sum() / weatherInfo.hourly.precipitation.Length;
+    }
+    
+    /// <summary>
+    /// Returns the average predicted relative humidity of the next 7 days.
+    /// </summary>
+    public int GetRelativeHumidityWeekly()
+    {
+        return weatherInfo.hourly.relativehumidity_2m.Sum() / weatherInfo.hourly.relativehumidity_2m.Length;
+    }
+    
+    /// <summary>
+    /// Returns the average predicted cloud cover of the next 7 days.
+    /// </summary>
+    public int GetAverageCloudCoverWeekly()
+    {
+        return weatherInfo.hourly.cloudcover.Sum() / weatherInfo.hourly.cloudcover.Length;
     }
 }
