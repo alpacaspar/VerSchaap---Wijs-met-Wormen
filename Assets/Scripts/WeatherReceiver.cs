@@ -5,15 +5,15 @@ using UnityEngine;
 public class WeatherReceiver : MonoBehaviour
 {
     [SerializeField] private WeatherInfo weatherInfo;
-    
+
     private void OnEnable()
     {
-        EventSystem<WeatherInfo>.AddListener(EventType.weatherDataReceived,OnWeatherDataReceived);
+        EventSystem<WeatherInfo>.AddListener(EventType.weatherDataReceived, OnWeatherDataReceived);
     }
 
     private void OnDisable()
     {
-        EventSystem<WeatherInfo>.RemoveListener(EventType.weatherDataReceived,OnWeatherDataReceived);
+        EventSystem<WeatherInfo>.RemoveListener(EventType.weatherDataReceived, OnWeatherDataReceived);
     }
 
     private void OnWeatherDataReceived(WeatherInfo info)
@@ -30,7 +30,7 @@ public class WeatherReceiver : MonoBehaviour
         var index = Array.IndexOf(weatherInfo.hourly.time, dateTime);
         return weatherInfo.hourly.temperature_2m[index];
     }
-    
+
     /// <summary>
     /// Returns the predicted precipitation at the specified date and time provided.
     /// </summary>
