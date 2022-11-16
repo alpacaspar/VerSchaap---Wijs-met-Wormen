@@ -1,3 +1,5 @@
+using System;
+
 public enum EventType
 {
     locationDataReceived,
@@ -38,9 +40,10 @@ public enum Status
     Error8 = 508,       // Loop Detected
 }
 
+[Flags]
 public enum GrassType
-{
-    Grass,              // Just your normal average grass
+{   // increment with times 2 - eg. 1, 2, 4, 8, etc.
+    Grass = 1,              // Just your normal average grass
 }
 
 public enum SheepType
@@ -104,7 +107,6 @@ public enum SheepType
     WiltshireHorn,
     ZeeuwsMelkschaap,
     Zwartblesschaap,
-
     Other,
 }
 
@@ -114,11 +116,12 @@ public enum Sex
     Male,               // Ram
 }
 
-public enum Decease
-{
-    Myasis,             // idk
-    Leverbot,           // idk
-    Fever,              // idk
+[Flags]
+public enum Disease
+{   // increment with times 2 - eg. 1, 2, 4, 8, etc.
+    Myasis = 1,         // idk
+    Leverbot = 2,       // idk
+    Fever = 4,          // idk
 }
 
 public enum WormType
@@ -137,7 +140,7 @@ public enum Symptom
     RedEyes,            // red eyes
 }
 
-public enum Conditions
+public enum Condition
 {
     Dry,                // dry weather
     Warm,               // warm weather

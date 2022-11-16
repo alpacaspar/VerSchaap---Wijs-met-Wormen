@@ -66,7 +66,7 @@ public static class WurmAPI
     private static string[] PostWurmInfo<T>(T data)
     {
         // add new data
-        string[] test = Database.GetData(data);
+        string[] test = Database.PostData(data);
         return test;
     }
 
@@ -82,7 +82,7 @@ public static class WurmAPI
     private static string[] PutWurmInfo<T>(T data)
     {
         // update data
-        string[] test = Database.GetData(data);
+        string[] test = Database.PutData(data);
         return test;
     }
 }
