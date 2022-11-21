@@ -283,7 +283,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -423,6 +423,7 @@ MonoBehaviour:
       relativehumidity_2m: 
       precipitation: 
       cloudcover: 
+      weathercode: 
 --- !u!114 &852610892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -512,6 +513,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1459123699}
   - component: {fileID: 1459123700}
+  - component: {fileID: 1459123701}
   m_Layer: 5
   m_Name: Weekly
   m_TagString: Untagged
@@ -558,10 +560,45 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 4
   m_Spacing: 0
-  m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
-  m_ChildScaleWidth: 1
-  m_ChildScaleHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1459123701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459123698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34f3a68ab34c7ef499e604106173ee70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dailyForecastPrefab: {fileID: 6055198691726581653, guid: 567bfeadc79e2464cbf4f0bc1627d6c1, type: 3}
+  weatherInfo:
+    latitude: 0
+    longitude: 0
+    generationtime_ms: 0
+    utc_offset_seconds: 0
+    timezone: 
+    timezone_abbreviation: 
+    elevation: 0
+    hourly_units:
+      time: 
+      temperature_2m: 
+      relativehumidity_2m: 
+      precipitation: 
+      cloudcover: 
+    hourly:
+      time: []
+      temperature_2m: []
+      relativehumidity_2m: 
+      precipitation: 
+      cloudcover: 
+      weathercode: 
+  icons: []
