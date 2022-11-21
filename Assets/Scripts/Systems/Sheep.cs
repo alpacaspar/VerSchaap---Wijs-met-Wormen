@@ -4,41 +4,25 @@ using UnityEngine;
 public class Sheep
 {
     // These variables are case sensitive and must match the strings in the JSON file.
-
-    //id, tag
-    //leeftijd
-    //geslacht
-    //ras
-    //gewicht
-    //ziektes
-    //opmerkingen
-
-    public int id;
-    public string name;
-    public float age;
+    public string uuid;
+    public int tsborn;
     public Sex gender;
     public SheepType species;
     public float weight;
-    public string diseases;
-    public string description;
+    public Disease[] diseases;
+    public string[] extraRemarks;
 
     // Properties are currently only required for CSV file importing.
-    public int Id
+    public string Uuid
     {
-        get { return id; }
-        set { id = value; }
+        get { return uuid; }
+        set { uuid = value; }
     }
 
-    public string Name
+    public int Tsborn
     {
-        get { return name; }
-        set { name = value; }
-    }
-
-    public float Age
-    {
-        get { return age; }
-        set { age = value; }
+        get { return tsborn; }
+        set { tsborn = value; }
     }
 
     public Sex Gender
@@ -59,20 +43,15 @@ public class Sheep
         set { weight = value; }
     }
 
-    public string Diseases
+    public Disease[] Diseases
     {
         get { return diseases; }
         set { diseases = value; }
     }
 
-    public string Description
+    public string[] Extraremarks
     {
-        get { return description; }
-        set { description = value; }
-    }
-
-    public void Print()
-    {
-        Debug.Log("name:" + name);
+        get { return extraRemarks; }
+        set { extraRemarks = value; }
     }
 }

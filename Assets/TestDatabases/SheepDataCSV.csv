@@ -1,8 +1,8 @@
-id,name,age,gender,species,weigth,diseases,description
-1,Irene,5,female,texelaar,50,voorjaarsworm,baah
-2,Ramon,6,male,swifter,55,healthy,baah
-3,Raf,5,male,texelaar,48,lebmaagworm,baah
-4,Stephan,4,male,swifter,52,healthy,baah
-5,Richard,4,male,texelaar,51,healthy,baah
-6,Lotte,3,female,swifter,45,healthy,baah
-7,Tim,4,male,texelaar,47,ontstoken poot,baah
+uuid,tsborn,gender,species,weigth,diseases,extraremarks
+852cb5a5-6c93-43f9-a3d1-11004e54a20b,1605533984,female,texelaar,50,nothing,is een lief beest;heeft onlangs gelammerd
+d937c3f2-0357-4af4-8961-0c1579a2ef06,1605533984,male,swifter,55,myasis,heeft pas een nieuw oormerk gekregen
+251ea1c1-d712-4d28-9b06-377fde30f191,1605533984,male,texelaar,48,nothing,is nogal lomp
+e3c0bf0b-5a15-43b4-a2ae-09b4aa0047e8,1605533984,male,swifter,52,nothing,knabbelt vaak aan laarzen
+fe82f861-bb35-497a-852d-cebe95d28099,1605533984,male,texelaar,51,nothing,het oudste schaap van de kudde
+324ecb77-5608-4269-b630-e00bb18a2ba4,1605533984,female,swifter,45,myasis,moet nog geschoren worden;heeft onlangs gelammerd
+a8eefafd-9e24-4eb7-abf0-02b5e523e449,1605533984,male,texelaar,47,leverbot,loopt een beetje mank

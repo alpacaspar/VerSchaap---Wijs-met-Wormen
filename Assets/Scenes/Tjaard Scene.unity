@@ -239,6 +239,8 @@ MonoBehaviour:
   sheepDataFile: {fileID: 4900000, guid: d6f8a3c07806f1d4f876d3378e4e6643, type: 3}
   allSheep:
     sheep: []
+  SheepDatabase: []
+  writeToFile: 0
 --- !u!4 &1717951082
 Transform:
   m_ObjectHideFlags: 0

@@ -91,6 +91,7 @@ public static class WurmFileHandler
 
             string[] lineProperties = lines[i].Split(","[0]);
             int numberOfArgumentsInLine = lineProperties.Length;
+
             if (numberOfArgumentsInLine != numberOfPropertiesInClass)
             {
                 Debug.LogWarning("Line " + i + " has corrupt data and will be skipped");
@@ -106,27 +107,52 @@ public static class WurmFileHandler
                 Type propertyType = prop.PropertyType;
 
                 object propertyValue = propertyValueString;
+                bool bIsArray = propertyType.IsArray;
+                // Get the type of the property
+                Type propType = bIsArray ? propertyType.GetElementType() : propertyType;
 
-                // Cast the value if it is not supposed to be a string.
-                if (propertyType == typeof(Single))
+                string[] lineElements = propertyValueString.Split(";"[0]);
+                int nElements = lineElements.Length;
+
+                if (nElements > 1 && !bIsArray)
                 {
-                    propertyValue = Convert.ToSingle(propertyValueString);
-                }
-                else if (propertyType == typeof(int))
-                {
-                    propertyValue = Convert.ToInt32(propertyValueString);
-                }
-                else if (propertyType == typeof(Sex))
-                {
-                    Enum.TryParse<Sex>(propertyValueString, true, out Sex sex);
-                    propertyValue = sex;
-                }
-                else if (propertyType == typeof(SheepType))
-                {
-                    Enum.TryParse<SheepType>(propertyValueString, true, out SheepType sheepType);
-                    propertyValue = sheepType;
+                    Debug.LogWarning("The property '" + propertyName + "' is not an array but had multiple values defined. Only the first value will be used");
                 }
 
+                Array tmpArr = Array.CreateInstance(propType, nElements);
+
+                for (int k = 0; k < nElements; k++)
+                {
+                    object tmpArrObj = lineElements[k];
+                    // Parse the string if the property value shouldn't be one
+                    if (propType == typeof(Single))
+                    {
+                        tmpArrObj = Convert.ToSingle(lineElements[k]);
+                    }
+                    else if (propType == typeof(int))
+                    {
+                        tmpArrObj = Convert.ToInt32(lineElements[k]);
+                    }
+                    else if (propType == typeof(Sex))
+                    {
+                        Enum.TryParse<Sex>(lineElements[k], true, out Sex sex);
+                        tmpArrObj = sex;
+                    }
+                    else if (propType == typeof(SheepType))
+                    {
+                        Enum.TryParse<SheepType>(lineElements[k], true, out SheepType sheepType);
+                        tmpArrObj = sheepType;
+                    }
+                    else if (propType == typeof(Disease))
+                    {
+                        Enum.TryParse<Disease>(lineElements[k], true, out Disease disease);
+                        tmpArrObj = disease;
+                    }
+
+                    tmpArr.SetValue(tmpArrObj, k);
+                }
+
+                propertyValue = bIsArray ? tmpArr : tmpArr.GetValue(0);
                 prop.SetValue(element, propertyValue, null);
             }
 
@@ -194,9 +220,5 @@ public static class WurmFileHandler
         }
 
         writer.Close();
-        //StreamReader reader = new StreamReader(path);
-        //Print the text from the file
-        //Debug.Log(reader.ReadToEnd());
-        //reader.Close();
     }
 }
