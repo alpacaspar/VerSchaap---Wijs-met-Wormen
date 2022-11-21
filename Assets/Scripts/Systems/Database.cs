@@ -67,7 +67,8 @@ public static class Database
         string[] newData = new string[] { Status.Error1.ToString(), "" };
 
         // TODO, check if entry exists by UUID otherwise convert to post request
-        newData[0] = UpdateDatabase(new TemporalDatabaseData()).ToString();
+        ProgressData(MethodType.Put, data);
+        //newData[0] = UpdateDatabase(ProgressData(MethodType.Put, data));
 
         return newData;
     }
@@ -100,24 +101,18 @@ public static class Database
     /// <returns>
     ///     Http status
     /// </returns>
-    public static string[] ProgressData<T>(MethodType type, T data)
+    public static string[] ProgressData<ObjectInterface>(MethodType type, ObjectInterface data)
     {
         string[] newData = new string[] { Status.Error1.ToString(), "" };
 
-        TemporalDatabaseData newDatabase = new TemporalDatabaseData();
-        WeideObject newWeideObject = new WeideObject();
-        SheepObject newSheepObject = new SheepObject();
-        WormObject newWormObject = new WormObject();
-
-        switch(data)
+        switch (data)
         {
-            case TemporalDatabaseData:
-                newDatabase = data as TemporalDatabaseData;
+            case TemporalDatabaseData newDatabase:
                 // TODO handle proper request
                 break;
 
-            case WeideObject:
-                newWeideObject = data as WeideObject;
+            case WeideObject newWeideObject:
+                if (tempDatabase.weides.Length <= 0) break; // TODO catch empty obj and fire post request?
 
                 foreach(WeideObject obj in tempDatabase.weides)
                 {
@@ -133,13 +128,11 @@ public static class Database
                 // TODO fire request and receive http code
                 break;
 
-            case SheepObject:
-                newSheepObject = data as SheepObject;
+            case SheepObject newSheepObject:
                 // TODO handle proper request
                 break;
 
-            case WormObject:
-                newWormObject = data as WormObject;
+            case WormObject newWormObject:
                 // TODO handle proper request
                 break;
         }
@@ -158,8 +151,13 @@ public static class Database
     }
 }
 
+public interface ObjectInterface
+{
+
+}
+
 [Serializable]
-public class TemporalDatabaseData
+public class TemporalDatabaseData : ObjectInterface
 {
     public string farmerName;
     public string farmerUUID;
@@ -169,7 +167,7 @@ public class TemporalDatabaseData
 }
 
 [Serializable]
-public class WeideObject
+public class WeideObject : ObjectInterface
 {
     public string weideUUID;
     public int surfaceSqrMtr;
@@ -180,7 +178,7 @@ public class WeideObject
 }
 
 [Serializable]
-public class SheepObject
+public class SheepObject : ObjectInterface
 {
     public string sheepUUID;
     public int tsBorn; // time stamp date of birth
@@ -192,7 +190,7 @@ public class SheepObject
 }
 
 [Serializable]
-public class WormObject
+public class WormObject : ObjectInterface
 {
     public string wormUUID;
     public WormType wormType; 

@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 public static class WurmAPI
 {
     /// <summary>
