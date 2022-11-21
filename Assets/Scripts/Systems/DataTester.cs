@@ -8,7 +8,9 @@ public class DataTester : MonoBehaviour
 
     void Start()
     {
-        
+        WeideObject weideObject = new WeideObject();
+        weideObject.weideUUID = "updated UUID";
+        WurmAPI.MethodHandler(MethodType.Put, weideObject);
     }
 
     void Update()
