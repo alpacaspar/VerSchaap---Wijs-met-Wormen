@@ -32,7 +32,7 @@ public class Weather : MonoBehaviour
     
     private IEnumerator GetWeather(float latitude, float longitude, string timezone)
     {
-        var www = new UnityWebRequest($"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&hourly=temperature_2m,relativehumidity_2m,precipitation,cloudcover&timezone={timezone}")
+        var www = new UnityWebRequest($"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&hourly=temperature_2m,relativehumidity_2m,precipitation,cloudcover,weathercode&timezone={timezone}")
         {
             downloadHandler = new DownloadHandlerBuffer()
         };
@@ -73,6 +73,7 @@ public class Hourly
     public int[] relativehumidity_2m;
     public int[] precipitation;
     public int[] cloudcover;
+    public WeatherType[] weathercode;
 }
 
 [Serializable]
