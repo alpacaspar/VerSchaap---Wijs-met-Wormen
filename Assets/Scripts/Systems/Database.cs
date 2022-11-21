@@ -17,82 +17,6 @@ public static class Database
     }
 
     /// <summary>
-    ///     Get request
-    /// </summary>
-    /// <param name="data">
-    ///     Generic type that contains keys and info
-    /// </param>
-    /// <returns>
-    ///     Http status type and data content
-    /// </returns>
-    public static string[] GetData<T>(T data)
-    {
-        string[] newData = new string[] { Status.Error1.ToString(), "" };
-
-        // TODO, iterate somehow through generic in order to find the corresponding type and return the value assigned to it
-        newData[0] = UpdateDatabase(new TemporalDatabaseData()).ToString();
-
-        return newData;
-    }
-
-    /// <summary>
-    ///     Post request
-    /// </summary>
-    /// <param name="data">
-    ///     Generic type that contains keys and info
-    /// </param>
-    /// <returns>
-    ///     Http status type and data content
-    /// </returns>
-    public static string[] PostData<T>(T data)
-    {
-        string[] newData = new string[] { Status.Error1.ToString(), "" };
-
-        newData[0] = UpdateDatabase(new TemporalDatabaseData()).ToString();
-
-        return newData;
-    }
-
-    /// <summary>
-    ///     Put request
-    /// </summary>
-    /// <param name="data">
-    ///     Generic type that contains keys and info
-    /// </param>
-    /// <returns>
-    ///     Http status type and data content
-    /// </returns>
-    public static string[] PutData<T>(T data)
-    {
-        string[] newData = new string[] { Status.Error1.ToString(), "" };
-
-        // TODO, check if entry exists by UUID otherwise convert to post request
-        ProgressData(MethodType.Put, data);
-        //newData[0] = UpdateDatabase(ProgressData(MethodType.Put, data));
-
-        return newData;
-    }
-
-    /// <summary>
-    ///     Used to update the database values
-    /// </summary>
-    /// <param name="data">
-    ///     The new values
-    /// </param>
-    /// <returns>
-    ///     Http status
-    /// </returns>
-    private static Status UpdateDatabase(TemporalDatabaseData data)
-    {
-        Status code = Status.Success0;
-
-        tempDatabase = data;
-        // save new values
-
-        return code;
-    }
-
-    /// <summary>
     ///     Used to correctly digest the values
     /// </summary>
     /// <param name="data">
@@ -105,65 +29,102 @@ public static class Database
     {
         string[] newData = new string[] { Status.Error1.ToString(), "" };
 
-        switch (data)
+        if (type == MethodType.Put)
         {
-            case TemporalDatabaseData newDatabase:
-                // TODO handle proper request
-                break;
-
-            case WeideObject newWeideObject:
-                if (tempDatabase.weides.Length <= 0) break; // TODO catch empty obj and fire post request?
-
-                foreach(WeideObject obj in tempDatabase.weides)
-                {
-                    if (obj.weideUUID == newWeideObject.weideUUID)
+            switch (data)
+            {
+                case TemporalDatabaseData newDatabase:
+                    if (tempDatabase.farmerUUID == newDatabase.farmerUUID)
                     {
-                        obj.surfaceSqrMtr = (newWeideObject.surfaceSqrMtr != obj.surfaceSqrMtr) ? newWeideObject.surfaceSqrMtr : obj.surfaceSqrMtr;
-                        obj.surfaceQuality = (newWeideObject.surfaceQuality != obj.surfaceQuality) ? newWeideObject.surfaceQuality : obj.surfaceQuality;
-                        obj.grassTypes = (newWeideObject.grassTypes != obj.grassTypes) ? newWeideObject.grassTypes : obj.grassTypes;
-                        obj.currentSheeps = (newWeideObject.currentSheeps != obj.currentSheeps) ? newWeideObject.currentSheeps : obj.currentSheeps;
-                        obj.extraRemarks = (newWeideObject.extraRemarks != obj.extraRemarks) ? newWeideObject.extraRemarks : obj.extraRemarks;
+                        tempDatabase.farmerName = (tempDatabase.farmerName != newDatabase.farmerName) ? newDatabase.farmerName : tempDatabase.farmerName;
+
+                        // TODO iterate through the following to catch each individual change as an update
+                        tempDatabase.weides = (tempDatabase.weides != newDatabase.weides) ? newDatabase.weides : tempDatabase.weides;
+                        tempDatabase.sheeps = (tempDatabase.sheeps != newDatabase.sheeps) ? newDatabase.sheeps : tempDatabase.sheeps;
+                        tempDatabase.worms = (tempDatabase.worms != newDatabase.worms) ? newDatabase.worms : tempDatabase.worms;
                     }
-                }
-                // TODO fire request and receive http code
-                break;
+                    break;
 
-            case SheepObject newSheepObject:
-                // TODO handle proper request
-                break;
+                case WeideObject newWeideObject:
+                    bool handledData = false;
 
-            case WormObject newWormObject:
-                // TODO handle proper request
-                break;
+                    if (tempDatabase.weides.Count > 0)
+                    {
+                        foreach (WeideObject obj in tempDatabase.weides)
+                        {
+                            if (obj.weideUUID == newWeideObject.weideUUID)
+                            {
+                                obj.surfaceSqrMtr = (newWeideObject.surfaceSqrMtr != obj.surfaceSqrMtr) ? newWeideObject.surfaceSqrMtr : obj.surfaceSqrMtr;
+                                obj.surfaceQuality = (newWeideObject.surfaceQuality != obj.surfaceQuality) ? newWeideObject.surfaceQuality : obj.surfaceQuality;
+                                obj.grassTypes = (newWeideObject.grassTypes != obj.grassTypes) ? newWeideObject.grassTypes : obj.grassTypes;
+                                obj.currentSheeps = (newWeideObject.currentSheeps != obj.currentSheeps) ? newWeideObject.currentSheeps : obj.currentSheeps;
+                                obj.extraRemarks = (newWeideObject.extraRemarks != obj.extraRemarks) ? newWeideObject.extraRemarks : obj.extraRemarks;
+
+                                handledData = true;
+                                newData[0] = Status.Success2.ToString();
+                            }
+                        }
+                    }
+
+                    if (!handledData)
+                    {
+                        // entry does not exist so add new one
+                        newData = ProgressData(MethodType.Post, data);
+                    }
+
+                    // TODO fire request and receive http code
+                    break;
+
+                case SheepObject newSheepObject:
+                    // TODO handle proper request
+                    break;
+
+                case WormObject newWormObject:
+                    // TODO handle proper request
+                    break;
+            }
+
+            WriteDatabase(tempDatabase);
         }
-
-        switch (type)
+        else if (type == MethodType.Post)
         {
-            case MethodType.Put:
 
-                break;
+            WriteDatabase(tempDatabase);
+        } 
+        else if (type == MethodType.Get)
+        {
+
         }
-
-        // TODO, check if entry exists by UUID otherwise convert to post request
-        newData[0] = UpdateDatabase(new TemporalDatabaseData()).ToString();
+        else
+        {
+            newData[0] = Status.Failure0.ToString();
+        }
 
         return newData;
     }
+
+    /// <summary>
+    ///     Used to save the new values
+    /// </summary>
+    /// <param name="data">
+    ///     The updated version of the database
+    /// </param>
+    private static void WriteDatabase(TemporalDatabaseData data)
+    {
+        // save new values
+    }
 }
 
-public interface ObjectInterface
-{
-
-}
+public interface ObjectInterface { }
 
 [Serializable]
 public class TemporalDatabaseData : ObjectInterface
 {
     public string farmerName;
     public string farmerUUID;
-    public WeideObject[] weides;
-    public SheepObject[] sheeps;
-    public WormObject[] worms;
+    public List<WeideObject> weides;
+    public List<SheepObject> sheeps;
+    public List<WormObject> worms;
 }
 
 [Serializable]
@@ -172,21 +133,21 @@ public class WeideObject : ObjectInterface
     public string weideUUID;
     public int surfaceSqrMtr;
     public float surfaceQuality;
-    public GrassType[] grassTypes;
-    public SheepType[] currentSheeps;
-    public string[] extraRemarks;
+    public List<GrassType[]> grassTypes;
+    public List<SheepType[]> currentSheeps;
+    public List<string> extraRemarks;
 }
 
 [Serializable]
 public class SheepObject : ObjectInterface
 {
     public string sheepUUID;
-    public int tsBorn; // time stamp date of birth
+    public long tsBorn; // time stamp date of birth
     public List<SheepWeight> weight;
     public List<SheepDiseases> diseases;
     public Sex sex;
     public SheepType sheepType;
-    public string[] extraRemarks;
+    public List<string> extraRemarks;
 }
 
 [Serializable]
@@ -194,24 +155,23 @@ public class WormObject : ObjectInterface
 {
     public string wormUUID;
     public WormType wormType; 
-    public Medicine[] effectiveMedicines;
-    public Medicine[] resistences;
-    public Symptom[] symptoms;
-    public Condition[] faveConditions;
-    public string[] extraRemarks;
+    public List<Medicine> effectiveMedicines;
+    public List<Medicine> resistences;
+    public List<Symptom> symptoms;
+    public List<Condition> faveConditions;
+    public List<string> extraRemarks;
 }
-
 
 [Serializable]
 public struct SheepWeight
 {
     public float weight;
-    public int timestamp;
+    public long timestamp;
 }
 
 [Serializable]
 public struct SheepDiseases
 {
     public Disease[] diseases;
-    public int timestamp;
+    public long timestamp;
 }

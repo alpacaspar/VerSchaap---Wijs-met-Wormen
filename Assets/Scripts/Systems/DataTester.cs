@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class DataTester : MonoBehaviour
 {
-    public TemporalDatabaseData TemporalDatabaseData = new TemporalDatabaseData();
-
     void Start()
     {
-        WeideObject weideObject = new WeideObject();
-        weideObject.weideUUID = "updated UUID";
-        WurmAPI.MethodHandler(MethodType.Put, weideObject);
-    }
+        // boot up the database
+        Database.InitializeDatabase();
 
-    void Update()
-    {
-        
+        // prepare new data
+        WeideObject weideObject = new WeideObject();
+        weideObject.surfaceQuality = 69;
+        string[] response = WurmAPI.MethodHandler(MethodType.Put, weideObject);
+        // prints the received code
+        Debug.Log(Helpers.HttpMessage[(Status)int.Parse(response[0])]);
     }
 }
