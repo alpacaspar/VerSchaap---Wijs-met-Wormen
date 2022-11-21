@@ -217,6 +217,8 @@ GameObject:
   m_Component:
   - component: {fileID: 852610889}
   - component: {fileID: 852610890}
+  - component: {fileID: 852610892}
+  - component: {fileID: 852610891}
   m_Layer: 0
   m_Name: Weather
   m_TagString: Untagged
@@ -251,30 +253,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf32929a6fb51d740b71868c169a489b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  info:
-    query: 
-    status: 
-    continent: 
-    continentCode: 
-    country: 
-    countryCode: 
-    region: 
-    regionName: 
-    city: 
-    district: 
-    zip: 
-    lat: 0
-    lon: 0
-    timezone: 
-    offset: 
-    currency: 
-    isp: 
-    org: 
-    as: 
-    asname: 
-    mobile: 0
-    proxy: 0
-    hosting: 0
+--- !u!114 &852610891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852610888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 769baae29a7a4bc46a19ef3f6231f5dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   weatherInfo:
     latitude: 0
     longitude: 0
@@ -295,3 +285,15 @@ MonoBehaviour:
       relativehumidity_2m: 
       precipitation: 
       cloudcover: 
+--- !u!114 &852610892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852610888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4950e9f2ddcda4e4cb81474a4f3711fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
