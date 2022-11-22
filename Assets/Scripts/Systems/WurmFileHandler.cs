@@ -7,6 +7,23 @@ using System.IO;
 
 public static class WurmFileHandler
 {
+
+    public static bool IsList(object o)
+    {
+        return o.GetType() == typeof(List<string>);
+    }
+    /*
+    public static bool IsList(object o)
+    {
+        if (o == null) return false;
+        // why doesnt the other thing just work?!
+        return o.GetType() == typeof(List<string>);
+        //return o is IList && o.GetType().IsGenericType;
+        //return o is IList;
+        //return o is IList && o.GetType().IsGenericType && o.GetType().GetGenericTypeDefinition().IsAssignableFrom(typeof(List<>));
+    }
+    */
+
     /// <summary>
     /// Get the number of lines from a file
     /// </summary>
@@ -57,29 +74,29 @@ public static class WurmFileHandler
         }
 
         // Get the property names from the input file.
-        string[] propertyNames = (lines[0].Trim()).Split(","[0]);
+        string[] fieldNames = (lines[0].Trim()).Split(","[0]);
         // The number of properties in the input file.
-        int numberOfPropertiesInInput = propertyNames.Length;
+        int numberOfFieldsInInput = fieldNames.Length;
         // The number of properties to be expected.
-        int numberOfPropertiesInClass = typeof(T).GetProperties().Length;
+        int numberOfFieldsInClass = typeof(T).GetFields().Length;
 
         // Stop loading if there are missing properties.
-        if (numberOfPropertiesInInput < 1 || numberOfPropertiesInInput != numberOfPropertiesInClass)
+        if (numberOfFieldsInInput < 1 || numberOfFieldsInInput != numberOfFieldsInClass)
         {
-            Debug.LogError("Properties missing! Aborting data loading!");
+            Debug.LogError("Fields missing! Aborting data loading!");
             return outList;
         }
 
         // Go through the properties of the file and check if they are correct.
-        foreach (string propName in propertyNames)
+        foreach (string fieldName in fieldNames)
         {
-            string propertyName = StringTransformer.MakeFirstLetterUpper(propName);
-            PropertyInfo prop = typeof(T).GetProperty(propertyName);
+            //string fielddName = StringTransformer.MakeFirstLetterUpper(fieldName);
+            FieldInfo field = typeof(T).GetField(fieldName);
 
             // Stop loading if the line contains an invalid property.
-            if (prop == null)
+            if (field == null)
             {
-                Debug.LogError("Property '" + propertyName + "' not found! Aborting data loading!");
+                Debug.LogError("Property '" + fieldName + "' not found! Aborting data loading!");
                 return outList;
             }
         }
@@ -92,7 +109,7 @@ public static class WurmFileHandler
             string[] lineProperties = lines[i].Split(","[0]);
             int numberOfArgumentsInLine = lineProperties.Length;
 
-            if (numberOfArgumentsInLine != numberOfPropertiesInClass)
+            if (numberOfArgumentsInLine != numberOfFieldsInClass)
             {
                 Debug.LogWarning("Line " + i + " has corrupt data and will be skipped");
                 continue;
@@ -100,50 +117,50 @@ public static class WurmFileHandler
 
             for (int j = 0; j < lineProperties.Length; j++)
             {
-                string propertyName = StringTransformer.MakeFirstLetterUpper(propertyNames[j]);
-                string propertyValueString = lineProperties[j];
+                string fieldName = fieldNames[j];
+                string fieldValueString = lineProperties[j];
 
-                PropertyInfo prop = element.GetType().GetProperty(propertyName);
-                Type propertyType = prop.PropertyType;
+                FieldInfo field = element.GetType().GetField(fieldName);
+                Type fieldType = field.FieldType;
 
-                object propertyValue = propertyValueString;
-                bool bIsArray = propertyType.IsArray;
+                object fieldValue = fieldValueString;
+                bool bIsArray = fieldType.IsArray;
                 // Get the type of the property
-                Type propType = bIsArray ? propertyType.GetElementType() : propertyType;
+                fieldType = bIsArray ? fieldType.GetElementType() : fieldType;
 
-                string[] lineElements = propertyValueString.Split(";"[0]);
+                string[] lineElements = fieldValueString.Split(";"[0]);
                 int nElements = lineElements.Length;
 
                 if (nElements > 1 && !bIsArray)
                 {
-                    Debug.LogWarning("The property '" + propertyName + "' is not an array but had multiple values defined. Only the first value will be used");
+                    Debug.LogWarning("The field '" + fieldName + "' is not an array but had multiple values defined. Only the first value will be used");
                 }
 
-                Array tmpArr = Array.CreateInstance(propType, nElements);
+                Array tmpArr = Array.CreateInstance(fieldType, nElements);
 
                 for (int k = 0; k < nElements; k++)
                 {
                     object tmpArrObj = lineElements[k];
                     // Parse the string if the property value shouldn't be one
-                    if (propType == typeof(Single))
+                    if (fieldType == typeof(Single))
                     {
                         tmpArrObj = Convert.ToSingle(lineElements[k]);
                     }
-                    else if (propType == typeof(int))
+                    else if (fieldType == typeof(int))
                     {
                         tmpArrObj = Convert.ToInt32(lineElements[k]);
                     }
-                    else if (propType == typeof(Sex))
+                    else if (fieldType == typeof(Sex))
                     {
                         Enum.TryParse<Sex>(lineElements[k], true, out Sex sex);
                         tmpArrObj = sex;
                     }
-                    else if (propType == typeof(SheepType))
+                    else if (fieldType == typeof(SheepType))
                     {
                         Enum.TryParse<SheepType>(lineElements[k], true, out SheepType sheepType);
                         tmpArrObj = sheepType;
                     }
-                    else if (propType == typeof(Disease))
+                    else if (fieldType == typeof(Disease))
                     {
                         Enum.TryParse<Disease>(lineElements[k], true, out Disease disease);
                         tmpArrObj = disease;
@@ -152,8 +169,8 @@ public static class WurmFileHandler
                     tmpArr.SetValue(tmpArrObj, k);
                 }
 
-                propertyValue = bIsArray ? tmpArr : tmpArr.GetValue(0);
-                prop.SetValue(element, propertyValue, null);
+                fieldValue = bIsArray ? tmpArr : tmpArr.GetValue(0);
+                field.SetValue(element, fieldValue);
             }
 
             outList.Add(element);
@@ -164,57 +181,78 @@ public static class WurmFileHandler
 
     public static void WriteDataToCsvFile<T>(string fileName, T[] data, bool append = false)
     {
-        PropertyInfo[] props = typeof(T).GetProperties();
-        int nProps = props.Length;
+        Debug.Log("writing array to file");
+        Debug.Log("class type="+typeof(T).ToString());
+
+        FieldInfo[] fields = typeof(T).GetFields();
+        Debug.Log("NProperties=" + fields.Length);
+        Debug.Log("Properties");
+
+        foreach (var f in fields)
+        {
+            Debug.Log("- " + f.Name);
+        }
+
+        int nFields = fields.Length;
         int i = 1;
 
         string path = Application.persistentDataPath + "/" + fileName + ".csv";
         int numberOfLines = GetNumberOfLines(path);
+
         if (numberOfLines < 2)
         {
             append = false;
         }
+
         StreamWriter writer = new StreamWriter(path, append);
 
-        //TODO append needs to check if the file is not empty
         if (!append)
         {
-            foreach (var prop in props)
+            foreach (var field in fields)
             {
-                writer.Write(prop.Name.ToLower());
-
-                if (i < nProps)
-                {
-                    writer.Write(",");
-                }
-                else
-                {
-                    writer.Write('\n');
-                }
-
+                writer.Write(field.Name.ToLower());
+                writer.Write(i < nFields ? ',' : '\n');
                 i++;
             }
         }
 
-        // Iterate elements from input data array
         foreach (T element in data)
         {
             i = 1;
-            // Iterate class properties
-            foreach (var prop in props)
+            // Iterate class fields
+            foreach (var field in fields)
             {
-                object propertyValue = element.GetType().GetProperty(prop.Name).GetValue(element, null);
-                writer.Write(propertyValue.ToString());
-                
-                if (i < nProps)
+                bool bIsArray = element.GetType().GetField(field.Name).FieldType.IsArray;
+                Debug.Log("objtype=" + element.GetType().GetField(field.Name).FieldType.ToString());
+
+                // TODO: implement list support
+                var elemType = element.GetType().GetField(field.Name).FieldType;
+                if (elemType == typeof(List<string>) || elemType == typeof(List<SheepWeight>) || elemType == typeof(List<SheepDiseases>))
                 {
-                    writer.Write(",");
+                    Debug.Log("islist");
+                }
+                else if (bIsArray)
+                {
+                    Debug.Log("isarray");
+                    Array a = (Array)element.GetType().GetField(field.Name).GetValue(element);
+                    int arrayLength = a.Length;
+                    for (int k = 0; k < arrayLength; k++)
+                    {
+                        writer.Write(a.GetValue(k).ToString());
+                        if (k < arrayLength - 1)
+                        {
+                            writer.Write(";");
+                        }
+                    }
                 }
                 else
                 {
-                    writer.Write('\n');
+                    Debug.Log("isvar");
+                    object propertyValue = element.GetType().GetField(field.Name).GetValue(element);
+                    writer.Write(propertyValue.ToString());
                 }
 
+                writer.Write(i < nFields ? ',' : '\n');
                 i++;
             }
         }
