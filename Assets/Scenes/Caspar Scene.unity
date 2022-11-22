@@ -880,7 +880,6 @@ GameObject:
   - component: {fileID: 852610889}
   - component: {fileID: 852610890}
   - component: {fileID: 852610892}
-  - component: {fileID: 852610891}
   m_Layer: 0
   m_Name: Weather
   m_TagString: Untagged
@@ -915,39 +914,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf32929a6fb51d740b71868c169a489b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &852610891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 852610888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 769baae29a7a4bc46a19ef3f6231f5dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weatherInfo:
-    latitude: 0
-    longitude: 0
-    generationtime_ms: 0
-    utc_offset_seconds: 0
-    timezone: 
-    timezone_abbreviation: 
-    elevation: 0
-    hourly_units:
-      time: 
-      temperature_2m: 
-      relativehumidity_2m: 
-      precipitation: 
-      cloudcover: 
-    hourly:
-      time: []
-      temperature_2m: []
-      relativehumidity_2m: 
-      precipitation: 
-      cloudcover: 
-      weathercode: 
 --- !u!114 &852610892
 MonoBehaviour:
   m_ObjectHideFlags: 0
