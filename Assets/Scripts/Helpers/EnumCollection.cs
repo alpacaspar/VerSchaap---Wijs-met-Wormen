@@ -116,12 +116,11 @@ public enum Sex
     Male,               // Ram
 }
 
-[Flags]
 public enum Disease
-{   // increment with times 2 - eg. 1, 2, 4, 8, etc.
-    Myasis = 1,         // idk
-    Leverbot = 2,       // idk
-    Fever = 4,          // idk
+{
+    Myasis,             // idk
+    Leverbot,           // idk
+    Fever,              // idk
 }
 
 public enum WormType

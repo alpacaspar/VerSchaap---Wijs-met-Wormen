@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class Database
 {
-    private static TemporalDatabaseData tempDatabase;
+    private static TemporalDatabaseData tempDatabase = null;
 
     /// <summary>
     ///     Load database
@@ -25,9 +25,12 @@ public static class Database
     /// <returns>
     ///     Http status
     /// </returns>
-    public static string[] ProgressData<ObjectInterface>(MethodType type, ObjectInterface data)
+    public static string[] ProgressData<IObect>(MethodType type, IObect data)
     {
+        if (tempDatabase == null) InitializeDatabase();
+
         string[] newData = new string[] { Status.Error1.ToString(), "" };
+        bool handledData = false;
 
         if (type == MethodType.Put)
         {
@@ -46,13 +49,13 @@ public static class Database
                     break;
 
                 case WeideObject newWeideObject:
-                    bool handledData = false;
+                    handledData = false;
 
                     if (tempDatabase.weides.Count > 0)
                     {
                         foreach (WeideObject obj in tempDatabase.weides)
                         {
-                            if (obj.weideUUID == newWeideObject.weideUUID)
+                            if (obj.UUID == newWeideObject.UUID)
                             {
                                 obj.surfaceSqrMtr = (newWeideObject.surfaceSqrMtr != obj.surfaceSqrMtr) ? newWeideObject.surfaceSqrMtr : obj.surfaceSqrMtr;
                                 obj.surfaceQuality = (newWeideObject.surfaceQuality != obj.surfaceQuality) ? newWeideObject.surfaceQuality : obj.surfaceQuality;
@@ -68,19 +71,90 @@ public static class Database
 
                     if (!handledData)
                     {
-                        // entry does not exist so add new one
-                        newData = ProgressData(MethodType.Post, data);
+                        // entry does not exist
+                        newData[0] = Status.Error4.ToString();
                     }
-
-                    // TODO fire request and receive http code
                     break;
 
                 case SheepObject newSheepObject:
-                    // TODO handle proper request
+                    handledData = false;
+
+                    if (tempDatabase.weides.Count > 0)
+                    {
+                        foreach (SheepObject obj in tempDatabase.sheeps)
+                        {
+                            if (obj.UUID == newSheepObject.UUID)
+                            {
+                                // add new weight
+                                for (int i = 0; i < newSheepObject.weight.Count; i++)
+                                {
+                                    obj.weight.Add(newSheepObject.weight[i]);
+                                }
+                                // add new diseases collection
+                                for (int i = 0; i < newSheepObject.diseases.Count; i++)
+                                {
+                                    obj.diseases.Add(newSheepObject.diseases[i]);
+                                }
+
+                                obj.tsBorn = (newSheepObject.tsBorn != obj.tsBorn && newSheepObject.tsBorn != 0) ? newSheepObject.tsBorn : obj.tsBorn;
+                                obj.extraRemarks = (newSheepObject.extraRemarks != obj.extraRemarks) ? newSheepObject.extraRemarks : obj.extraRemarks;
+
+                                handledData = true;
+                                newData[0] = Status.Success2.ToString();
+                            }
+                        }
+                    }
+
+                    if (!handledData)
+                    {
+                        // entry does not exist
+                        newData[0] = Status.Error4.ToString();
+                    }
                     break;
 
                 case WormObject newWormObject:
-                    // TODO handle proper request
+                    handledData = false;
+
+                    if (tempDatabase.weides.Count > 0)
+                    {
+                        foreach (WormObject obj in tempDatabase.worms)
+                        {
+                            if (obj.UUID == newWormObject.UUID)
+                            {
+                                // add medicines
+                                for (int i = 0; i < newWormObject.effectiveMedicines.Count; i++)
+                                {
+                                    obj.effectiveMedicines.Add(newWormObject.effectiveMedicines[i]);
+                                }
+                                // add resistences
+                                for (int i = 0; i < newWormObject.resistences.Count; i++)
+                                {
+                                    obj.resistences.Add(newWormObject.resistences[i]);
+                                }
+                                // add symptoms
+                                for (int i = 0; i < newWormObject.symptoms.Count; i++)
+                                {
+                                    obj.symptoms.Add(newWormObject.symptoms[i]);
+                                }
+                                // add favourite conditions
+                                for (int i = 0; i < newWormObject.faveConditions.Count; i++)
+                                {
+                                    obj.faveConditions.Add(newWormObject.faveConditions[i]);
+                                }
+
+                                obj.extraRemarks = (newWormObject.extraRemarks != obj.extraRemarks) ? newWormObject.extraRemarks : obj.extraRemarks;
+
+                                handledData = true;
+                                newData[0] = Status.Success2.ToString();
+                            }
+                        }
+                    }
+
+                    if (!handledData)
+                    {
+                        // entry does not exist
+                        newData[0] = Status.Error4.ToString();
+                    }
                     break;
             }
 
@@ -88,12 +162,49 @@ public static class Database
         }
         else if (type == MethodType.Post)
         {
+            switch (data)
+            {
+                case TemporalDatabaseData newDatabase:
+                    // ??? user should not get here ???
+                    newData[0] = Status.Failure5.ToString();
+                    break;
+
+                case WeideObject newWeideObject:
+                    newData = AddEntry(newWeideObject, Helpers.WeideToUUID(tempDatabase.weides));
+                    break;
+
+                case SheepObject newSheepObject:
+                    newData = AddEntry(newSheepObject, Helpers.SheepToUUID(tempDatabase.sheeps));
+                    break;
+
+                case WormObject newWormObject:
+                    newData = AddEntry(newWormObject, Helpers.WormToUUID(tempDatabase.worms));
+                    break;
+            }
 
             WriteDatabase(tempDatabase);
-        } 
+        }
         else if (type == MethodType.Get)
         {
+            switch (data)
+            {
+                case TemporalDatabaseData newDatabase:
+                    newData[0] = Status.Success1.ToString();
+                    newData[1] = tempDatabase.ToString();
+                    break;
 
+                case WeideObject newWeideObject:
+                    newData = GetEntry(newWeideObject, Helpers.WeideToUUID(tempDatabase.weides));
+                    break;
+
+                case SheepObject newSheepObject:
+                    newData = GetEntry(newSheepObject, Helpers.SheepToUUID(tempDatabase.sheeps));
+                    break;
+
+                case WormObject newWormObject:
+                    newData = GetEntry(newWormObject, Helpers.WormToUUID(tempDatabase.worms));
+                    break;
+            }
         }
         else
         {
@@ -113,65 +224,58 @@ public static class Database
     {
         // save new values
     }
-}
 
-public interface ObjectInterface { }
+    private static string[] AddEntry(ObjectUUID newObject, List<ObjectUUID> oldObjects)
+    {
+        string[] newData = new string[] { Status.Error1.ToString(), "" };
+        bool handledData = false;
 
-[Serializable]
-public class TemporalDatabaseData : ObjectInterface
-{
-    public string farmerName;
-    public string farmerUUID;
-    public List<WeideObject> weides;
-    public List<SheepObject> sheeps;
-    public List<WormObject> worms;
-}
+        if (tempDatabase.weides.Count > 0)
+        {
+            foreach (ObjectUUID obj in oldObjects)
+            {
+                if (obj.UUID == newObject.UUID)
+                {
+                    handledData = true;
+                    newData[0] = Status.Failure3.ToString();
+                    break;
+                }
+            }
+        }
 
-[Serializable]
-public class WeideObject : ObjectInterface
-{
-    public string weideUUID;
-    public int surfaceSqrMtr;
-    public float surfaceQuality;
-    public List<GrassType[]> grassTypes;
-    public List<SheepType[]> currentSheeps;
-    public List<string> extraRemarks;
-}
+        if (!handledData)
+        {
+            oldObjects.Add(newObject);
+            newData[0] = Status.Success1.ToString();
+        }
 
-[Serializable]
-public class SheepObject : ObjectInterface
-{
-    public string sheepUUID;
-    public long tsBorn; // time stamp date of birth
-    public List<SheepWeight> weight;
-    public List<SheepDiseases> diseases;
-    public Sex sex;
-    public SheepType sheepType;
-    public List<string> extraRemarks;
-}
+        return newData;
+    }
 
-[Serializable]
-public class WormObject : ObjectInterface
-{
-    public string wormUUID;
-    public WormType wormType; 
-    public List<Medicine> effectiveMedicines;
-    public List<Medicine> resistences;
-    public List<Symptom> symptoms;
-    public List<Condition> faveConditions;
-    public List<string> extraRemarks;
-}
+    private static string[] GetEntry(ObjectUUID newObject, List<ObjectUUID> oldObjects)
+    {
+        string[] newData = new string[] { Status.Error1.ToString(), "" };
+        bool handledData = false;
 
-[Serializable]
-public struct SheepWeight
-{
-    public float weight;
-    public long timestamp;
-}
+        if (tempDatabase.weides.Count > 0)
+        {
+            foreach (ObjectUUID obj in oldObjects)
+            {
+                if (obj.UUID == newObject.UUID)
+                {
+                    handledData = true;
+                    newData[0] = Status.Success1.ToString();
+                    newData[1] = obj.ToString();
+                    break;
+                }
+            }
+        }
 
-[Serializable]
-public struct SheepDiseases
-{
-    public Disease[] diseases;
-    public long timestamp;
+        if (!handledData)
+        {
+            newData[0] = Status.Failure4.ToString();
+        }
+
+        return newData;
+    }
 }

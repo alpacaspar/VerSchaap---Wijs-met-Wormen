@@ -28,4 +28,35 @@ public static class Helpers
     {
         return System.DateTime.UtcNow.Ticks;
     }
+
+    public static List<ObjectUUID> WeideToUUID(List<WeideObject> objects)
+    {
+        List<ObjectUUID> uuids = new List<ObjectUUID>();
+        foreach (WeideObject obj in objects)
+        {
+            uuids.Add(obj);
+        }
+        return uuids;
+    }
+
+    public static List<ObjectUUID> SheepToUUID(List<SheepObject> objects)
+    {
+        List<ObjectUUID> uuids = new List<ObjectUUID>();
+        foreach (SheepObject obj in objects)
+        {
+            uuids.Add(obj);
+        }
+
+        return uuids;
+    }
+
+    public static List<ObjectUUID> WormToUUID(List<WormObject> objects)
+    {
+        List<ObjectUUID> uuids = new List<ObjectUUID>();
+        foreach (WormObject obj in objects)
+        {
+            uuids.Add(obj);
+        }
+        return uuids;
+    }
 }
