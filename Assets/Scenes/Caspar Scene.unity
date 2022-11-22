@@ -1045,7 +1045,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 348141731}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 24
+  m_MaxValue: 23
   m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
@@ -1330,6 +1330,7 @@ MonoBehaviour:
       cloudcover: 
       weathercode: 
   icons: []
+  selectedDayIndex: 0
 --- !u!1 &1629475169
 GameObject:
   m_ObjectHideFlags: 0
@@ -1689,6 +1690,7 @@ MonoBehaviour:
   temperatureTextComponent: {fileID: 2053087501}
   precipitationTextComponent: {fileID: 2096951018}
   humidityTextComponent: {fileID: 601716363}
+  weeklyForecastComponent: {fileID: 1459123701}
   timeSlider: {fileID: 859292655}
 --- !u!1 &2010600230
 GameObject:

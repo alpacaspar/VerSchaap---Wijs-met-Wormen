@@ -25,6 +25,8 @@ public class WeeklyForecast : MonoBehaviour
         EventSystem<WeatherInfo>.RemoveListener(EventType.weatherDataReceived, OnWeatherDataReceived);
     }
 
+    public int selectedDayIndex;
+
     private void OnWeatherDataReceived(WeatherInfo info)
     {
         weatherInfo = info;
@@ -34,13 +36,12 @@ public class WeeklyForecast : MonoBehaviour
         {
             if (i % 24 == 0)
             {
-                day++;
-
-                var forecastDay = ((int)DateTime.Today.DayOfWeek + day - 1) % 7;
+                var forecastDay = ((int)DateTime.Today.DayOfWeek + day) % 7;
                 var dayAbb = GetDayAbb((DayOfWeek)forecastDay);
                 
                 var instance = Instantiate(dailyForecastPrefab, transform);
-                instance.GetComponent<DailyForecast>().SetDailyForecastData(dayAbb, null, GetAvgTemp(info, i, 5, 18), GetAvgTemp(info, i, 19, 24));
+                instance.GetComponent<DailyForecast>().SetDailyForecastData(dayAbb, null, GetAvgTemp(info, i, 5, 18), GetAvgTemp(info, i, 19, 24), this, day);
+                day++;
             }
         }
     }
@@ -73,6 +74,26 @@ public class WeeklyForecast : MonoBehaviour
             DayOfWeek.Friday => "Vr",
             DayOfWeek.Saturday => "Za",
             DayOfWeek.Sunday => "Zo",
+            _ => null
+        };
+    }
+    
+    /// <summary>
+    /// Converts DayOfWeek enum to string
+    /// </summary>
+    /// <param name="dayOfWeek">DayOfWeek enum</param>
+    /// <returns>Returns name of the day of the week in dutch.</returns>
+    public static string GetDay(DayOfWeek dayOfWeek)
+    {
+        return dayOfWeek switch
+        {
+            DayOfWeek.Monday => "Maandag",
+            DayOfWeek.Tuesday => "Dinsdag",
+            DayOfWeek.Wednesday => "Woensdag",
+            DayOfWeek.Thursday => "Donderdag",
+            DayOfWeek.Friday => "Vrijdag",
+            DayOfWeek.Saturday => "Zaterdag",
+            DayOfWeek.Sunday => "Zondag",
             _ => null
         };
     }

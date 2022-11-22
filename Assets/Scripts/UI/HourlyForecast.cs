@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,8 @@ public class HourlyForecast : MonoBehaviour
     [SerializeField] private TextMeshProUGUI precipitationTextComponent;
     [SerializeField] private TextMeshProUGUI humidityTextComponent;
 
+    [SerializeField] private WeeklyForecast weeklyForecastComponent;
+
     [SerializeField] private Slider timeSlider;
 
     private LocationInfo locationInfo;
@@ -21,14 +24,12 @@ public class HourlyForecast : MonoBehaviour
     {
         EventSystem<WeatherInfo>.AddListener(EventType.weatherDataReceived, OnWeatherDataReceived);
         EventSystem<LocationInfo>.AddListener(EventType.locationDataReceived, OnLocationDataReceived);
-        timeSlider.onValueChanged.AddListener(delegate { OnSliderValueChanged(); });
     }
 
     private void OnDisable()
     {
         EventSystem<WeatherInfo>.RemoveListener(EventType.weatherDataReceived, OnWeatherDataReceived);
         EventSystem<LocationInfo>.RemoveListener(EventType.locationDataReceived, OnLocationDataReceived);
-
     }
 
     private void OnWeatherDataReceived(WeatherInfo info)
@@ -41,11 +42,15 @@ public class HourlyForecast : MonoBehaviour
         locationInfo = info;
     }
 
-    private void OnSliderValueChanged()
+    private void FixedUpdate()
     {
-        var index = (int)(0 + timeSlider.value);
+        if (weatherInfo == null) return;
+        var index = weeklyForecastComponent.selectedDayIndex * 24 + (int)timeSlider.value;
         var time = weatherInfo.hourly.time[index].Split("T");
-        UpdateInfo(locationInfo.city, time[1], weatherInfo.hourly.temperature_2m[index], weatherInfo.hourly.precipitation[index], weatherInfo.hourly.relativehumidity_2m[index]);
+        var forecastDay = ((int)DateTime.Today.DayOfWeek + weeklyForecastComponent.selectedDayIndex) % 7;
+
+        var dateTime = $"{WeeklyForecast.GetDay((DayOfWeek)forecastDay)} {time[1]}";
+        UpdateInfo(locationInfo.city, dateTime, weatherInfo.hourly.temperature_2m[index], weatherInfo.hourly.precipitation[index], weatherInfo.hourly.relativehumidity_2m[index]);
     }
 
     private void UpdateInfo(string location, string time, float temp, int precipitation, int humidity)
