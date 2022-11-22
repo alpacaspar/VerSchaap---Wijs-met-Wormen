@@ -11,6 +11,8 @@ public class SheepDataReader : MonoBehaviour
     public SheepArray allSheep;
 
     public List<SheepObject> SheepDatabase = new List<SheepObject>();
+    public RectTransform SheepUIPanel;
+    public GameObject SheepUIObject;
 
     // dummy var to test in the editor
     public bool writeToFile;
@@ -19,9 +21,12 @@ public class SheepDataReader : MonoBehaviour
     {
         LoadSheepData(sheepDataFile);
         UpdateDatabase();
-        //Sheep DummySheep = new Sheep();
-        //var output = WurmAPI.MethodHandler<Sheep>(MethodType.Get, DummySheep);
-        //Debug.Log(output);
+
+        foreach (var s in SheepDatabase)
+        {
+            var sheepPanelGameObject = Instantiate(SheepUIObject, SheepUIPanel);
+            sheepPanelGameObject.GetComponent<SheepButton>().SetInfo(s);
+        }
     }
 
     private void UpdateDatabase()
@@ -42,7 +47,7 @@ public class SheepDataReader : MonoBehaviour
     private SheepObject ConvertSheepClassToSheepObject(Sheep inputSheep)
     {
         SheepObject sheep = new SheepObject();
-        sheep.sheepUUID = inputSheep.uuid;
+        sheep.UUID = inputSheep.uuid;
         sheep.tsBorn = inputSheep.tsborn;
 
         // Timestamp should be a long for this to work
@@ -52,18 +57,21 @@ public class SheepDataReader : MonoBehaviour
         // Sheep weigth
         SheepWeight weigth = new SheepWeight();
         weigth.timestamp = currentTime;
-        weigth.weight = inputSheep.weight;
+        weigth.weight = inputSheep.weigth;
         sheep.weight = new List<SheepWeight>();
         sheep.weight.Add(weigth);
 
         sheep.sex = inputSheep.gender;
         sheep.sheepType = inputSheep.species;
 
-        SheepDiseases diseases = new SheepDiseases();
-        diseases.timestamp = currentTime;
-        diseases.diseases = inputSheep.diseases;
-        sheep.diseases = new List<SheepDiseases>();
-        sheep.diseases.Add(diseases);
+        List<SheepDiseases> diseases = new List<SheepDiseases>();
+        sheep.diseases = diseases;
+        //SheepDiseases diseases = new SheepDiseases();
+        //diseases.timestamp = currentTime;
+        //List<Disease> diseases;
+        //sheep.diseases = diseases;//inputSheep.diseases;
+        //sheep.diseases = new List<SheepDiseases>();
+        //sheep.diseases.Add(diseases);
         
         //sheep.extraRemarks
         return sheep;
@@ -75,7 +83,10 @@ public class SheepDataReader : MonoBehaviour
         {
             writeToFile = false;
             UpdateDatabase();
-            WurmFileHandler.WriteDataToCsvFile("TESTSHEEPDATABASE", allSheep.sheep, false);
+            var sheepDB = SheepDatabase.ToArray();
+            Debug.Log("sheepdblength = " + sheepDB.Length);
+            WurmFileHandler.WriteDataToCsvFile("TESTSHEEPDATABASE", sheepDB, false);
+            //WurmFileHandler.WriteDataToCsvFile("TESTSHEEPDATABASE", allSheep.sheep, false);
         }
     }
 
