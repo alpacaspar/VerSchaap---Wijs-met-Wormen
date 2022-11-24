@@ -50,16 +50,13 @@ public class TCPTestClient : MonoBehaviour
 			byte[] bytes = new byte[1024];
 			while (true)
 			{
-				// Get a stream object for reading 				
 				using (NetworkStream stream = socketConnection.GetStream())
 				{
 					int length;
-					// Read incomming stream into byte arrary. 					
 					while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
 					{
 						var incommingData = new byte[length];
 						Array.Copy(bytes, 0, incommingData, 0, length);
-						// Convert byte array to string message. 						
 						string serverMessage = Encoding.ASCII.GetString(incommingData);
 						Debug.Log("server message received as: " + serverMessage);
 						GUI.Label(new Rect(10, 10, 200, 200), "server message received as: " + serverMessage);
