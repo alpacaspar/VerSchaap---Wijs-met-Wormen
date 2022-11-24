@@ -13,8 +13,10 @@ public class TCPTestServer : MonoBehaviour
 
 	private void Start()
 	{
-		tcpListenerThread = new Thread(new ThreadStart(ListenForIncommingRequests));
-		tcpListenerThread.IsBackground = true;
+		tcpListenerThread = new Thread(ListenForIncommingRequests)
+		{
+			IsBackground = true
+		};
 		tcpListenerThread.Start();
 	}
 
@@ -31,7 +33,9 @@ public class TCPTestServer : MonoBehaviour
 	{
 		try
 		{
-			tcpListener = new TcpListener(IPAddress.Parse("127.0.0.1"), 8052);
+			IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
+			IPAddress ipAddr = ipHost.AddressList[0];
+			tcpListener = new TcpListener(ipAddr, 8052);
 			tcpListener.Start();
 			Debug.Log("Server is listening");
 			byte[] bytes = new byte[1024];
@@ -44,7 +48,7 @@ public class TCPTestServer : MonoBehaviour
 						int length;
 						while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
 						{
-							var incommingData = new byte[length];
+							byte[] incommingData = new byte[length];
 							Array.Copy(bytes, 0, incommingData, 0, length);
 							string clientMessage = Encoding.ASCII.GetString(incommingData);
 							Debug.Log("client message received as: " + clientMessage);
@@ -70,7 +74,7 @@ public class TCPTestServer : MonoBehaviour
 			{
 				string serverMessage = "This is a message from your server.";
 				byte[] serverMessageAsByteArray = Encoding.ASCII.GetBytes(serverMessage);
-				
+
 				stream.Write(serverMessageAsByteArray, 0, serverMessageAsByteArray.Length);
 				Debug.Log("Server sent his message - should be received by client");
 			}

@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -46,7 +47,7 @@ public class TCPTestClient : MonoBehaviour
 	{
 		try
 		{
-			socketConnection = new TcpClient("localhost", 8052);
+			socketConnection = new TcpClient(Dns.GetHostName(), 8052);
 			byte[] bytes = new byte[1024];
 			while (true)
 			{
