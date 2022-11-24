@@ -49,6 +49,7 @@ public class TCPTestClient : MonoBehaviour
 		try
 		{
 			socketConnection = new TcpClient(Dns.GetHostName(), 8052);
+			Debug.Log("Host name: " + Dns.GetHostName());
 			byte[] bytes = new byte[1024];
 			
 			while (true)
