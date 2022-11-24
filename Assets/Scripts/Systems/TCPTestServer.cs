@@ -29,6 +29,11 @@ public class TCPTestServer : MonoBehaviour
 		}
 	}
 
+	private void OnApplicationQuit()
+	{
+		tcpListener.Stop();
+	}
+
 	private void ListenForIncommingRequests()
 	{
 		try
@@ -41,6 +46,7 @@ public class TCPTestServer : MonoBehaviour
 			byte[] bytes = new byte[1024];
 			while (true)
 			{
+				if (connectedTcpClient == null) return;
 				using (connectedTcpClient = tcpListener.AcceptTcpClient())
 				{
 					using (NetworkStream stream = connectedTcpClient.GetStream())

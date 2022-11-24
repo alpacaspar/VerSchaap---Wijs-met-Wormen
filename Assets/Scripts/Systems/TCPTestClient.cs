@@ -32,14 +32,15 @@ public class TCPTestClient : MonoBehaviour
 	{
 		try
 		{
-			clientReceiveThread = new Thread(new ThreadStart(ListenForData));
-			clientReceiveThread.IsBackground = true;
+			clientReceiveThread = new Thread(ListenForData)
+			{
+				IsBackground = true
+			};
 			clientReceiveThread.Start();
 		}
 		catch (Exception e)
 		{
 			Debug.Log("On client connect exception " + e);
-			GUI.Label(new Rect(10, 10, 200, 200), "On client connect exception " + e);
 		}
 	}
 	
@@ -49,8 +50,10 @@ public class TCPTestClient : MonoBehaviour
 		{
 			socketConnection = new TcpClient(Dns.GetHostName(), 8052);
 			byte[] bytes = new byte[1024];
+			
 			while (true)
 			{
+				if (socketConnection == null) return;
 				using (NetworkStream stream = socketConnection.GetStream())
 				{
 					int length;
@@ -60,7 +63,6 @@ public class TCPTestClient : MonoBehaviour
 						Array.Copy(bytes, 0, incommingData, 0, length);
 						string serverMessage = Encoding.ASCII.GetString(incommingData);
 						Debug.Log("server message received as: " + serverMessage);
-						GUI.Label(new Rect(10, 10, 200, 200), "server message received as: " + serverMessage);
 					}
 				}
 			}
@@ -68,7 +70,6 @@ public class TCPTestClient : MonoBehaviour
 		catch (SocketException socketException)
 		{
 			Debug.Log("Socket exception: " + socketException);
-			GUI.Label(new Rect(10, 10, 200, 200), "Socket exception: " + socketException);
 		}
 	}
 	
@@ -85,13 +86,11 @@ public class TCPTestClient : MonoBehaviour
 				byte[] clientMessageAsByteArray = Encoding.ASCII.GetBytes(clientMessage);
 				stream.Write(clientMessageAsByteArray, 0, clientMessageAsByteArray.Length);
 				Debug.Log("Client sent his message - should be received by server");
-				GUI.Label(new Rect(10, 10, 200, 200), "Client sent his message - should be received by server");
 			}
 		}
 		catch (SocketException socketException)
 		{
 			Debug.Log("Socket exception: " + socketException);
-			GUI.Label(new Rect(10, 10, 200, 200), "Socket exception: " + socketException);
 		}
 	}
 }
