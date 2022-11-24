@@ -36,16 +36,9 @@ public static class Database
         {
             switch (data)
             {
-                case TemporalDatabaseData newDatabase:
-                    if (tempDatabase.farmerUUID == newDatabase.farmerUUID)
-                    {
-                        tempDatabase.farmerName = (tempDatabase.farmerName != newDatabase.farmerName) ? newDatabase.farmerName : tempDatabase.farmerName;
-
-                        // TODO iterate through the following to catch each individual change as an update
-                        tempDatabase.weides = (tempDatabase.weides != newDatabase.weides) ? newDatabase.weides : tempDatabase.weides;
-                        tempDatabase.sheeps = (tempDatabase.sheeps != newDatabase.sheeps) ? newDatabase.sheeps : tempDatabase.sheeps;
-                        tempDatabase.worms = (tempDatabase.worms != newDatabase.worms) ? newDatabase.worms : tempDatabase.worms;
-                    }
+                case TemporalDatabaseData:
+                        // we are not going to do this method type
+                        newData[0] = Status.Failure5.ToString();
                     break;
 
                 case WeideObject newWeideObject:
@@ -164,8 +157,8 @@ public static class Database
         {
             switch (data)
             {
-                case TemporalDatabaseData newDatabase:
-                    // ??? user should not get here ???
+                case TemporalDatabaseData:
+                    // we are not going to do this method type
                     newData[0] = Status.Failure5.ToString();
                     break;
 
