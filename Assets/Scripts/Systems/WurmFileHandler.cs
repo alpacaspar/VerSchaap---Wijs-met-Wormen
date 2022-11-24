@@ -7,23 +7,6 @@ using System.IO;
 
 public static class WurmFileHandler
 {
-
-    public static bool IsList(object o)
-    {
-        return o.GetType() == typeof(List<string>);
-    }
-    /*
-    public static bool IsList(object o)
-    {
-        if (o == null) return false;
-        // why doesnt the other thing just work?!
-        return o.GetType() == typeof(List<string>);
-        //return o is IList && o.GetType().IsGenericType;
-        //return o is IList;
-        //return o is IList && o.GetType().IsGenericType && o.GetType().GetGenericTypeDefinition().IsAssignableFrom(typeof(List<>));
-    }
-    */
-
     /// <summary>
     /// Get the number of lines from a file
     /// </summary>
@@ -90,13 +73,12 @@ public static class WurmFileHandler
         // Go through the properties of the file and check if they are correct.
         foreach (string fieldName in fieldNames)
         {
-            //string fielddName = StringTransformer.MakeFirstLetterUpper(fieldName);
             FieldInfo field = typeof(T).GetField(fieldName);
 
             // Stop loading if the line contains an invalid property.
             if (field == null)
             {
-                Debug.LogError("Property '" + fieldName + "' not found! Aborting data loading!");
+                Debug.LogError("Field '" + fieldName + "' not found! Aborting data loading!");
                 return outList;
             }
         }
@@ -122,11 +104,23 @@ public static class WurmFileHandler
 
                 FieldInfo field = element.GetType().GetField(fieldName);
                 Type fieldType = field.FieldType;
+                Type fieldInnerType = null;
 
                 object fieldValue = fieldValueString;
+                bool bIsList = fieldType == typeof(List<SheepWeight>) || fieldType == typeof(List<SheepDiseases>) || fieldType == typeof(List<string>);
                 bool bIsArray = fieldType.IsArray;
-                // Get the type of the property
-                fieldType = bIsArray ? fieldType.GetElementType() : fieldType;
+
+                // Do something if the field is an array or a list
+                if (bIsArray)
+                {
+                    fieldInnerType = fieldType.GetElementType();
+                }
+                else if (bIsList)
+                {
+                    fieldInnerType = fieldType.GetGenericArguments()[0];
+                }
+
+                Debug.Log("field=" + field.Name + ", type=" + fieldType?.ToString() + ", innertype=" + fieldInnerType?.ToString());
 
                 string[] lineElements = fieldValueString.Split(";"[0]);
                 int nElements = lineElements.Length;
@@ -136,43 +130,76 @@ public static class WurmFileHandler
                     Debug.LogWarning("The field '" + fieldName + "' is not an array but had multiple values defined. Only the first value will be used");
                 }
 
-                Array tmpArr = Array.CreateInstance(fieldType, nElements);
+                Type tmpType = (bIsArray || bIsList) ? fieldInnerType : fieldType;
+
+                //Creating the Generic List.
+                Type genList = typeof(List<>);
+                //Creating the Type for Generic List.
+                Type[] typeArgs = { tmpType };
+                //Now combing the List and its type.
+                Type makeme = genList.MakeGenericType(typeArgs);
+                //Creating the Instance for List.
+                object o = Activator.CreateInstance(makeme);
+                IList elementList = o as IList;
 
                 for (int k = 0; k < nElements; k++)
                 {
                     object tmpArrObj = lineElements[k];
                     // Parse the string if the property value shouldn't be one
-                    if (fieldType == typeof(Single))
+                    if (tmpType == typeof(Single))
                     {
                         tmpArrObj = Convert.ToSingle(lineElements[k]);
                     }
-                    else if (fieldType == typeof(int))
+                    else if (tmpType == typeof(int))
                     {
                         tmpArrObj = Convert.ToInt32(lineElements[k]);
                     }
-                    else if (fieldType == typeof(Sex))
+                    else if (tmpType == typeof(long))
+                    {
+                        tmpArrObj = (long)Convert.ToDouble(lineElements[k]);
+                    }
+                    else if (tmpType == typeof(Sex))
                     {
                         Enum.TryParse<Sex>(lineElements[k], true, out Sex sex);
                         tmpArrObj = sex;
                     }
-                    else if (fieldType == typeof(SheepType))
+                    else if (tmpType == typeof(SheepType))
                     {
                         Enum.TryParse<SheepType>(lineElements[k], true, out SheepType sheepType);
                         tmpArrObj = sheepType;
                     }
-                    else if (fieldType == typeof(Disease))
+                    else if (tmpType == typeof(Disease))
                     {
                         Enum.TryParse<Disease>(lineElements[k], true, out Disease disease);
                         tmpArrObj = disease;
                     }
+                    else if (tmpType == typeof(SheepWeight))
+                    {
+                        //TODO string to sheepweight
+                        tmpArrObj = new SheepWeight();
+                    }
+                    else if (tmpType == typeof(SheepDiseases))
+                    {
+                        //TODO string to sheepdisease
+                        tmpArrObj = new SheepDiseases();
+                    }
 
-                    tmpArr.SetValue(tmpArrObj, k);
+                    elementList.Add(tmpArrObj);
                 }
 
-                fieldValue = bIsArray ? tmpArr : tmpArr.GetValue(0);
+                // TODO fix array
+                if (bIsList)
+                {
+                    fieldValue = elementList;
+                    //Array tmpArr = Array.CreateInstance(fieldType, nElements);
+                }
+                else
+                {
+                    fieldValue = elementList[0];
+                }
+
                 field.SetValue(element, fieldValue);
             }
-
             outList.Add(element);
         }
 
