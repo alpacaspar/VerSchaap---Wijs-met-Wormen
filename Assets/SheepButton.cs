@@ -13,6 +13,7 @@ public class SheepButton : MonoBehaviour
     public TextMeshProUGUI SheepTSBornText;
 
     public Button button;
+    public Button btnDelete;
     public SheepObject sheep;
     public SheepDataReader dataReader;
 
@@ -20,6 +21,7 @@ public class SheepButton : MonoBehaviour
     private void Start()
     {
         button.onClick.AddListener(delegate { dataReader.ShowDetails(sheep); });
+        btnDelete.onClick.AddListener(delegate { dataReader.DeleteSheep(sheep); });
     }
 
     public void SetInfo(SheepObject _sheep, SheepDataReader _dataReader)

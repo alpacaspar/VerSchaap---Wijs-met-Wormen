@@ -28,31 +28,61 @@ public class SheepDataReader : MonoBehaviour
 
     public Button btnCancel;
     public Button btnSave;
+    public Button btnAddSheep;
 
     // dummy var to test in the editor
     public bool writeToFile;
     public SheepObject selectedSheep;
 
+    bool bAddingSheep = false;
+
+    // dirty var to fix the calendar
     public DateTimeOffset tmpTime = new DateTimeOffset(DateTime.UtcNow);
+
+    private void CreateNewSheepButton(SheepObject s)
+    {
+        var sheepPanelGameObject = Instantiate(SheepUIObject, SheepUIPanel);
+        sheepPanelGameObject.GetComponentInChildren<SheepButton>().SetInfo(s, this);
+    }
+
+    private void DBTest()
+    {
+        // boot up the database
+        Database.InitializeDatabase();
+
+        // prepare new data
+        WeideObject weideObject = new WeideObject();
+        weideObject.surfaceQuality = 69;
+        string[] response = WurmAPI.MethodHandler(MethodType.Put, weideObject);
+        // prints the received code
+        Debug.Log(Helpers.HttpMessage[(Status)int.Parse(response[0])]);
+    }
 
     private void Start()
     {
+        DBTest();
         calendarWidget.sheepDataReader = this;
 
         SetupDetailsPanel();
         LoadSheepData(sheepDataFile);
-        UpdateDatabase();
 
         foreach (var s in SheepDatabase)
         {
-            var sheepPanelGameObject = Instantiate(SheepUIObject, SheepUIPanel);
-            sheepPanelGameObject.GetComponent<SheepButton>().SetInfo(s, this);
+            CreateNewSheepButton(s);
         }
 
         btnCancel.onClick.AddListener(delegate
         {
             overviewPanel.SetActive(true);
             detailsPanel.SetActive(false);
+            bAddingSheep = false;
+        });
+
+        btnAddSheep.onClick.AddListener(delegate
+        {
+            bAddingSheep = true;
+            selectedSheep = new SheepObject();
+            ShowDetails(selectedSheep);
         });
 
         btnSave.onClick.AddListener(delegate
@@ -87,28 +117,42 @@ public class SheepDataReader : MonoBehaviour
     {
         int nChilds = SheepUIPanel.childCount;
 
-        // the actual data
-        for (int i = 0; i < SheepDatabase.Count; i++)
+        //TODO do something different if adding a new sheep
+        // editing existing sheep
+        if (!bAddingSheep)
         {
-            var shp = SheepDatabase[i];
-            if (shp.UUID == selectedSheep.UUID)
+            // the actual data
+            for (int i = 0; i < SheepDatabase.Count; i++)
             {
-                shp.UUID = sheep.UUID;
-                shp.sex = sheep.sex;
-                shp.sheepType = sheep.sheepType;
+                var shp = SheepDatabase[i];
+                if (shp.UUID == selectedSheep.UUID)
+                {
+                    shp.UUID = sheep.UUID;
+                    shp.sex = sheep.sex;
+                    shp.sheepType = sheep.sheepType;
+                }
+            }
+
+            // visual
+            for (int i = 0; i < nChilds; i++)
+            {
+                var obj = SheepUIPanel.GetChild(i).gameObject.GetComponentInChildren<SheepButton>();
+                if (obj.sheep.UUID == selectedSheep.UUID)
+                {
+                    obj.SetInfo(sheep, this);
+                    break;
+                }
             }
         }
 
-        // visual
-        for (int i = 0; i < nChilds; i++)
+        // TODO check if UUID doesnt already exist
+        else
         {
-            var obj = SheepUIPanel.GetChild(i).gameObject.GetComponent<SheepButton>();
-            if (obj.sheep.UUID == selectedSheep.UUID)
-            {
-                obj.SetInfo(sheep, this);
-                break;
-            }
+            SheepDatabase.Add(sheep);
+            CreateNewSheepButton(sheep);
         }
+
+        bAddingSheep = false;
     }
 
     public void SetupDetailsPanel()
@@ -138,9 +182,6 @@ public class SheepDataReader : MonoBehaviour
         {
             calendarWidget.gameObject.SetActive(!calendarWidget.gameObject.activeSelf);
             AnotherFuckingFunc();
-            //calendarWidget.SetDate(tmpTime.ToUnixTimeSeconds());
-            //calendarWidget.SetDate(tmpTime.ToUnixTimeSeconds());
-            //UpdateCalendar();
         });
     }
 
@@ -179,13 +220,27 @@ public class SheepDataReader : MonoBehaviour
         // this can also be done with tsborntime.tostring() but it will be much longer
         DateTimeOffset tsBornTime = DateTimeOffset.FromUnixTimeSeconds(sheep.tsBorn);
         UpdateTSButton(tsBornTime);
-        //string tsBornString = tsBornTime.Day + "-" + tsBornTime.Month + "-" + tsBornTime.Year;
-        //inputTSBorn.GetComponentInChildren<TextMeshProUGUI>().SetText(tsBornString);
     }
 
-    private void UpdateDatabase()
+    public void DeleteSheep(SheepObject sheep)
     {
+        int index = -1;
+        // the actual data
+        for (int i = 0; i < SheepDatabase.Count; i++)
+        {
+            var shp = SheepDatabase[i];
+            if (shp.UUID.Trim() == sheep.UUID.Trim())
+            {
+                index = i;
+                break;
+            }
+        }
 
+        if (index != -1)
+        {
+            Destroy(SheepUIPanel.GetChild(index).gameObject);
+            SheepDatabase.RemoveAt(index);
+        }
     }
 
     private void Update()
@@ -193,7 +248,6 @@ public class SheepDataReader : MonoBehaviour
         if (writeToFile)
         {
             writeToFile = false;
-            UpdateDatabase();
             var sheepDB = SheepDatabase.ToArray();
             Debug.Log("sheepdblength = " + sheepDB.Length);
             WurmFileHandler.WriteDataToCsvFile("TESTSHEEPDATABASE", sheepDB, false);
