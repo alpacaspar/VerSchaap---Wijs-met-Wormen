@@ -13,7 +13,7 @@ public class DataTester : MonoBehaviour
         weideObject.surfaceQuality = 69;
         string[] response = WurmAPI.MethodHandler(MethodType.Put, weideObject);
         // prints the received code
-        Debug.Log(Helpers.HttpMessage[(Status)int.Parse(response[0])]);
+        Debug.Log(response[0] + ": " + Helpers.HttpMessage[(Status)int.Parse(response[0])]);
     }
 
     /// <summary>

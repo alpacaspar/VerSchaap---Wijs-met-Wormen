@@ -14,6 +14,11 @@ public static class Database
         // load temp database upon startup
 
         tempDatabase = new TemporalDatabaseData();
+        tempDatabase.weides = new List<WeideObject>();
+        tempDatabase.sheeps = new List<SheepObject>();
+        tempDatabase.worms = new List<WormObject>();
+        tempDatabase.farmerUUID = "xxx-xxx-xxx";
+        tempDatabase.farmerName = "Harry";
     }
 
     /// <summary>
@@ -29,7 +34,7 @@ public static class Database
     {
         if (tempDatabase == null) InitializeDatabase();
 
-        string[] newData = new string[] { Status.Error1.ToString(), "" };
+        string[] newData = new string[] { (int)Status.Error1 + "", "" };
         bool handledData = false;
 
         if (type == MethodType.Put)
@@ -38,7 +43,7 @@ public static class Database
             {
                 case TemporalDatabaseData:
                         // we are not going to do this method type
-                        newData[0] = Status.Failure5.ToString();
+                        newData[0] = (int)Status.Failure5 + "";
                     break;
 
                 case WeideObject newWeideObject:
@@ -57,7 +62,7 @@ public static class Database
                                 obj.extraRemarks = (newWeideObject.extraRemarks != obj.extraRemarks) ? newWeideObject.extraRemarks : obj.extraRemarks;
 
                                 handledData = true;
-                                newData[0] = Status.Success2.ToString();
+                                newData[0] = (int)Status.Success2 + "";
                             }
                         }
                     }
@@ -65,7 +70,7 @@ public static class Database
                     if (!handledData)
                     {
                         // entry does not exist
-                        newData[0] = Status.Error4.ToString();
+                        newData[0] = (int)Status.Error4 + "";
                     }
                     break;
 
@@ -93,7 +98,7 @@ public static class Database
                                 obj.extraRemarks = (newSheepObject.extraRemarks != obj.extraRemarks) ? newSheepObject.extraRemarks : obj.extraRemarks;
 
                                 handledData = true;
-                                newData[0] = Status.Success2.ToString();
+                                newData[0] = (int)Status.Success2 + "";
                             }
                         }
                     }
@@ -101,7 +106,7 @@ public static class Database
                     if (!handledData)
                     {
                         // entry does not exist
-                        newData[0] = Status.Error4.ToString();
+                        newData[0] = (int)Status.Error4 + "";
                     }
                     break;
 
@@ -138,7 +143,7 @@ public static class Database
                                 obj.extraRemarks = (newWormObject.extraRemarks != obj.extraRemarks) ? newWormObject.extraRemarks : obj.extraRemarks;
 
                                 handledData = true;
-                                newData[0] = Status.Success2.ToString();
+                                newData[0] = (int)Status.Success2 + "";
                             }
                         }
                     }
@@ -146,7 +151,7 @@ public static class Database
                     if (!handledData)
                     {
                         // entry does not exist
-                        newData[0] = Status.Error4.ToString();
+                        newData[0] = (int)Status.Error4 + "";
                     }
                     break;
             }
@@ -159,7 +164,7 @@ public static class Database
             {
                 case TemporalDatabaseData:
                     // we are not going to do this method type
-                    newData[0] = Status.Failure5.ToString();
+                    newData[0] = (int)Status.Failure5 + "";
                     break;
 
                 case WeideObject newWeideObject:
@@ -182,7 +187,7 @@ public static class Database
             switch (data)
             {
                 case TemporalDatabaseData newDatabase:
-                    newData[0] = Status.Success1.ToString();
+                    newData[0] = (int)Status.Success1 + "";
                     newData[1] = tempDatabase.ToString();
                     break;
 
@@ -201,7 +206,7 @@ public static class Database
         }
         else
         {
-            newData[0] = Status.Failure0.ToString();
+            newData[0] = (int)Status.Failure0 + "";
         }
 
         return newData;
@@ -214,7 +219,7 @@ public static class Database
 
     private static string[] AddEntry(ObjectUUID newObject, List<ObjectUUID> oldObjects)
     {
-        string[] newData = new string[] { Status.Error1.ToString(), "" };
+        string[] newData = new string[] { (int)Status.Error1 + "", "" };
         bool handledData = false;
 
         if (tempDatabase.weides.Count > 0)
@@ -224,7 +229,7 @@ public static class Database
                 if (obj.UUID == newObject.UUID)
                 {
                     handledData = true;
-                    newData[0] = Status.Failure3.ToString();
+                    newData[0] = (int)Status.Failure3 + "";
                     break;
                 }
             }
@@ -233,7 +238,7 @@ public static class Database
         if (!handledData)
         {
             oldObjects.Add(newObject);
-            newData[0] = Status.Success1.ToString();
+            newData[0] = (int)Status.Success1 + "";
         }
 
         return newData;
@@ -241,7 +246,7 @@ public static class Database
 
     private static string[] GetEntry(ObjectUUID newObject, List<ObjectUUID> oldObjects)
     {
-        string[] newData = new string[] { Status.Error1.ToString(), "" };
+        string[] newData = new string[] { (int)Status.Error1 + "", "" };
         bool handledData = false;
 
         if (tempDatabase.weides.Count > 0)
@@ -251,7 +256,7 @@ public static class Database
                 if (obj.UUID == newObject.UUID)
                 {
                     handledData = true;
-                    newData[0] = Status.Success1.ToString();
+                    newData[0] = (int)Status.Success1 + "";
                     newData[1] = obj.ToString();
                     break;
                 }
@@ -260,7 +265,7 @@ public static class Database
 
         if (!handledData)
         {
-            newData[0] = Status.Failure4.ToString();
+            newData[0] = (int)Status.Failure4 + "";
         }
 
         return newData;
