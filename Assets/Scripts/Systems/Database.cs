@@ -14,11 +14,11 @@ public static class Database
         // load temp database upon startup
 
         tempDatabase = new TemporalDatabaseData();
+        tempDatabase.farmerUUID = "xxx-xxx-xxx";
+        tempDatabase.farmerName = "Harry";
         tempDatabase.weides = new List<WeideObject>();
         tempDatabase.sheeps = new List<SheepObject>();
         tempDatabase.worms = new List<WormObject>();
-        tempDatabase.farmerUUID = "xxx-xxx-xxx";
-        tempDatabase.farmerName = "Harry";
     }
 
     /// <summary>
