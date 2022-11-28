@@ -120,7 +120,7 @@ public static class WurmFileHandler
                     fieldInnerType = fieldType.GetGenericArguments()[0];
                 }
 
-                Debug.Log("field=" + field.Name + ", type=" + fieldType?.ToString() + ", innertype=" + fieldInnerType?.ToString());
+                //Debug.Log("field=" + field.Name + ", type=" + fieldType?.ToString() + ", innertype=" + fieldInnerType?.ToString());
 
                 string[] lineElements = fieldValueString.Split(";"[0]);
                 int nElements = lineElements.Length;
@@ -191,7 +191,6 @@ public static class WurmFileHandler
                 if (bIsList)
                 {
                     fieldValue = elementList;
-                    //Array tmpArr = Array.CreateInstance(fieldType, nElements);
                 }
                 else
                 {

@@ -15,19 +15,19 @@ public class SheepButton : MonoBehaviour
     public Button button;
     public Button btnDelete;
     public SheepObject sheep;
-    public SheepDataReader dataReader;
+    public SheepDataViewer dataViewer;
 
     // Start is called before the first frame update
     private void Start()
     {
-        button.onClick.AddListener(delegate { dataReader.ShowDetails(sheep); });
-        btnDelete.onClick.AddListener(delegate { dataReader.DeleteSheep(sheep); });
+        button.onClick.AddListener(delegate { dataViewer.ShowDetails(sheep); });
+        btnDelete.onClick.AddListener(delegate { dataViewer.sheepDataReader.DeleteSheep(sheep); });
     }
 
-    public void SetInfo(SheepObject _sheep, SheepDataReader _dataReader)
+    public void SetInfo(SheepObject _sheep, SheepDataViewer _dataReader)
     {
         sheep = _sheep;
-        dataReader = _dataReader;
+        dataViewer = _dataReader;
         SheepUuidText.text = sheep.UUID;
         SheepGenderText.text = sheep.sex.ToString();
         SheepSpeciesText.text = sheep.sheepType.ToString();

@@ -19,7 +19,7 @@ public class UICalendarWidget : MonoBehaviour
     public Button btnNextMonth;
     public TextMeshProUGUI txtDate;
 
-    public SheepDataReader sheepDataReader;
+    public SheepDataViewer sheepDataReader;
 
     // Start is called before the first frame update
     private void Awake()
@@ -55,7 +55,7 @@ public class UICalendarWidget : MonoBehaviour
     {
         int daysInMonth = GetDaysInMonth();
 
-        for (int i = 0; i < 31; i++)
+        for (int i = 0; i < calendarDayPanel.childCount; i++)
         {
             calendarDayPanel.GetChild(i).gameObject.SetActive(i < daysInMonth);
         }
