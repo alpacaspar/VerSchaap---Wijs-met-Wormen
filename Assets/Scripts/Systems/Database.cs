@@ -207,12 +207,6 @@ public static class Database
         return newData;
     }
 
-    /// <summary>
-    ///     Used to save the new values
-    /// </summary>
-    /// <param name="data">
-    ///     The updated version of the database
-    /// </param>
     private static void WriteDatabase(TemporalDatabaseData data)
     {
         // save new values
