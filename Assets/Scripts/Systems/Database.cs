@@ -1,10 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Linq;
 using UnityEngine;
 
 public static class Database
 {
     private static TemporalDatabaseData tempDatabase = null;
+
+    private static string filePath = Application.persistentDataPath + "/database.xml";
 
     /// <summary>
     ///     Load database
@@ -12,13 +16,7 @@ public static class Database
     public static void InitializeDatabase()
     {
         // load temp database upon startup
-
-        tempDatabase = new TemporalDatabaseData();
-        tempDatabase.farmerUUID = "xxx-xxx-xxx";
-        tempDatabase.farmerName = "Harry";
-        tempDatabase.weides = new List<WeideObject>();
-        tempDatabase.sheeps = new List<SheepObject>();
-        tempDatabase.worms = new List<WormObject>();
+        tempDatabase = LoadDatabase();
     }
 
     /// <summary>
@@ -70,7 +68,7 @@ public static class Database
                     if (!handledData)
                     {
                         // entry does not exist
-                        newData[0] = (int)Status.Error4 + "";
+                        newData[0] = (int)Status.Failure4 + "";
                     }
                     break;
 
@@ -106,7 +104,7 @@ public static class Database
                     if (!handledData)
                     {
                         // entry does not exist
-                        newData[0] = (int)Status.Error4 + "";
+                        newData[0] = (int)Status.Failure4 + "";
                     }
                     break;
 
@@ -151,7 +149,7 @@ public static class Database
                     if (!handledData)
                     {
                         // entry does not exist
-                        newData[0] = (int)Status.Error4 + "";
+                        newData[0] = (int)Status.Failure4 + "";
                     }
                     break;
             }
@@ -212,9 +210,44 @@ public static class Database
         return newData;
     }
 
+    // Save database
     private static void WriteDatabase(TemporalDatabaseData data)
     {
+        // jsonfy the data
+        string jsonData = JsonUtility.ToJson(data);
+
         // save new values
+        StreamWriter writer = new StreamWriter(filePath, true);
+        writer.Write(jsonData);
+        writer.Close();
+    }
+
+    // Load existing database
+    private static TemporalDatabaseData LoadDatabase()
+    {
+        // check if there is a file to load
+        if (!File.Exists(filePath)) CreateEmptyFile();
+
+        // load the values
+        StreamReader reader = new StreamReader(filePath);
+        Debug.Log(filePath);
+        TemporalDatabaseData newDatabase = JsonUtility.FromJson<TemporalDatabaseData>(reader.ReadToEnd());
+        reader.Close();
+
+        return newDatabase;
+    }
+
+    // Create a new empty database
+    private static void CreateEmptyFile()
+    {
+        tempDatabase = new TemporalDatabaseData();
+        tempDatabase.farmerName = "Ploopploop";
+        tempDatabase.farmerUUID = Helpers.GenerateUUID();
+        tempDatabase.weides = new List<WeideObject>();
+        tempDatabase.sheeps = new List<SheepObject>();
+        tempDatabase.worms = new List<WormObject>();
+
+        WriteDatabase(tempDatabase);
     }
 
     private static string[] AddEntry(ObjectUUID newObject, List<ObjectUUID> oldObjects)

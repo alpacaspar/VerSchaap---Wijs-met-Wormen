@@ -1,7 +1,11 @@
+using System;
 using System.Collections.Generic;
 
 public static class Helpers
 {
+    /// <summary>
+    ///     Has a collection of statusses mapped to human readable messages
+    /// </summary>
     public static Dictionary<Status, string> HttpMessage = new Dictionary<Status, string>() {
         {Status.Success0, "Ok - content"},
         {Status.Success1, "Created"},
@@ -24,11 +28,26 @@ public static class Helpers
         {Status.Error8, "Loop Detected"}     
     };
 
+    /// <summary>
+    ///     Get the current timestamp
+    /// </summary>
+    /// <returns>
+    ///     Returns the current timestamp
+    /// </returns>
     public static long GetCurrentTimestamp()
     {
         return System.DateTime.UtcNow.Ticks;
     }
 
+    /// <summary>
+    ///     Converts list of WeideObjects to list of ObjectUUIDs
+    /// </summary>
+    /// <param name="objects">
+    ///     List of WeideObjects
+    /// </param>
+    /// <returns>
+    ///     Returns a collection of ObjectUUIDs
+    /// </returns>
     public static List<ObjectUUID> WeideToUUID(List<WeideObject> objects)
     {
         List<ObjectUUID> uuids = new List<ObjectUUID>();
@@ -39,6 +58,15 @@ public static class Helpers
         return uuids;
     }
 
+    /// <summary>
+    ///     Converts list of SheepObjects to list of ObjectUUIDs
+    /// </summary>
+    /// <param name="objects">
+    ///     List of SheepObjects
+    /// </param>
+    /// <returns>
+    ///     Returns a collection of ObjectUUIDs
+    /// </returns>
     public static List<ObjectUUID> SheepToUUID(List<SheepObject> objects)
     {
         List<ObjectUUID> uuids = new List<ObjectUUID>();
@@ -50,6 +78,15 @@ public static class Helpers
         return uuids;
     }
 
+    /// <summary>
+    ///     Converts list of WormObjects to list of ObjectUUIDs
+    /// </summary>
+    /// <param name="objects">
+    ///     List of WormObjects
+    /// </param>
+    /// <returns>
+    ///     Returns a collection of ObjectUUIDs
+    /// </returns>
     public static List<ObjectUUID> WormToUUID(List<WormObject> objects)
     {
         List<ObjectUUID> uuids = new List<ObjectUUID>();
@@ -58,5 +95,16 @@ public static class Helpers
             uuids.Add(obj);
         }
         return uuids;
+    }
+
+    /// <summary>
+    ///     Generate a new UUID
+    /// </summary>
+    /// <returns>
+    ///     Returns a new UUID
+    /// </returns>
+    public static string GenerateUUID()
+    {
+        return Guid.NewGuid().ToString();
     }
 }

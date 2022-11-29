@@ -13,6 +13,7 @@ public class TemporalDatabaseData : IObject
     public List<WormObject> worms;
 }
 
+[Serializable]
 public abstract class ObjectUUID : IObject
 {
     public string UUID;

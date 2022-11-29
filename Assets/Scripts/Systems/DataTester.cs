@@ -7,11 +7,12 @@ public class DataTester : MonoBehaviour
     {
         // boot up the database
         Database.InitializeDatabase();
-
+        
         // prepare new data
         WeideObject weideObject = new WeideObject();
+        weideObject.UUID = Helpers.GenerateUUID();
         weideObject.surfaceQuality = 69;
-        string[] response = WurmAPI.MethodHandler(MethodType.Put, weideObject);
+        string[] response = WurmAPI.MethodHandler(MethodType.Post, weideObject);
         // prints the received code
         Debug.Log(response[0] + ": " + Helpers.HttpMessage[(Status)int.Parse(response[0])]);
     }
