@@ -26,19 +26,28 @@ public class SheepDataReader : MonoBehaviour
         List<string[]> resp = new List<string[]>();
         foreach (var s in SheepDatabase)
         {
+            // WORKS
             //resp.Add(WurmAPI.MethodHandler(MethodType.Post, s));
         }
 
         TemporalDatabaseData newDatabase = new TemporalDatabaseData();
         SheepObject newSheepObject = new SheepObject();
         newSheepObject.UUID = "d937c3f2-0357-4af4-8961-0c1579a2ef06";
-        var response = Database.ProgressData(MethodType.Get, newSheepObject);
+        var response = WurmAPI.MethodHandler(MethodType.Get, newSheepObject);
 
         Debug.Log("getdb response");
 
         foreach (var r in response)
         {
+            // WORKS
             Debug.Log(r);
+        }
+
+
+        foreach (var r in WurmAPI.GetSheepCollection())
+        {
+            // WORKS
+            Debug.Log(r.UUID);
         }
 
         baseS = WurmAPI.GetDatabase();
