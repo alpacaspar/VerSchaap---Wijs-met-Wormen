@@ -25,7 +25,7 @@ public class TCPTestClient : MonoBehaviour
 
 	private void OnApplicationQuit()
 	{
-		socketConnection.Close();
+		socketConnection?.Close();
 	}
 
 	private void ConnectToTcpServer()
@@ -48,8 +48,9 @@ public class TCPTestClient : MonoBehaviour
 	{
 		try
 		{
-			socketConnection = new TcpClient(Dns.GetHostName(), 8052);
-			Debug.Log("Host name: " + Dns.GetHostName());
+			IPAddress ipAddress = IPAddress.Parse("145.107.199.232");
+			socketConnection = new TcpClient();
+			socketConnection.Connect(ipAddress, 8052);
 			byte[] bytes = new byte[1024];
 			
 			while (true)
