@@ -220,9 +220,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a109b530950914949b61c75f9974fa80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TemporalDatabaseData:
-    farmerName: 
-    farmerUUID: 
-    weides: []
-    sheeps: []
-    worms: []
