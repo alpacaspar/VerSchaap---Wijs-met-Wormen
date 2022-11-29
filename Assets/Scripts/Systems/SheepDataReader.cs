@@ -41,7 +41,7 @@ public class SheepDataReader : MonoBehaviour
             Debug.Log(r);
         }
 
-        baseS = Database.tempDatabase;
+        baseS = WurmAPI.GetDatabase();
 
     }
 

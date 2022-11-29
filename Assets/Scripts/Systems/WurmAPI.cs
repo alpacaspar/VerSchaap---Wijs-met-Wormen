@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics;
 
 public static class WurmAPI
@@ -24,5 +25,25 @@ public static class WurmAPI
         response = Database.ProgressData(type, data);
 
         return response;
+    }
+
+    public static TemporalDatabaseData GetDatabase()
+    {
+        return Database.GetDatabase();
+    }
+
+    public static List<SheepObject> GetSheepCollection()
+    {
+        return Database.GetSheepCollection();
+    }
+
+    public static List<WormObject> GetWormCollection()
+    {
+        return Database.GetWormCollection();
+    }
+
+    public static List<WeideObject> GetWeideCollection()
+    {
+        return Database.GetWeideCollection();
     }
 }

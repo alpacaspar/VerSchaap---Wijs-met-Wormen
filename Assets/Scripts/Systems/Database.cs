@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class Database
 {
-    public static TemporalDatabaseData tempDatabase = null;
+    private static TemporalDatabaseData tempDatabase = null;
 
     private static string filePath = Application.persistentDataPath + "/database.xml";
 
@@ -16,6 +16,34 @@ public static class Database
     {
         // load temp database upon startup
         tempDatabase = LoadDatabase();
+    }
+
+    public static TemporalDatabaseData GetDatabase()
+    {
+        if (tempDatabase == null) InitializeDatabase();
+
+        return tempDatabase;
+    }
+
+    public static List<WormObject> GetWormCollection()
+    {
+        if (tempDatabase == null) InitializeDatabase();
+
+        return tempDatabase.worms;
+    }
+
+    public static List<WeideObject> GetWeideCollection()
+    {
+        if (tempDatabase == null) InitializeDatabase();
+
+        return tempDatabase.weides;
+    }
+
+    public static List<SheepObject> GetSheepCollection()
+    {
+        if (tempDatabase == null) InitializeDatabase();
+
+        return tempDatabase.sheeps;
     }
 
     /// <summary>
@@ -292,6 +320,7 @@ public static class Database
         return newData;
     }
 
+    // If entry is found return json string
     private static string[] GetEntry(ObjectUUID newObject, List<ObjectUUID> collection)
     {
         string[] newData = new string[] { (int)Status.Error1 + "", "" };
@@ -305,7 +334,7 @@ public static class Database
                 {
                     handledData = true;
                     newData[0] = (int)Status.Success1 + "";
-                    newData[1] = obj.ToString();
+                    newData[1] = JsonUtility.ToJson(obj);
                     break;
                 }
             }
