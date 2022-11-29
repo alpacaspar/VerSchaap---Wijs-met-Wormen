@@ -48,9 +48,11 @@ public class TCPTestClient : MonoBehaviour
 	{
 		try
 		{
-			IPAddress ipAddress = IPAddress.Parse("145.107.199.232");
 			socketConnection = new TcpClient();
-			socketConnection.Connect(ipAddress, 8052);
+			Debug.Log("Ip " + NetworkTest.GetLocalIP());
+			IPAddress[] ipArray = Dns.GetHostAddresses(NetworkTest.GetLocalIP());
+			IPEndPoint localEndPoint = new IPEndPoint(ipArray[0], 1755);
+			socketConnection.Connect(localEndPoint);
 			byte[] bytes = new byte[1024];
 			
 			while (true)
