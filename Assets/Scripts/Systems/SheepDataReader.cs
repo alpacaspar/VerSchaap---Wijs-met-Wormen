@@ -20,6 +20,26 @@ public class SheepDataReader : MonoBehaviour
         sheepDataViewer.sheepDataReader = this;
         LoadSheepData(sheepDataFile);
         sheepDataViewer.CreateSheepButtonsFromDB(SheepDatabase);
+
+        Database.InitializeDatabase();
+        Debug.Log("putdb");
+
+        foreach (var s in SheepDatabase)
+        {
+            Database.ProgressData(MethodType.Put, s);
+        }
+
+        TemporalDatabaseData newDatabase = new TemporalDatabaseData();
+        SheepObject newSheepObject = new SheepObject();
+        var response = Database.ProgressData(MethodType.Get, newSheepObject);
+
+        Debug.Log("getdb response");
+
+        foreach (var r in response)
+        {
+            Debug.Log(r);
+        }
+
     }
 
     public void UpdateSheepData(SheepObject sheep)
