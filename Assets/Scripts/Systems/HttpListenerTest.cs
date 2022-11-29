@@ -50,7 +50,7 @@ public class HttpListenerTest : MonoBehaviour
             if (listener == null)
             {
                 listener = new HttpListener();
-                listener.Prefixes.Add($"http://{NetworkTest.GetLocalIPAddress()}:{port}/");
+                listener.Prefixes.Add($"http://*:{port}/");
                 listener.Start();
                 Debug.Log("Http thing is listening...");
                 listen = true;

@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 using System.Net.Sockets;
 using Unity.VisualScripting;
@@ -10,24 +9,28 @@ public class NetworkTest : MonoBehaviour
     {
         if (!Application.isEditor)
         {
-            transform.AddComponent<HttpListenerTest>();
+            transform.AddComponent<TCPTestServer>();
         }
         else
         {
-            transform.AddComponent<HttpClientTest>();
+            transform.AddComponent<TCPTestClient>();
         }
     }
     
-    public static string GetLocalIPAddress()
+    public static string GetLocalIP()
     {
-        var host = Dns.GetHostEntry(Dns.GetHostName());
-        foreach (var ip in host.AddressList)
+        IPHostEntry host;
+        string localIP = "";
+        host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (IPAddress ip in host.AddressList)
         {
             if (ip.AddressFamily == AddressFamily.InterNetwork)
             {
-                return ip.ToString();
+                localIP = ip.ToString();
+                break;
             }
+
         }
-        throw new Exception("No network adapters with an IPv4 address in the system!");
+        return localIP;
     }
 }
