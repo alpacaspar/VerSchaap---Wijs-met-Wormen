@@ -38,10 +38,9 @@ public class TCPTestServer : MonoBehaviour
 	{
 		try
 		{
-			Debug.Log("Host name: " + Dns.GetHostName());
-			IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
-			IPAddress ipAddress = ipHost.AddressList[0];
+			IPAddress ipAddress = IPAddress.Any;
 			tcpListener = new TcpListener(ipAddress, 8052);
+			Debug.Log("Connecting to: " + ipAddress);
 			tcpListener.Start();
 			Debug.Log("Server is listening");
 			byte[] bytes = new byte[1024];
