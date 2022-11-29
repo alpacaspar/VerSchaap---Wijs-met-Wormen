@@ -12,6 +12,8 @@ public class SheepDataReader : MonoBehaviour
     public List<SheepObject> SheepDatabase = new List<SheepObject>();
     public SheepDataViewer sheepDataViewer;
 
+    public TemporalDatabaseData baseS;
+
     // dummy var to test in the editor
     public bool writeToFile;
 
@@ -21,16 +23,15 @@ public class SheepDataReader : MonoBehaviour
         LoadSheepData(sheepDataFile);
         sheepDataViewer.CreateSheepButtonsFromDB(SheepDatabase);
 
-        Database.InitializeDatabase();
-        Debug.Log("putdb");
-
+        List<string[]> resp = new List<string[]>();
         foreach (var s in SheepDatabase)
         {
-            Database.ProgressData(MethodType.Put, s);
+            //resp.Add(WurmAPI.MethodHandler(MethodType.Post, s));
         }
 
         TemporalDatabaseData newDatabase = new TemporalDatabaseData();
         SheepObject newSheepObject = new SheepObject();
+        newSheepObject.UUID = "d937c3f2-0357-4af4-8961-0c1579a2ef06";
         var response = Database.ProgressData(MethodType.Get, newSheepObject);
 
         Debug.Log("getdb response");
@@ -39,6 +40,8 @@ public class SheepDataReader : MonoBehaviour
         {
             Debug.Log(r);
         }
+
+        baseS = Database.tempDatabase;
 
     }
 

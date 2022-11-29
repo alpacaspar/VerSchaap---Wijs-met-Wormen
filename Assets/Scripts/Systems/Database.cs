@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using UnityEngine;
 
 public static class Database
 {
-    private static TemporalDatabaseData tempDatabase = null;
+    public static TemporalDatabaseData tempDatabase = null;
 
     private static string filePath = Application.persistentDataPath + "/database.xml";
 
@@ -164,15 +165,16 @@ public static class Database
                     break;
 
                 case WeideObject newWeideObject:
-                    newData = AddEntry(newWeideObject, Helpers.WeideToUUID(tempDatabase.weides));
+                    newData = AddEntry(newWeideObject, Helpers.WeideToUUID(tempDatabase.weides), new WeideObject().GetType());
                     break;
 
                 case SheepObject newSheepObject:
-                    newData = AddEntry(newSheepObject, Helpers.SheepToUUID(tempDatabase.sheeps));
+                    //newData = AddEntry(newSheepObject, Helpers.SheepToUUID(tempDatabase.sheeps));
+                    newData = AddEntry(newSheepObject, Helpers.SheepToUUID(tempDatabase.sheeps), new SheepObject().GetType());
                     break;
 
                 case WormObject newWormObject:
-                    newData = AddEntry(newWormObject, Helpers.WormToUUID(tempDatabase.worms));
+                    newData = AddEntry(newWormObject, Helpers.WormToUUID(tempDatabase.worms), new WormObject().GetType());
                     break;
             }
 
@@ -231,7 +233,6 @@ public static class Database
 
         // load the values
         StreamReader reader = new StreamReader(filePath);
-        Debug.Log(filePath);
         TemporalDatabaseData newDatabase = JsonUtility.FromJson<TemporalDatabaseData>(reader.ReadToEnd());
         reader.Close();
 
@@ -251,14 +252,14 @@ public static class Database
         WriteDatabase(tempDatabase);
     }
 
-    private static string[] AddEntry(ObjectUUID newObject, List<ObjectUUID> oldObjects)
+    private static string[] AddEntry(ObjectUUID newObject, List<ObjectUUID> collection, System.Type type)
     {
         string[] newData = new string[] { (int)Status.Error1 + "", "" };
         bool handledData = false;
 
-        if (tempDatabase.weides.Count > 0)
+        if (collection.Count > 0)
         {
-            foreach (ObjectUUID obj in oldObjects)
+            foreach (ObjectUUID obj in collection)
             {
                 if (obj.UUID == newObject.UUID)
                 {
@@ -271,21 +272,34 @@ public static class Database
 
         if (!handledData)
         {
-            oldObjects.Add(newObject);
-            newData[0] = (int)Status.Success1 + "";
+            switch(type.ToString())
+            {
+                case "WeideObject":
+                    tempDatabase.weides.Add((WeideObject)newObject);
+                    newData[0] = (int)Status.Success1 + "";
+                    break;
+                case "SheepObject":
+                    tempDatabase.sheeps.Add((SheepObject)newObject);
+                    newData[0] = (int)Status.Success1 + "";
+                    break;
+                case "WormObject":
+                    tempDatabase.worms.Add((WormObject)newObject);
+                    newData[0] = (int)Status.Success1 + "";
+                    break;
+            }
         }
 
         return newData;
     }
 
-    private static string[] GetEntry(ObjectUUID newObject, List<ObjectUUID> oldObjects)
+    private static string[] GetEntry(ObjectUUID newObject, List<ObjectUUID> collection)
     {
         string[] newData = new string[] { (int)Status.Error1 + "", "" };
         bool handledData = false;
 
-        if (tempDatabase.weides.Count > 0)
+        if (collection.Count > 0)
         {
-            foreach (ObjectUUID obj in oldObjects)
+            foreach (ObjectUUID obj in collection)
             {
                 if (obj.UUID == newObject.UUID)
                 {

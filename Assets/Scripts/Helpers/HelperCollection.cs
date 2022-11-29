@@ -107,4 +107,18 @@ public static class Helpers
     {
         return Guid.NewGuid().ToString();
     }
+
+    /// <summary>
+    ///     Translates code to human readable code
+    /// </summary>
+    /// <param name="response">
+    ///     The response body
+    /// </param>
+    /// <returns>
+    ///     Returns human readable code
+    /// </returns>
+    public static string CodeToMessage(string[] response)
+    {
+        return (response[0] + ": " + HttpMessage[(Status)int.Parse(response[0])]);
+    }
 }
