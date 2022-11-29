@@ -19,7 +19,7 @@ public static class WurmAPI
     /// </returns>
     public static string[] MethodHandler<T>(MethodType type, T data)
     {
-        string[] response = new string[] { Status.Error1.ToString(), "" };
+        string[] response = new string[] { (int)Status.Error1 + "", "" };
 
         response = Database.ProgressData(type, data);
 
