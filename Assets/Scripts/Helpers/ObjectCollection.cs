@@ -22,33 +22,33 @@ public abstract class ObjectUUID : IObject
 [Serializable]
 public class WeideObject : ObjectUUID
 {
-    public int surfaceSqrMtr;
-    public float surfaceQuality;
-    public List<GrassType[]> grassTypes;
-    public List<SheepType[]> currentSheeps;
-    public List<string> extraRemarks;
+    public int surfaceSqrMtr = 0;
+    public float surfaceQuality = 0;
+    public List<GrassType[]> grassTypes = new List<GrassType[]>();
+    public List<SheepType[]> currentSheeps = new List<SheepType[]>();
+    public List<string> extraRemarks = new List<string>();
 }
 
 [Serializable]
 public class SheepObject : ObjectUUID
 {
-    public long tsBorn; // time stamp date of birth
-    public List<SheepWeight> weight;        // list is not sorted on timestamps!
-    public List<SheepDiseases> diseases;    // list is not sorted on timestamps!
-    public Sex sex;
-    public SheepType sheepType;
-    public List<string> extraRemarks;
+    public long tsBorn = 0; // time stamp date of birth
+    public List<SheepWeight> weight = new List<SheepWeight>();        // list is not sorted on timestamps!
+    public List<SheepDiseases> diseases = new List<SheepDiseases>();    // list is not sorted on timestamps!
+    public Sex sex = Sex.Female;
+    public SheepType sheepType = 0;
+    public List<string> extraRemarks = new List<string>();
 }
 
 [Serializable]
 public class WormObject : ObjectUUID
 {
-    public WormType wormType;
-    public List<WormMedicines> effectiveMedicines;  // list is not sorted on timestamps!
-    public List<WormResistences> resistences;       // list is not sorted on timestamps!
-    public List<WormSymptoms> symptoms;             // list is not sorted on timestamps!
-    public List<WormFaveConditions> faveConditions; // list is not sorted on timestamps!
-    public List<string> extraRemarks;
+    public WormType wormType = 0;
+    public List<WormMedicines> effectiveMedicines = new List<WormMedicines>();  // list is not sorted on timestamps!
+    public List<WormResistences> resistences = new List<WormResistences>();       // list is not sorted on timestamps!
+    public List<WormSymptoms> symptoms = new List<WormSymptoms>();             // list is not sorted on timestamps!
+    public List<WormFaveConditions> faveConditions = new List<WormFaveConditions>(); // list is not sorted on timestamps!
+    public List<string> extraRemarks = new List<string>();
 }
 
 /* * * *
