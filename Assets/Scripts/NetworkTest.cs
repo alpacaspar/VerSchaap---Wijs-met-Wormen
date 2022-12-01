@@ -20,19 +20,13 @@ public class NetworkTest : MonoBehaviour
     
     public static string GetLocalIP()
     {
-        try
+        string localIP = "";
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (IPAddress ip in host.AddressList)
         {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (IPAddress ip in host.AddressList)
-            {
-                if (ip.AddressFamily != AddressFamily.InterNetwork) continue;
-                return ip.ToString();
-            }
+            if (ip.AddressFamily != AddressFamily.InterNetwork) continue;
+            return ip.ToString();
         }
-        catch (Exception e)
-        {
-            Debug.Log(e);
-            return null;
-        }
+        return localIP;
     }
 }
