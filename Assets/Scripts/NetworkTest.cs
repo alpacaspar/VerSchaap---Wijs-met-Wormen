@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Net.Sockets;
 using Unity.VisualScripting;
@@ -19,18 +20,19 @@ public class NetworkTest : MonoBehaviour
     
     public static string GetLocalIP()
     {
-        IPHostEntry host;
-        string localIP = "";
-        host = Dns.GetHostEntry(Dns.GetHostName());
-        foreach (IPAddress ip in host.AddressList)
+        try
         {
-            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (IPAddress ip in host.AddressList)
             {
-                localIP = ip.ToString();
-                break;
+                if (ip.AddressFamily != AddressFamily.InterNetwork) continue;
+                return ip.ToString();
             }
-
         }
-        return localIP;
+        catch (Exception e)
+        {
+            Debug.Log(e);
+            return null;
+        }
     }
 }

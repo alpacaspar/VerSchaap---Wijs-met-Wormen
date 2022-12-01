@@ -1,106 +1,71 @@
+using UnityEngine;
 using System;
 using System.IO;
 using System.Net;
 using System.Threading;
-using UnityEngine;
 
 public class HttpListenerTest : MonoBehaviour
 {
     private HttpListener listener;
-    private Thread httpListenerThread;
+    private Thread listenerThread;
 
     private void Start()
     {
-        ConnectToHttpServer();
-    }
-    
-    private void ConnectToHttpServer()
-    {
-        try
-        {
-            httpListenerThread = new Thread(CreateListener)
-            {
-                IsBackground = true
-            };
-            httpListenerThread.Start();
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e);
-        }
-    }
-
-    private void OnApplicationQuit()
-    {
-        listener.Close();
-    }
-
-    private void CreateListener()
-    {
-        HttpListenerContext context = null;
-        HttpListenerRequest request = null;
-        HttpListenerResponse response = null;
-        
         string port = "9876";
-        string requestUrl;
+        listener = new HttpListener();
+        
+        listener.Prefixes.Add("http://localhost:4444/");
+        listener.Prefixes.Add("http://127.0.0.1:4444/");
+        listener.Prefixes.Add($"http://{NetworkTest.GetLocalIP()}:{port}/");
+        
+        listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
+        listener.Start();
 
-        bool listen;
+        listenerThread = new Thread(StartListener);
+        listenerThread.Start();
+        
+        Debug.Log("Server Started");
+    }
 
-        try
+    private void StartListener()
+    {
+        while (true)
         {
-            if (listener == null)
+            try
             {
-                listener = new HttpListener();
-                listener.Prefixes.Add($"http://*:{port}/");
-                listener.Start();
-                Debug.Log("Http thing is listening...");
-                listen = true;
-                while (listen)
-                {
-                    try
-                    {
-                        context = listener.GetContext();
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.Log(e);
-                        listen = false;
-                    }
-
-                    if (listen)
-                    {
-                        request = context.Request;
-                        requestUrl = request.Url.ToString();
-                        
-                        Debug.Log(request.ContentType);
-
-                        response = context.Response;
-                        string responseString = "Hello";
-                        byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
-
-                        response.ContentLength64 = buffer.Length;
-                        System.IO.Stream output = response.OutputStream;
-                        output.Write(buffer,0,buffer.Length);
-
-                        output.Close();
-                        
-                        if (context.Request.HttpMethod == "POST")
-                        {	
-                            Thread.Sleep (1000);
-                            var data_text = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding).ReadToEnd ();
-                            Debug.Log (data_text);
-                        }
-
-                        context.Response.Close ();
-                    }
-                }
-                listener.Stop();
-                listener.Close();
+                var result = listener.BeginGetContext(ListenerCallback, listener);
+                result.AsyncWaitHandle.WaitOne();
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+                return;
             }
         }
-        catch (Exception e)
+    }
+
+    private void ListenerCallback(IAsyncResult result)
+    {
+        var context = listener.EndGetContext(result);
+
+        Debug.Log("Method: " + context.Request.HttpMethod);
+        Debug.Log("LocalUrl: " + context.Request.Url.LocalPath);
+
+        if (context.Request.QueryString.AllKeys.Length > 0)
         {
-            Debug.Log(e);
+            foreach (var key in context.Request.QueryString.AllKeys)
+            {
+                Debug.Log("Key: " + key + ", Value: " + context.Request.QueryString.GetValues(key)?[0]);
+            }
         }
+
+        if (context.Request.HttpMethod == "POST")
+        {
+            Thread.Sleep(1000);
+            var data = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding).ReadToEnd();
+            Debug.Log(data);
+        }
+
+        context.Response.Close();
     }
 }

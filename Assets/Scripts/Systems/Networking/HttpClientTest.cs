@@ -32,7 +32,7 @@ public class HttpClientTest : MonoBehaviour
     private IEnumerator Post()
     {
         string port = "9876";
-        using (UnityWebRequest www = UnityWebRequest.Post($"http://{NetworkTest.GetLocalIP()}:{port}/", "Hello to you too"))
+        using (UnityWebRequest www = UnityWebRequest.Post($"http://{NetworkTest.GetLocalIP()}:{port}/", "Hello"))
         {
             yield return www.SendWebRequest();
 
