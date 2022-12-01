@@ -7,7 +7,13 @@ public class HttpClientTest : MonoBehaviour
     private void Start()
     {
         StartCoroutine(LookForHttpConnection());
-        StartCoroutine(Post());
+
+        EventSystem<WeatherInfo>.AddListener(EventType.weatherDataReceived, OnWeatherDataReceived);
+    }
+
+    private void OnWeatherDataReceived(WeatherInfo info)
+    {
+        StartCoroutine(Post(JsonUtility.ToJson(info)));
     }
 
     private IEnumerator LookForHttpConnection()
@@ -29,10 +35,10 @@ public class HttpClientTest : MonoBehaviour
         Debug.Log(www.downloadHandler.text);
     }
     
-    private IEnumerator Post()
+    private IEnumerator Post(string data)
     {
         string port = "9876";
-        using (UnityWebRequest www = UnityWebRequest.Post($"http://{NetworkTest.GetLocalIP()}:{port}/", "Hello"))
+        using (UnityWebRequest www = UnityWebRequest.Post($"http://{NetworkTest.GetLocalIP()}:{port}/", data))
         {
             yield return www.SendWebRequest();
 
