@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Net;
 using System.Threading;
 using UnityEngine;
@@ -70,6 +71,8 @@ public class HttpListenerTest : MonoBehaviour
                     {
                         request = context.Request;
                         requestUrl = request.Url.ToString();
+                        
+                        Debug.Log(request.ContentType);
 
                         response = context.Response;
                         string responseString = "Hello";
@@ -80,8 +83,19 @@ public class HttpListenerTest : MonoBehaviour
                         output.Write(buffer,0,buffer.Length);
 
                         output.Close();
+                        
+                        if (context.Request.HttpMethod == "POST")
+                        {	
+                            Thread.Sleep (1000);
+                            var data_text = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding).ReadToEnd ();
+                            Debug.Log (data_text);
+                        }
+
+                        context.Response.Close ();
                     }
                 }
+                listener.Stop();
+                listener.Close();
             }
         }
         catch (Exception e)

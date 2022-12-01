@@ -40,7 +40,7 @@ public class TCPTestServer : MonoBehaviour
         // host running the application.
         Debug.Log("Ip " + NetworkTest.GetLocalIP());
         IPAddress[] ipArray = Dns.GetHostAddresses(NetworkTest.GetLocalIP());
-        IPEndPoint localEndPoint = new IPEndPoint(ipArray[0], 1755);
+        IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Parse("192.168.178.1"), 1755);
 
         // Create a TCP/IP socket.
         listener = new Socket(ipArray[0].AddressFamily, SocketType.Stream, ProtocolType.Tcp);

@@ -7,13 +7,13 @@ public class NetworkTest : MonoBehaviour
 {
     private void Start()
     {
-        if (!Application.isEditor)
+        if (Application.isEditor)
         {
-            transform.AddComponent<TCPTestServer>();
+            transform.AddComponent<HttpListenerTest>();
         }
         else
         {
-            transform.AddComponent<TCPTestClient>();
+            transform.AddComponent<HttpClientTest>();
         }
     }
     

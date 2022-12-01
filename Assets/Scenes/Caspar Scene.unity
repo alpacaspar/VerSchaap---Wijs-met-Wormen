@@ -318,7 +318,6 @@ GameObject:
   m_Component:
   - component: {fileID: 273787460}
   - component: {fileID: 273787461}
-  - component: {fileID: 273787462}
   m_Layer: 0
   m_Name: NetworkTest
   m_TagString: Untagged
@@ -348,21 +347,9 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 273787458}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86b16fd41ef98bb4ea9644f5adb474e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &273787462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 273787458}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a6e5bb547bed0f42be9bbc7614f7842, type: 3}
+  m_Script: {fileID: 11500000, guid: c10e89d1dd5ec954daa80e55e69589df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &348141730

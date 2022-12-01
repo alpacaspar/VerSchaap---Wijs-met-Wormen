@@ -51,7 +51,7 @@ public class TCPTestClient : MonoBehaviour
 			socketConnection = new TcpClient();
 			Debug.Log("Ip " + NetworkTest.GetLocalIP());
 			IPAddress[] ipArray = Dns.GetHostAddresses(NetworkTest.GetLocalIP());
-			IPEndPoint localEndPoint = new IPEndPoint(ipArray[0], 1755);
+			IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Parse("192.168.178.1"), 1755);
 			socketConnection.Connect(localEndPoint);
 			byte[] bytes = new byte[1024];
 			
