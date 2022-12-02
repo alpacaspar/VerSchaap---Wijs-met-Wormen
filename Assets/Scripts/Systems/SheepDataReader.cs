@@ -9,10 +9,10 @@ using UnityEngine;
 public class SheepDataReader : MonoBehaviour
 {
     public TextAsset sheepDataFile;
-    public List<SheepObject> SheepDatabase = new List<SheepObject>();
+    //public List<SheepObject> SheepDatabase = new List<SheepObject>();
     public SheepDataViewer sheepDataViewer;
 
-    public TemporalDatabaseData baseS;
+    public TemporalDatabaseData testDatabase;
 
     // dummy var to test in the editor
     public bool writeToFile;
@@ -21,37 +21,7 @@ public class SheepDataReader : MonoBehaviour
     {
         sheepDataViewer.sheepDataReader = this;
         LoadSheepData(sheepDataFile);
-        sheepDataViewer.CreateSheepButtonsFromDB(SheepDatabase);
-
-        List<string[]> resp = new List<string[]>();
-        foreach (var s in SheepDatabase)
-        {
-            // WORKS
-            //resp.Add(WurmAPI.MethodHandler(MethodType.Post, s));
-        }
-
-        TemporalDatabaseData newDatabase = new TemporalDatabaseData();
-        SheepObject newSheepObject = new SheepObject();
-        newSheepObject.UUID = "d937c3f2-0357-4af4-8961-0c1579a2ef06";
-        var response = WurmAPI.MethodHandler(MethodType.Get, newSheepObject);
-
-        Debug.Log("getdb response");
-
-        foreach (var r in response)
-        {
-            // WORKS
-            Debug.Log(r);
-        }
-
-
-        foreach (var r in WurmAPI.GetSheepCollection())
-        {
-            // WORKS
-            Debug.Log(r.UUID);
-        }
-
-        baseS = WurmAPI.GetDatabase();
-
+        sheepDataViewer.CreateSheepButtonsFromDB(testDatabase.sheeps);
     }
 
     public void UpdateSheepData(SheepObject sheep)
@@ -64,7 +34,7 @@ public class SheepDataReader : MonoBehaviour
         {
             // update the actual data
             // magic, ignore casing and check if names are the same
-            foreach (var shp in SheepDatabase.Where(shp => string.Equals(shp.UUID, sheepDataViewer.selectedSheep.UUID, StringComparison.CurrentCultureIgnoreCase)))
+            foreach (var shp in testDatabase.sheeps.Where(shp => string.Equals(shp.UUID, sheepDataViewer.selectedSheep.UUID, StringComparison.CurrentCultureIgnoreCase)))
             {
                 shp.UUID = sheep.UUID;
                 shp.sex = sheep.sex;
@@ -85,7 +55,7 @@ public class SheepDataReader : MonoBehaviour
         // TODO check if UUID doesnt already exist
         else
         {
-            SheepDatabase.Add(sheep);
+            testDatabase.sheeps.Add(sheep);
             sheepDataViewer.CreateNewSheepButton(sheep);
         }
 
@@ -96,9 +66,9 @@ public class SheepDataReader : MonoBehaviour
     {
         int index = -1;
         
-        for (int i = 0; i < SheepDatabase.Count; i++)
+        for (int i = 0; i < testDatabase.sheeps.Count; i++)
         {
-            var shp = SheepDatabase[i];
+            var shp = testDatabase.sheeps[i];
             if (shp.UUID.Trim() != sheep.UUID.Trim()) continue;
             index = i;
             break;
@@ -106,7 +76,7 @@ public class SheepDataReader : MonoBehaviour
 
         if (index == -1) return;
         Destroy(sheepDataViewer.sheepUIPanel.GetChild(index).gameObject);
-        SheepDatabase.RemoveAt(index);
+        testDatabase.sheeps.RemoveAt(index);
     }
 
     private void Update()
@@ -114,7 +84,7 @@ public class SheepDataReader : MonoBehaviour
         if (writeToFile)
         {
             writeToFile = false;
-            var sheepDB = SheepDatabase.ToArray();
+            var sheepDB = testDatabase.sheeps.ToArray();
             //Debug.Log("sheepdblength = " + sheepDB.Length);
             WurmFileHandler.WriteDataToCsvFile("TESTSHEEPDATABASE", sheepDB, false);
         }
@@ -150,6 +120,13 @@ public class SheepDataReader : MonoBehaviour
     /// <param name="inputFile"></param>
     private void LoadSheepDataFromJsonFile(TextAsset inputFile)
     {
+        testDatabase = JsonUtility.FromJson<TemporalDatabaseData>(inputFile.text);
+        
+        // TODO fix the timestamp calculation, because this assumes the input is in nano seconds and converts it to seconds
+        foreach (var s in testDatabase.sheeps)
+        {
+            s.tsBorn /= 1000000000;
+        }
         //allSheep = JsonUtility.FromJson<SheepArray>(inputFile.text);
     }
 
@@ -159,6 +136,6 @@ public class SheepDataReader : MonoBehaviour
     /// <param name="inputFile"></param>
     private void LoadSheepDataFromCsvFile(TextAsset inputFile)
     {
-        SheepDatabase = WurmFileHandler.GetDataFromCsvFile<SheepObject>(inputFile);
+        testDatabase.sheeps = WurmFileHandler.GetDataFromCsvFile<SheepObject>(inputFile);
     }
 }

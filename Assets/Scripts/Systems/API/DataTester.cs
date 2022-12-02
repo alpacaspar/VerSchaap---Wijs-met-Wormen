@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class DataTester : MonoBehaviour
 {
@@ -24,8 +26,8 @@ public class DataTester : MonoBehaviour
             SheepObject newSheep = new SheepObject();
             newSheep.UUID = Helpers.GenerateUUID();
             newSheep.tsBorn = Helpers.GetCurrentTimestamp() - Random.Range(15000, 20000);
-            newSheep.sex = Sex.Female;
-            newSheep.sheepType = SheepType.WiltshireHorn;
+            newSheep.sex = (Sex)Random.Range(0, Enum.GetNames(typeof(Sex)).Length);
+            newSheep.sheepType = (SheepType)Random.Range(0, Enum.GetNames(typeof(SheepType)).Length - 1); //-1 to exclude 'other'
 
             for (int j = 0; j < Random.Range(5, 10); j++)
             {

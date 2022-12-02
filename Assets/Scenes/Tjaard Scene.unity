@@ -5851,9 +5851,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db68a6d0613eec1419bb9f0093438e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sheepDataFile: {fileID: 4900000, guid: d6f8a3c07806f1d4f876d3378e4e6643, type: 3}
-  SheepDatabase: []
+  sheepDataFile: {fileID: 4900000, guid: 9844226eba79cc24f9c4ac80df32d5e1, type: 3}
   sheepDataViewer: {fileID: 1717951083}
+  testDatabase:
+    farmerName: 
+    farmerUUID: 
+    weides: []
+    sheeps: []
+    worms: []
   writeToFile: 0
 --- !u!4 &1717951082
 Transform:
