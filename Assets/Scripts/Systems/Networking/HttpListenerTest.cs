@@ -11,19 +11,27 @@ public class HttpListenerTest : MonoBehaviour
 
     private void Start()
     {
-        string port = "9876";
+        StartServer($"http://{NetworkTest.GetLocalIP()}:{8052}/");
+    }
+
+    /// <summary>
+    /// Starts a server with the given URI Address.
+    /// </summary>
+    /// <param name="uri">Uri string</param>
+    public void StartServer(string uri)
+    {
         listener = new HttpListener();
-        
+
         listener.Prefixes.Add("http://localhost:4444/");
         listener.Prefixes.Add("http://127.0.0.1:4444/");
-        listener.Prefixes.Add($"http://{NetworkTest.GetLocalIP()}:{port}/");
-        
+        listener.Prefixes.Add(uri);
+
         listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
         listener.Start();
 
         listenerThread = new Thread(StartListener);
         listenerThread.Start();
-        
+
         Debug.Log("Server Started");
     }
 
@@ -63,7 +71,9 @@ public class HttpListenerTest : MonoBehaviour
         {
             Thread.Sleep(1000);
             var data = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding).ReadToEnd();
-            Debug.Log(data);
+            var json = JsonUtility.FromJson<WeatherInfo>(data);
+            Debug.Log(json.timezone);
+            EventSystem<WeatherInfo>.InvokeEvent(EventType.weatherDataReceived, json);
         }
 
         context.Response.Close();

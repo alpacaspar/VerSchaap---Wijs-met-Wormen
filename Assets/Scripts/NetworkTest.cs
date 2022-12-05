@@ -17,9 +17,13 @@ public class NetworkTest : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Gets local IP Address.
+    /// </summary>
+    /// <returns>IP address as string.</returns>
     public static string GetLocalIP()
     {
-        var host = Dns.GetHostEntry(Dns.GetHostName());
+        IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
         foreach (IPAddress ip in host.AddressList)
         {
             if (ip.AddressFamily != AddressFamily.InterNetwork) continue;

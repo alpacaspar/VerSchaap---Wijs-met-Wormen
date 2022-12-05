@@ -4,22 +4,48 @@ using UnityEngine.Networking;
 
 public class HttpClientTest : MonoBehaviour
 {
+    private void OnEnable()
+    {
+        EventSystem<WeatherInfo>.AddListener(EventType.weatherDataReceived, OnWeatherDataReceived);
+    }
+
+    private void OnDisable()
+    {
+        EventSystem<WeatherInfo>.RemoveListener(EventType.weatherDataReceived, OnWeatherDataReceived);
+    }
+    
     private void Start()
     {
-        StartCoroutine(LookForHttpConnection());
+        Connect($"http://{NetworkTest.GetLocalIP()}:{8052}/");   
+    }
+    
+    /// <summary>
+    /// Connect http client to specified uri.
+    /// </summary>
+    /// <param name="uri">uri as string.</param>
+    public void Connect(string uri)
+    {
+        StartCoroutine(LookForHttpConnection(uri));
+    }
 
-        EventSystem<WeatherInfo>.AddListener(EventType.weatherDataReceived, OnWeatherDataReceived);
+    /// <summary>
+    /// Post data string to the specified URI.
+    /// </summary>
+    /// <param name="uri">URI Address string.</param>
+    /// <param name="data">Data string like JSON.</param>
+    public void Post(string uri, string data)
+    {
+        StartCoroutine(PostToUri(uri, data));
     }
 
     private void OnWeatherDataReceived(WeatherInfo info)
     {
-        StartCoroutine(Post(JsonUtility.ToJson(info)));
+        Post($"http://{NetworkTest.GetLocalIP()}:{8052}/", JsonUtility.ToJson(info));
     }
 
-    private IEnumerator LookForHttpConnection()
+    private IEnumerator LookForHttpConnection(string uri)
     {
-        string port = "9876";
-        var www = new UnityWebRequest($"http://{NetworkTest.GetLocalIP()}:{port}/")
+        var www = new UnityWebRequest(uri)
         {
             downloadHandler = new DownloadHandlerBuffer()
         };
@@ -35,10 +61,9 @@ public class HttpClientTest : MonoBehaviour
         Debug.Log(www.downloadHandler.text);
     }
     
-    private IEnumerator Post(string data)
+    private IEnumerator PostToUri(string uri, string data)
     {
-        string port = "9876";
-        using (UnityWebRequest www = UnityWebRequest.Post($"http://{NetworkTest.GetLocalIP()}:{port}/", data))
+        using (UnityWebRequest www = UnityWebRequest.Post(uri, data))
         {
             yield return www.SendWebRequest();
 
