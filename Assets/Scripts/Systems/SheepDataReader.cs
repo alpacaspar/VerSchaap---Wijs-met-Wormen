@@ -9,9 +9,8 @@ using UnityEngine;
 public class SheepDataReader : MonoBehaviour
 {
     public TextAsset sheepDataFile;
-    //public List<SheepObject> SheepDatabase = new List<SheepObject>();
     public SheepDataViewer sheepDataViewer;
-
+    public ObjectDetailsEditor detailsEditor;
     public TemporalDatabaseData testDatabase;
 
     // dummy var to test in the editor
@@ -21,7 +20,8 @@ public class SheepDataReader : MonoBehaviour
     {
         sheepDataViewer.sheepDataReader = this;
         LoadSheepData(sheepDataFile);
-        sheepDataViewer.CreateSheepButtonsFromDB(testDatabase.sheeps);
+        detailsEditor.CreateDetailPanelFromObject(testDatabase.sheeps);
+        //sheepDataViewer.CreateSheepButtonsFromDB(testDatabase.sheeps);
     }
 
     public void UpdateSheepData(SheepObject sheep)
