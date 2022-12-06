@@ -16,11 +16,16 @@ public class SheepDataReader : MonoBehaviour
     // dummy var to test in the editor
     public bool writeToFile;
 
+    public void OpenFileExplorer()
+    {
+        var paths = SFB.StandaloneFileBrowser.OpenFilePanel("Open File", "", "", false);
+    }
+
     private void Start()
     {
         sheepDataViewer.sheepDataReader = this;
         LoadSheepData(sheepDataFile);
-        detailsEditor.CreateDetailPanelFromObject(testDatabase.sheeps);
+        detailsEditor.CreateDetailPanelFromObject(testDatabase);
         //sheepDataViewer.CreateSheepButtonsFromDB(testDatabase.sheeps);
     }
 
