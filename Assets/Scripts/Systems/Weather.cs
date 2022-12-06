@@ -35,7 +35,7 @@ public class Weather : MonoBehaviour
     {
         string latitudeString = latitude.ToString(CultureInfo.InvariantCulture);
         string longitudeString = longitude.ToString(CultureInfo.InvariantCulture);
-        var www = new UnityWebRequest($"https://api.open-meteo.com/v1/forecast?latitude={latitudeString}&longitude={longitudeString}&hourly=temperature_2m,relativehumidity_2m,precipitation,cloudcover,weathercode&timezone={timezone}")
+        UnityWebRequest www = new UnityWebRequest($"https://api.open-meteo.com/v1/forecast?latitude={latitudeString}&longitude={longitudeString}&hourly=temperature_2m,relativehumidity_2m,precipitation,cloudcover,weathercode&timezone={timezone}")
         {
             downloadHandler = new DownloadHandlerBuffer()
         };
@@ -48,7 +48,7 @@ public class Weather : MonoBehaviour
             yield break;
         }
 
-        var info = JsonUtility.FromJson<WeatherInfo>(www.downloadHandler.text);
+        WeatherInfo info = JsonUtility.FromJson<WeatherInfo>(www.downloadHandler.text);
         
         EventSystem<WeatherInfo>.InvokeEvent(EventType.weatherDataReceived, info);
     }

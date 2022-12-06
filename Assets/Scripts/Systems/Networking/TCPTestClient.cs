@@ -63,7 +63,7 @@ public class TCPTestClient : MonoBehaviour
 					int length;
 					while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
 					{
-						var incommingData = new byte[length];
+						byte[] incommingData = new byte[length];
 						Array.Copy(bytes, 0, incommingData, 0, length);
 						string serverMessage = Encoding.ASCII.GetString(incommingData);
 						Debug.Log("server message received as: " + serverMessage);

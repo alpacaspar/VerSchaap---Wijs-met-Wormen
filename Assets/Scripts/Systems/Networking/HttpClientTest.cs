@@ -45,7 +45,7 @@ public class HttpClientTest : MonoBehaviour
 
     private IEnumerator LookForHttpConnection(string uri)
     {
-        var www = new UnityWebRequest(uri)
+        UnityWebRequest www = new UnityWebRequest(uri)
         {
             downloadHandler = new DownloadHandlerBuffer()
         };

@@ -47,9 +47,9 @@ public class HourlyForecast : MonoBehaviour
     private void FixedUpdate()
     {
         if (weatherInfo == null) return;
-        var index = weeklyForecastComponent.selectedDayIndex * 24 + (int)timeSlider.value;
-        var time = weatherInfo.hourly.time[index].Split("T");
-        var forecastDay = ((int)DateTime.Today.DayOfWeek + weeklyForecastComponent.selectedDayIndex) % 7;
+        int index = weeklyForecastComponent.selectedDayIndex * 24 + (int)timeSlider.value;
+        string[] time = weatherInfo.hourly.time[index].Split("T");
+        int forecastDay = ((int)DateTime.Today.DayOfWeek + weeklyForecastComponent.selectedDayIndex) % 7;
 
         string dateTime = $"{WeeklyForecast.GetDay((DayOfWeek)forecastDay)} {time[1]}";
         Sprite weatherIcon = weatherIconsObject.WeatherIcons[weatherInfo.hourly.weathercode[index]];

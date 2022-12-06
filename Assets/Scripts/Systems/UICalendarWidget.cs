@@ -117,7 +117,7 @@ public class UICalendarWidget : MonoBehaviour
                 sheepDataReader.UpdateTSButton(timeStamp);
                 gameObject.SetActive(false);
             });
-            var txt = dayCell.GetComponentInChildren<TextMeshProUGUI>();
+            TextMeshProUGUI txt = dayCell.GetComponentInChildren<TextMeshProUGUI>();
             txt.SetText((i + 1).ToString());
         }
 

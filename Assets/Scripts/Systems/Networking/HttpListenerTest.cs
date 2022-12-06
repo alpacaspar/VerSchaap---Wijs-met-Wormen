@@ -41,7 +41,7 @@ public class HttpListenerTest : MonoBehaviour
         {
             try
             {
-                var result = listener.BeginGetContext(ListenerCallback, listener);
+                IAsyncResult result = listener.BeginGetContext(ListenerCallback, listener);
                 result.AsyncWaitHandle.WaitOne();
             }
             catch (Exception e)
@@ -54,14 +54,14 @@ public class HttpListenerTest : MonoBehaviour
 
     private void ListenerCallback(IAsyncResult result)
     {
-        var context = listener.EndGetContext(result);
+        HttpListenerContext context = listener.EndGetContext(result);
 
         Debug.Log("Method: " + context.Request.HttpMethod);
         Debug.Log("LocalUrl: " + context.Request.Url.LocalPath);
 
         if (context.Request.QueryString.AllKeys.Length > 0)
         {
-            foreach (var key in context.Request.QueryString.AllKeys)
+            foreach (string key in context.Request.QueryString.AllKeys)
             {
                 Debug.Log("Key: " + key + ", Value: " + context.Request.QueryString.GetValues(key)?[0]);
             }
@@ -70,8 +70,8 @@ public class HttpListenerTest : MonoBehaviour
         if (context.Request.HttpMethod == "POST")
         {
             Thread.Sleep(1000);
-            var data = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding).ReadToEnd();
-            var json = JsonUtility.FromJson<WeatherInfo>(data);
+            string data = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding).ReadToEnd();
+            WeatherInfo json = JsonUtility.FromJson<WeatherInfo>(data);
             Debug.Log(json.timezone);
             EventSystem<WeatherInfo>.InvokeEvent(EventType.weatherDataReceived, json);
         }

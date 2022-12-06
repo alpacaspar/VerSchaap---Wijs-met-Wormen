@@ -14,7 +14,7 @@ public class Location : MonoBehaviour
 
     private IEnumerator GetIPAddress()
     {
-        var www = UnityWebRequest.Get("http://checkip.dyndns.org");
+        UnityWebRequest www = UnityWebRequest.Get("http://checkip.dyndns.org");
         yield return www.SendWebRequest();
 
         if (www.result is UnityWebRequest.Result.ConnectionError or UnityWebRequest.Result.ProtocolError)
@@ -23,12 +23,12 @@ public class Location : MonoBehaviour
             yield break;
         }
 
-        var result = www.downloadHandler.text;
+        string result = www.downloadHandler.text;
 
-        var a = result.Split(':');
-        var a2 = a[1].Substring(1);
-        var a3 = a2.Split('<');
-        var a4 = a3[0];
+        string[] a = result.Split(':');
+        string a2 = a[1].Substring(1);
+        string[] a3 = a2.Split('<');
+        string a4 = a3[0];
 
         ipAddress = a4;
         
@@ -37,7 +37,7 @@ public class Location : MonoBehaviour
 
     private IEnumerator GetCoordinates()
     {
-        var www = new UnityWebRequest("http://ip-api.com/json/" + ipAddress)
+        UnityWebRequest www = new UnityWebRequest("http://ip-api.com/json/" + ipAddress)
         {
             downloadHandler = new DownloadHandlerBuffer()
         };
@@ -50,7 +50,7 @@ public class Location : MonoBehaviour
             yield break;
         }
 
-        var info = JsonUtility.FromJson<LocationInfo>(www.downloadHandler.text);
+        LocationInfo info = JsonUtility.FromJson<LocationInfo>(www.downloadHandler.text);
 
         EventSystem<LocationInfo>.InvokeEvent(EventType.locationDataReceived, info);
     }
