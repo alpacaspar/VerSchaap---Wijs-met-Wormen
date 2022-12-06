@@ -1318,6 +1318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dailyForecastPrefab: {fileID: 6055198691726581653, guid: 567bfeadc79e2464cbf4f0bc1627d6c1, type: 3}
+  dailyForecastParent: {fileID: 1459123699}
   weatherInfo:
     latitude: 0
     longitude: 0

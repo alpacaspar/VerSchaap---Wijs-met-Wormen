@@ -24,11 +24,26 @@ public class DailyForecast : MonoBehaviour
     /// <param name="nightTemp">Temperature during the night. (dusk to dawn)</param>
     public void SetDailyForecastData(string dayAbb, Sprite weatherIcon, float dayTemp, float nightTemp, WeeklyForecast weeklyForecast, int dayIndex)
     {
-        dayTextComponent.text = dayAbb;
-        weatherIconComponent.sprite = weatherIcon;
-        dayTemperatureTextComponent.text = $"{dayTemp}°";
-        nightTemperatureTextComponent.text = $"{nightTemp}°";
-        
+        if (dayTextComponent != null)
+        {
+            dayTextComponent.text = dayAbb;
+        }
+
+        if (weatherIconComponent != null)
+        {
+            weatherIconComponent.sprite = weatherIcon;
+        }
+
+        if (dayTemperatureTextComponent != null)
+        {
+            dayTemperatureTextComponent.text = $"{dayTemp}°";
+        }
+
+        if (nightTemperatureTextComponent != null)
+        {
+            nightTemperatureTextComponent.text = $"{nightTemp}°";
+        }
+
         this.weeklyForecast = weeklyForecast;
         this.dayIndex = dayIndex;
     }

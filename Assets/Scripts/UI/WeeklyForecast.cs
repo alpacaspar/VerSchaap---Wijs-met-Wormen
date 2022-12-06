@@ -6,6 +6,8 @@ using UnityEngine;
 public class WeeklyForecast : MonoBehaviour
 {
     [SerializeField] private GameObject dailyForecastPrefab;
+    [SerializeField] private Transform dailyForecastParent;
+
     [SerializeField] private WeatherInfo weatherInfo;
 
     [SerializeField] private WeatherIconsObject weatherIconsObject;
@@ -35,7 +37,7 @@ public class WeeklyForecast : MonoBehaviour
                 string dayAbbreviation = GetDayAbbreviation((DayOfWeek)forecastDay);
                 Sprite sprite = weatherIconsObject.WeatherIcons[GetAverageWeatherCode(i)];
                 
-                GameObject instance = Instantiate(dailyForecastPrefab, transform);
+                GameObject instance = Instantiate(dailyForecastPrefab, dailyForecastParent);
                 instance.GetComponent<DailyForecast>().SetDailyForecastData(dayAbbreviation, sprite, GetAverageTemp(info, i, 5, 18), GetAverageTemp(info, i, 19, 24), this, day);
                 GetAverageWeatherCode(i);
                 day++;
