@@ -9,6 +9,8 @@ public class WeeklyForecast : MonoBehaviour
     [SerializeField] private WeatherInfo weatherInfo;
 
     [SerializeField] private WeatherIconsObject weatherIconsObject;
+    
+    public int selectedDayIndex;
 
     private void OnEnable()
     {
@@ -19,8 +21,6 @@ public class WeeklyForecast : MonoBehaviour
     {
         EventSystem<WeatherInfo>.RemoveListener(EventType.weatherDataReceived, OnWeatherDataReceived);
     }
-
-    public int selectedDayIndex;
 
     private void OnWeatherDataReceived(WeatherInfo info)
     {

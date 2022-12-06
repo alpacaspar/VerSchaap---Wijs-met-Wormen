@@ -1339,7 +1339,7 @@ MonoBehaviour:
       precipitation: 
       cloudcover: 
       weathercode: 
-  weatherIconsObject: {fileID: 0}
+  weatherIconsObject: {fileID: 11400000, guid: d7c7784e3feeffe499c5f039ea494cb8, type: 2}
   selectedDayIndex: 0
 --- !u!1 &1629475169
 GameObject:
@@ -1700,6 +1700,8 @@ MonoBehaviour:
   temperatureTextComponent: {fileID: 2053087501}
   precipitationTextComponent: {fileID: 2096951018}
   humidityTextComponent: {fileID: 601716363}
+  weatherIconComponent: {fileID: 1073093229}
+  weatherIconsObject: {fileID: 11400000, guid: d7c7784e3feeffe499c5f039ea494cb8, type: 2}
   weeklyForecastComponent: {fileID: 1459123701}
   timeSlider: {fileID: 859292655}
 --- !u!1 &2010600230

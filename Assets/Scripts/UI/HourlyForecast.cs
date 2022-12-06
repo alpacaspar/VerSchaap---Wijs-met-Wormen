@@ -10,6 +10,8 @@ public class HourlyForecast : MonoBehaviour
     [SerializeField] private TextMeshProUGUI temperatureTextComponent;
     [SerializeField] private TextMeshProUGUI precipitationTextComponent;
     [SerializeField] private TextMeshProUGUI humidityTextComponent;
+    [SerializeField] private Image weatherIconComponent;
+    [SerializeField] private WeatherIconsObject weatherIconsObject;
 
     [SerializeField] private WeeklyForecast weeklyForecastComponent;
 
@@ -49,16 +51,18 @@ public class HourlyForecast : MonoBehaviour
         var time = weatherInfo.hourly.time[index].Split("T");
         var forecastDay = ((int)DateTime.Today.DayOfWeek + weeklyForecastComponent.selectedDayIndex) % 7;
 
-        var dateTime = $"{WeeklyForecast.GetDay((DayOfWeek)forecastDay)} {time[1]}";
-        UpdateInfo(locationInfo.city, dateTime, weatherInfo.hourly.temperature_2m[index], weatherInfo.hourly.precipitation[index], weatherInfo.hourly.relativehumidity_2m[index]);
+        string dateTime = $"{WeeklyForecast.GetDay((DayOfWeek)forecastDay)} {time[1]}";
+        Sprite weatherIcon = weatherIconsObject.WeatherIcons[weatherInfo.hourly.weathercode[index]];
+        UpdateInfo(locationInfo.city, dateTime, weatherInfo.hourly.temperature_2m[index], weatherInfo.hourly.precipitation[index], weatherInfo.hourly.relativehumidity_2m[index], weatherIcon);
     }
 
-    private void UpdateInfo(string location, string time, float temp, int precipitation, int humidity)
+    private void UpdateInfo(string location, string time, float temp, int precipitation, int humidity, Sprite weatherIcon)
     {
         locationTextComponent.text = location;
         timeTextComponent.text = time;
         temperatureTextComponent.text = $"temperatuur: {temp}°";
         precipitationTextComponent.text = $"neerslag: {precipitation}%";
         humidityTextComponent.text = $"luchtvochtigheid: {humidity}%";
+        weatherIconComponent.sprite = weatherIcon;
     }
 }

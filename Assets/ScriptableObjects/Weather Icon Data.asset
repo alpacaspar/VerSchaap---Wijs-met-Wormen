@@ -14,58 +14,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icons:
   - weatherType: 0
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 22e71a6bbb7f0494d82216e898273c78, type: 3}
   - weatherType: 1
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 22e71a6bbb7f0494d82216e898273c78, type: 3}
   - weatherType: 2
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 2a692d2800396664cafb727e2dba91c3, type: 3}
   - weatherType: 3
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 9f0bc0fc09d37804f914e0338e5bb1b6, type: 3}
   - weatherType: 45
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: f007f90c52021ee48bc6461f3b7fd816, type: 3}
   - weatherType: 48
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: e0549cfdd48f3484a8691713d2555ff8, type: 3}
   - weatherType: 51
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 455d8a158fa98a24b9dd2daa0ef9ce48, type: 3}
   - weatherType: 53
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 455d8a158fa98a24b9dd2daa0ef9ce48, type: 3}
   - weatherType: 55
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 0bc88a17cd677a444b4ed100eb7cbb1a, type: 3}
   - weatherType: 56
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: e0549cfdd48f3484a8691713d2555ff8, type: 3}
   - weatherType: 57
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: e0549cfdd48f3484a8691713d2555ff8, type: 3}
   - weatherType: 61
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 455d8a158fa98a24b9dd2daa0ef9ce48, type: 3}
   - weatherType: 63
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 455d8a158fa98a24b9dd2daa0ef9ce48, type: 3}
   - weatherType: 65
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 0bc88a17cd677a444b4ed100eb7cbb1a, type: 3}
   - weatherType: 66
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 455d8a158fa98a24b9dd2daa0ef9ce48, type: 3}
   - weatherType: 67
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 0bc88a17cd677a444b4ed100eb7cbb1a, type: 3}
   - weatherType: 71
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 47e095eacee33a749848e32625762933, type: 3}
   - weatherType: 73
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 47e095eacee33a749848e32625762933, type: 3}
   - weatherType: 75
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 67029780fb6bac041b467797307b4e38, type: 3}
   - weatherType: 77
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 47e095eacee33a749848e32625762933, type: 3}
   - weatherType: 80
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 455d8a158fa98a24b9dd2daa0ef9ce48, type: 3}
   - weatherType: 81
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 0bc88a17cd677a444b4ed100eb7cbb1a, type: 3}
   - weatherType: 82
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 0bc88a17cd677a444b4ed100eb7cbb1a, type: 3}
   - weatherType: 85
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 67029780fb6bac041b467797307b4e38, type: 3}
   - weatherType: 86
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 67029780fb6bac041b467797307b4e38, type: 3}
   - weatherType: 95
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 6fe8393d7ae9d1141af26117cce2c36c, type: 3}
   - weatherType: 96
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 6fe8393d7ae9d1141af26117cce2c36c, type: 3}
   - weatherType: 99
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 6fe8393d7ae9d1141af26117cce2c36c, type: 3}
