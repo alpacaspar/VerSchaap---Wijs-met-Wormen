@@ -51,6 +51,7 @@ public class Weather : MonoBehaviour
     }
 }
 
+// Code Conventions according to the Open-Meteo Weather API
 [Serializable]
 public class WeatherInfo
 {
@@ -65,6 +66,7 @@ public class WeatherInfo
     public Hourly hourly;
 }
 
+// Code Conventions according to the Open-Meteo Weather API
 [Serializable]
 public class Hourly
 {
@@ -76,6 +78,7 @@ public class Hourly
     public WeatherType[] weathercode;
 }
 
+// Code Conventions according to the Open-Meteo Weather API
 [Serializable]
 public class HourlyUnits
 {

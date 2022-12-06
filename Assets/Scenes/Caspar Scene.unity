@@ -1339,7 +1339,7 @@ MonoBehaviour:
       precipitation: 
       cloudcover: 
       weathercode: 
-  icons: []
+  weatherIconsObject: {fileID: 0}
   selectedDayIndex: 0
 --- !u!1 &1629475169
 GameObject:
