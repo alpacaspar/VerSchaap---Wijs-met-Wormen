@@ -10,6 +10,7 @@ public class ObjectDetailsEditor : MonoBehaviour
     public GameObject prefabDetailsPanel;
 
     public ObjectDetailsPanel detailsPanel;
+    private Stack<ObjectDetailsPanel> detailsPanels = new Stack<ObjectDetailsPanel>();
 
     public void FieldsAndItem<T>(FieldInfo[] fields, T obj)
     {
@@ -26,8 +27,10 @@ public class ObjectDetailsEditor : MonoBehaviour
             // Check if this is a list/array
             if (typeof(IList).IsAssignableFrom(field.FieldType))
             {
-                //detailsPanel.CreateInteractableForField(field, obj);
-                
+                // Create a button for a list
+                detailsPanel.CreateInteractableForField(field, obj);
+                CreateDetailPanelFromObject(field.GetValue(obj));
+
                 // By now, we know that this is assignable from IList, so we can safely cast it.
                 foreach (var item in fieldValue as IList)
                 {
@@ -46,6 +49,31 @@ public class ObjectDetailsEditor : MonoBehaviour
                     // Do what you want with the items.
                     //detailsPanel.CreateButtonFromField(field, item);
                 }
+
+                /*
+                if (detailsPanels.Count > 1)
+                {
+                    detailsPanels.Pop();
+                    detailsPanel = detailsPanels.Pop();
+                    detailsPanels.Push(detailsPanel);
+                }
+                */
+
+                if (detailsPanels.Count > 0)
+                {
+                    var tmpDetailsPanel = detailsPanels.Pop();
+
+                    if (detailsPanels.Count > 0)
+                    {
+                        detailsPanel = detailsPanels.Pop();
+                        detailsPanels.Push(detailsPanel);
+                    }
+
+                    else
+                    {
+                        detailsPanel = tmpDetailsPanel;
+                    }
+                }
             }
             else
             {
@@ -59,11 +87,25 @@ public class ObjectDetailsEditor : MonoBehaviour
         currentDepth++;
         //if (obj == default) return;
 
+        // Make a new detailsPanel prefab
         var objDetailsPanel = Instantiate(prefabDetailsPanel, transform);
         detailsPanel = objDetailsPanel.GetComponent<ObjectDetailsPanel>();
-        FieldInfo[] fields = obj.GetType().GetFields();
-
+        //detailsPanels.Push(detailsPanel);
+        
+        FieldInfo[] fields = obj.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
         FieldsAndItem(fields, obj);
 
+        /*
+        // Remove the panel when its done
+        detailsPanels.Pop();
+
+        if (detailsPanels.Count > 0)
+        {
+            // Set detailsPanel to the upper panel by popping it from the stack
+            detailsPanel = detailsPanels.Pop();
+            // Add it back to the stack
+            detailsPanels.Push(detailsPanel);
+        }
+        */
     }
 }
