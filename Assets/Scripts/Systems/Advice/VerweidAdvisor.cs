@@ -1,110 +1,107 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class VerweidAdvisor : MonoBehaviour
+
+class VerweidAdvisor : MonoBehaviour
 {
-    private Queue<Advice> adviceQueue = new Queue<Advice>();
+	static double calc_Q0(double q, double lambda, double mu, double beta, double p, double rho, double H, double m2)
+	{
+		double a = q * lambda / mu;
+		double b = beta * p / (rho + beta * H);
 
-    [Header("H Contortus")]
-    [Tooltip("Fecundity (eggs per day per adult)")]
-    public float varLabda = 2250.0f;
-    [Tooltip("Instantaneous daily mortality rate of adult nematodes")]
-    public float varMu = 0.05f;
-    [Tooltip("Probability that an egg will develop to L3 and migrate onto pasture")]
-    public float varQ = -1;         // calculated with a formula;
-    [Tooltip("Instantaneous daily development rate of eggs to L3")]
-    public float varDelta = -1;     // calculated with a formula;
-    [Tooltip("Instantaneous daily mortality rate of eggs")]
-    public float varMue = -1;       // calculated with a formula;
-    [Tooltip("Instantaneous daily mortality rate of L3 in faeces")]
-    public float varMul3 = -1;      // calculated with a formula;
-    [Tooltip("Instantaneous daily L3 migration rate between faeces and pasture")]
-    public float varM1 = 0.25f;
-    public float varRho = -1;       // calculated with a formula;
-    [Tooltip("Proportion of total pasture L3 that are found on herbage")]
-    public float varM2 = 0.2f;
-    [Tooltip("Probability of establishment of ingested L3")]
-    public float varP = 0.4f;
+		return a * b * H * m2;
+	}
 
-    [Header("Host management")]
-    public float varBeta = -1;      // calculated with a formula;
-    [Tooltip("Daily herbage dry matter intake per host (kg dry matter per day)")]
-    public float varC = 1.4f;
-    [Tooltip("Host density or stocking density (sheep per ha)")]
-    public float varH = 100.0f;     // Either regionally variable or held constant
-    [Tooltip("Standing biomass (kg dry matter per ha)")]
-    public float varB = 2000.0f;
-    [Tooltip("Grazing area (ha)")]
-    public float varA = 1.0f;
+	static double calc_q(double P, double E, double delta, double m1, double mu_e, double mu_l3)
+	{
+		if (P / E < 1)
+			return 0;
 
-    [Header("Climate")]
-    [Tooltip("Total daily precipitation (mm)")]
-    public float varPP = 50;        // Daily variable
-    [Tooltip("Daily potential evapotranspiration (mm per day)")]
-    public float varE = -1;         // calculated with a formula;
+		return delta * m1 / ((mu_e + delta) * (mu_l3 + m1));
+	}
 
-    //TODO find a formula for this, instead of using an average value
-    //https://www.researchgate.net/figure/The-monthly-average-daily-extraterrestrial-radiation-H-0-MJ-m-2-day-The-comparisons-of_fig2_261638000
-    [Tooltip("Extra-terrestrial radiation (MJm-2day-1)")]
-    public float varRa = 18;        // Daily variable, depends on the day of the year
-    [Tooltip("Mean daily temperature (C)")]
-    public float varTMean = 10;     // Daily variable
-    [Tooltip("Minimum daily temperature (C)")]
-    public float varTMin = 5;       // Daily variable
-    [Tooltip("Maximum daily temperature (C)")]
-    public float varTMax = 18;      // Daily variable
+	static double calc_delta(double T_mean)
+	{
+		return -0.09746 + 0.01063 * T_mean;
+	}
 
-    [Tooltip("This variable was used as T in the paper but never described. Assuming they meant the current temperature (C)")]
-    public float varT = 15;
+	public void Start()
+	{
+		double c = 1.4; // dialy herbage dry matter intake per host
+		double B = 2000; // standing biomass
+		double A = 1; // grazing area
+		double q0; // basic reproductive quotient of macroparasites.
+		//double A; // adult worm lifetime
+		double lambda = 2250; // worm fecundity
+		double mu = 0.05; // adult mortality
+		double q;
+		//double B; // number of adult parasites produced by each L3
+		double p = 0.4; // establishment rate of ingested L3
+		double beta = c / (B * A); // ingestion rate of L3 by host
 
-    public float CalculateVarE()
-    {
-        return (float)(0.0023f * 0.408f * varRa * ((varTMax + varTMin) / 2.0f + 17.8f) * Mathf.Sqrt(varTMax - varTMin));
-    }
+		// quote https://mijngelderland.nl/inhoud/canons/ermelo/schaapskooi-ermelo: "De schaapskooi van 400m2 biedt plaats aan zo’n 300 schapen."
+		// 400m2 is 0.04 hectare
+		double H = 1;// 300 * 0.04; // number of hosts
 
-    public float CalculateVarQ()
-    {
-        varE = CalculateVarE();
-        varDelta = (float)(-0.09746f + 0.01063f * varTMean);
-        varMue = Mathf.Exp(-1.3484f - 0.10488f * varT + 0.00230f * Mathf.Pow(varTMean, 2));
+		double m1 = 0.25; // daily L3 migration rate between faeces and pasture
+		double m2 = 0.2; // proportion of total pasture L3 found on herbage
 
-        //P/E >= 1 (d * m1) / ((ue + d) * (ul3 + m1))	
-        //P/E < 1: 0
-        if (varPP / varE >= 1)
-        {
-            return (float)((varDelta * varM1) / ((varMue + varDelta) * (varMul3 + varM1)));
-        }
+		Debug.Log("environment:");
 
-        return 0;
-    }
-    
-    public float CalculateVarBeta()
-    {
-        return varC / (varB * varA);
-    }
+		// shaapskooi ermelo: https://www.bestereistijd.nl/nederland/ermelo-2938055/
+		double[] temperatuur_max = { 5, 6, 10, 14, 17, 19, 22, 21, 18, 14, 9, 6 };
+		double[] temperatuur_min = { 1, 1, 3, 6, 9, 11, 14, 14, 12, 9, 6, 3 };
 
-    public float CalculateVarRho()
-    {
-        varMul3 = Mathf.Exp(-2.62088f - 0.14399f * varT + 0.00462f * Mathf.Pow(varTMean, 2));
-        return varMul3 / 3;
-    }
+		double[] neerslag = { 19, 17, 22, 12, 20, 24, 28, 21, 12, 14, 14, 20 };
 
-    public float CalculateQ0()
-    {
-        varQ = CalculateVarQ();
-        varBeta = CalculateVarBeta();
-        varRho = CalculateVarRho();
-        float varQ0 = ((varQ * varLabda) / varMu) * ((varBeta * varP) / (varRho + varBeta * varH)) * varH * varM2;
+		// temperatuur
+		double[] wereld_Ra = { 20.8, 23, 21.6, 19.2, 18.8, 16.1, 14.7, 14.1, 16, 16.8, 20.6, 20.7 };
 
-        return varQ0;
-    }
+		Debug.Assert(temperatuur_max.Length == 12);
+		Debug.Assert(temperatuur_min.Length == 12);
+		Debug.Assert(neerslag.Length == 12);
+		Debug.Assert(wereld_Ra.Length == 12);
 
-    private void Start()
-    {
-        //TODO should get weather info and use its measurements in the formula
+		DateTime now = DateTime.Now;
+		Debug.Log("current month = " + now.Month);
 
-        var Q0 = CalculateQ0();
-        Debug.Log("Q0=" + Q0);
-    }
+		int m = 6;// now.Month - 1;
+
+		double P = neerslag[m];
+		double T_max = temperatuur_max[m], T_min = temperatuur_min[m];
+		double Ra = wereld_Ra[m];
+
+		double E = 0.0023 * 0.408 * Ra * ((T_max + T_min) / 2 + 17.8) * Math.Sqrt(T_max - T_min);
+
+		// kon dit niet vinden dus maak maar een schatting
+		double T_mean = temperatuur_max[m] * 0.65 + temperatuur_min[m] * 0.35;
+
+		double delta = calc_delta(T_mean);
+		double mu_e = Math.Exp(-1.3484 - 0.10488 * T_mean + 0.00230 * T_mean * T_mean);
+		double mu_l3 = Math.Exp(-2.62088 - 0.14399 * T_mean + 0.00462 * T_mean * T_mean);
+
+		Debug.Log("P      = " + P);
+		Debug.Log("Ra     = " + Ra);
+		Debug.Log("E      = " + E);
+		Debug.Log("T_mean = " + T_mean);
+		Debug.Log("delta  = " + delta);
+		Debug.Log("mu_e   = " + mu_e);
+		Debug.Log("mu_l3  = " + mu_l3);
+
+		q = calc_q(P, E, delta, m1, mu_e, mu_l3); // probability egg will develop into L3
+
+		Debug.Log("q = " + q);
+
+		double rho = mu_l3 / 3; // mortality rate of L3 on pasture
+
+		Debug.Log("lambda = " + lambda);
+		Debug.Log("mu     = " + mu);
+		Debug.Log("beta   = " + beta);
+		Debug.Log("p      = " + p);
+		Debug.Log("rho    = " + rho);
+		Debug.Log("H      = " +  H);
+		Debug.Log("m2     = " + m2);
+		Debug.Log(" ");
+		Debug.Log("q0     = " + calc_Q0(q, lambda, mu, beta, p, rho, H, m2));
+	}
 }

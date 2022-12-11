@@ -25,8 +25,7 @@ public class SheepDataReader : MonoBehaviour
     {
         sheepDataViewer.sheepDataReader = this;
         LoadSheepData(sheepDataFile);
-        detailsEditor.CreateDetailPanelFromObject(testDatabase);
-        //sheepDataViewer.CreateSheepButtonsFromDB(testDatabase.sheeps);
+        sheepDataViewer.CreateSheepButtonsFromDB(testDatabase.sheeps);
     }
 
     public void UpdateSheepData(SheepObject sheep)
