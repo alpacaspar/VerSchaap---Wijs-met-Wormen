@@ -5,13 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/Caspar Scene.unity
-    guid: e969ba8311ec99f40845729bb46095af
-  - enabled: 0
-    path: Assets/Scenes/Production Scene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/Tjaard Scene.unity
-    guid: cd8cf91bd76c9d3489e1072de9013c33
+    path: Assets/Scenes/Production Scene.unity
+    guid: f00bc8a2d48214f419f3d0f9ffd00204
   m_configObjects: {}

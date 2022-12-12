@@ -22,13 +22,13 @@ public class HourlyForecast : MonoBehaviour
 
     private int dayOfWeek;
 
-    private void OnEnable()
+    private HourlyForecast()
     {
         EventSystem<WeatherInfo>.AddListener(EventType.weatherDataReceived, OnWeatherDataReceived);
         EventSystem<LocationInfo>.AddListener(EventType.locationDataReceived, OnLocationDataReceived);
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         EventSystem<WeatherInfo>.RemoveListener(EventType.weatherDataReceived, OnWeatherDataReceived);
         EventSystem<LocationInfo>.RemoveListener(EventType.locationDataReceived, OnLocationDataReceived);
@@ -62,7 +62,7 @@ public class HourlyForecast : MonoBehaviour
         timeTextComponent.text = time;
         temperatureTextComponent.text = $"temperatuur: {temp}°";
         precipitationTextComponent.text = $"neerslag: {precipitation}%";
-        humidityTextComponent.text = $"luchtvochtigheid: {humidity}%";
+        humidityTextComponent.text = $"vochtigheid: {humidity}%";
         weatherIconComponent.sprite = weatherIcon;
     }
 }

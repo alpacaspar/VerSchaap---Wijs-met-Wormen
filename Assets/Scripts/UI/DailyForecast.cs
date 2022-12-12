@@ -8,9 +8,6 @@ public class DailyForecast : MonoBehaviour
     [SerializeField] private Image weatherIconComponent;
     [SerializeField] private TextMeshProUGUI dayTemperatureTextComponent;
     [SerializeField] private TextMeshProUGUI nightTemperatureTextComponent;
-    
-    private Button button;
-    private Button Button => button ??= GetComponent<Button>();
 
     private WeeklyForecast weeklyForecast;
     private int dayIndex;
