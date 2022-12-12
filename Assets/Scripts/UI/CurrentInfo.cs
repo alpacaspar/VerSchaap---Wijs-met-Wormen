@@ -15,12 +15,12 @@ public class CurrentInfo : MonoBehaviour
 
     private WeatherInfo weatherInfo;
 
-    private void OnEnable()
+    private CurrentInfo()
     {
         EventSystem<WeatherInfo>.AddListener(EventType.weatherDataReceived, OnWeatherDataReceived);
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         EventSystem<WeatherInfo>.RemoveListener(EventType.weatherDataReceived, OnWeatherDataReceived);
     }

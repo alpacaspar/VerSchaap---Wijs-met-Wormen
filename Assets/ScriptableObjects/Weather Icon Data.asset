@@ -66,6 +66,6 @@ MonoBehaviour:
   - weatherType: 95
     icon: {fileID: 21300000, guid: 6fe8393d7ae9d1141af26117cce2c36c, type: 3}
   - weatherType: 96
-    icon: {fileID: 21300000, guid: 6fe8393d7ae9d1141af26117cce2c36c, type: 3}
+    icon: {fileID: 21300000, guid: 472201350da48b94cb9a88c045e2a95e, type: 3}
   - weatherType: 99
-    icon: {fileID: 21300000, guid: 6fe8393d7ae9d1141af26117cce2c36c, type: 3}
+    icon: {fileID: 21300000, guid: 472201350da48b94cb9a88c045e2a95e, type: 3}

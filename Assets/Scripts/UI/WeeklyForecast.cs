@@ -14,12 +14,12 @@ public class WeeklyForecast : MonoBehaviour
     
     public int selectedDayIndex;
 
-    private void OnEnable()
+    private WeeklyForecast()
     {
         EventSystem<WeatherInfo>.AddListener(EventType.weatherDataReceived, OnWeatherDataReceived);
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         EventSystem<WeatherInfo>.RemoveListener(EventType.weatherDataReceived, OnWeatherDataReceived);
     }
@@ -27,6 +27,11 @@ public class WeeklyForecast : MonoBehaviour
     private void OnWeatherDataReceived(WeatherInfo info)
     {
         weatherInfo = info;
+
+        for (int i = 0; i < dailyForecastParent.childCount; i++)
+        {
+            Destroy(dailyForecastParent.GetChild(i).gameObject);
+        }
 
         int day = 0;
         for (int i = 0; i < weatherInfo.hourly.time.Length; i++)
