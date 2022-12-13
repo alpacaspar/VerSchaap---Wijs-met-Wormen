@@ -143,7 +143,7 @@ public class SheepDataViewer : MonoBehaviour
 
     public void SetPanelVisibilty(bool showDetails)
     {
-        navPanel.SetActive(!showDetails);
+        if (navPanel != null) navPanel.SetActive(!showDetails);
         overviewPanel.SetActive(!showDetails);
         detailsPanel.SetActive(showDetails);   
     }

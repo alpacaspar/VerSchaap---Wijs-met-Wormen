@@ -14,10 +14,8 @@ public class WormDataViewer : MonoBehaviour
     public GameObject overviewPanel;
     public GameObject detailsPanel;
 
-    //string UUID
-    public TMP_InputField inputUUID;
-    //WormType wormType
-    public TMP_Dropdown inputWormType;
+    public TMP_InputField inputUUID; //string UUID
+    public TMP_Dropdown inputWormType; //WormType wormType
     //List<WormMedicines> effectiveMedicines
     //List<WormResistences> resistences
     //List<WormSymptoms> symptoms

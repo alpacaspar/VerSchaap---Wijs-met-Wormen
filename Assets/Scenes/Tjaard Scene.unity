@@ -1417,10 +1417,10 @@ RectTransform:
   m_Father: {fileID: 651899803}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.26500002, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.000061035156, y: 0}
+  m_SizeDelta: {x: 0.000061035, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &142338157
 CanvasRenderer:
@@ -3313,8 +3313,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -18.114075, y: 28.752594}
-  m_SizeDelta: {x: -553.6873, y: -121.3201}
+  m_AnchoredPosition: {x: -4.8604736, y: 28.752563}
+  m_SizeDelta: {x: -103.0641, y: -121.3201}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &388077022
 MonoBehaviour:
@@ -5234,7 +5234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -6199,10 +6199,10 @@ RectTransform:
   m_Father: {fileID: 651899803}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 127.885864, y: -283.5134}
-  m_SizeDelta: {x: 226.09167, y: 496.9732}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.26500002, y: 1}
+  m_AnchoredPosition: {x: -1.6141357, y: 16.486572}
+  m_SizeDelta: {x: -32.908325, y: -103.026794}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &724377786
 CanvasRenderer:
@@ -7796,10 +7796,10 @@ RectTransform:
   m_Father: {fileID: 142338156}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 587, y: -266}
-  m_SizeDelta: {x: 1174, y: 532}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1058167723
 CanvasRenderer:
@@ -8303,7 +8303,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1286731715}
   m_HandleRect: {fileID: 1286731714}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

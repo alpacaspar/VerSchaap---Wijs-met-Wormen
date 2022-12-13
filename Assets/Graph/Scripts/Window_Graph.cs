@@ -78,13 +78,16 @@ public class Window_Graph : MonoBehaviour {
         float xSize = 50f;
 
         GameObject lastCircleGameObject = null;
+        
         for (int i = 0; i < valueList.Count; i++) {
             float xPosition = xSize + i * xSize;
             float yPosition = (valueList[i] / yMaximum) * graphHeight;
             GameObject circleGameObject = CreateCircle(new Vector2(xPosition, yPosition));
+            
             if (lastCircleGameObject != null) {
                 CreateDotConnection(lastCircleGameObject.GetComponent<RectTransform>().anchoredPosition, circleGameObject.GetComponent<RectTransform>().anchoredPosition);
             }
+            
             lastCircleGameObject = circleGameObject;
 
             RectTransform labelX = Instantiate(labelTemplateX);
@@ -100,6 +103,7 @@ public class Window_Graph : MonoBehaviour {
         }
 
         int separatorCount = 10;
+        
         for (int i = 0; i <= separatorCount; i++) {
             RectTransform labelY = Instantiate(labelTemplateY);
             labelY.SetParent(graphContainer, false);
@@ -115,7 +119,8 @@ public class Window_Graph : MonoBehaviour {
         }
     }
 
-    private void CreateDotConnection(Vector2 dotPositionA, Vector2 dotPositionB) {
+    private void CreateDotConnection(Vector2 dotPositionA, Vector2 dotPositionB)
+    {
         GameObject gameObject = new GameObject("dotConnection", typeof(Image));
         gameObject.transform.SetParent(graphContainer, false);
         gameObject.GetComponent<Image>().color = new Color(1,1,1, .5f);
@@ -128,5 +133,4 @@ public class Window_Graph : MonoBehaviour {
         rectTransform.anchoredPosition = dotPositionA + dir * distance * .5f;
         rectTransform.localEulerAngles = new Vector3(0, 0, UtilsClass.GetAngleFromVectorFloat(dir));
     }
-
 }

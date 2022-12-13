@@ -72,7 +72,7 @@ namespace CodeMonkey.Utils {
             return gameObject;
         }
 
-        // dont need all this crap from the professional selfsucker SUBSCRIBE SUPPORT MY PATREON egh
+        // dont need all this crap from the professional selfsucker HELLO IM YOUR CODEMONKEY SMASH THAT LIKE BUTTON SUBSCRIBE AND SUPPORT MY PATREON egh
         /*
         // Create a Sprite in the World with Button_Sprite, no parent
         public static Button_Sprite CreateWorldSpriteButton(string name, Sprite sprite, Vector3 localPosition, Vector3 localScale, int sortingOrder, Color color) {
@@ -151,19 +151,22 @@ namespace CodeMonkey.Utils {
         */
 
         // Draw a UI Sprite
-        public static RectTransform DrawSprite(Color color, Transform parent, Vector2 pos, Vector2 size, string name = null) {
+        public static RectTransform DrawSprite(Color color, Transform parent, Vector2 pos, Vector2 size, string name = null)
+        {
             RectTransform rectTransform = DrawSprite(null, color, parent, pos, size, name);
             return rectTransform;
         }
         
         // Draw a UI Sprite
-        public static RectTransform DrawSprite(Sprite sprite, Transform parent, Vector2 pos, Vector2 size, string name = null) {
+        public static RectTransform DrawSprite(Sprite sprite, Transform parent, Vector2 pos, Vector2 size, string name = null)
+        {
             RectTransform rectTransform = DrawSprite(sprite, Color.white, parent, pos, size, name);
             return rectTransform;
         }
         
         // Draw a UI Sprite
-        public static RectTransform DrawSprite(Sprite sprite, Color color, Transform parent, Vector2 pos, Vector2 size, string name = null) {
+        public static RectTransform DrawSprite(Sprite sprite, Color color, Transform parent, Vector2 pos, Vector2 size, string name = null)
+        {
             // Setup icon
             if (name == null || name == "") name = "Sprite";
             GameObject go = new GameObject(name, typeof(RectTransform), typeof(Image));
@@ -179,11 +182,13 @@ namespace CodeMonkey.Utils {
             return goRectTransform;
         }
 
-        public static Text DrawTextUI(string textString, Vector2 anchoredPosition, int fontSize, Font font) {
+        public static Text DrawTextUI(string textString, Vector2 anchoredPosition, int fontSize, Font font)
+        {
             return DrawTextUI(textString, GetCanvasTransform(), anchoredPosition, fontSize, font);
         }
 
-        public static Text DrawTextUI(string textString, Transform parent, Vector2 anchoredPosition, int fontSize, Font font) {
+        public static Text DrawTextUI(string textString, Transform parent, Vector2 anchoredPosition, int fontSize, Font font)
+        {
             GameObject textGo = new GameObject("Text", typeof(RectTransform), typeof(Text));
             textGo.transform.SetParent(parent, false);
             Transform textGoTrans = textGo.transform;
@@ -209,7 +214,8 @@ namespace CodeMonkey.Utils {
 
 
         // Parse a float, return default if failed
-	    public static float Parse_Float(string txt, float _default) {
+	    public static float Parse_Float(string txt, float _default)
+        {
 		    float f;
 		    if (!float.TryParse(txt, out f)) {
 			    f = _default;
@@ -218,7 +224,8 @@ namespace CodeMonkey.Utils {
 	    }
         
         // Parse a int, return default if failed
-	    public static int Parse_Int(string txt, int _default) {
+	    public static int Parse_Int(string txt, int _default)
+        {
 		    int i;
 		    if (!int.TryParse(txt, out i)) {
 			    i = _default;
@@ -226,28 +233,33 @@ namespace CodeMonkey.Utils {
 		    return i;
 	    }
 
-	    public static int Parse_Int(string txt) {
+	    public static int Parse_Int(string txt)
+        {
             return Parse_Int(txt, -1);
 	    }
 
 
 
         // Get Mouse Position in World with Z = 0f
-        public static Vector3 GetMouseWorldPosition() {
+        public static Vector3 GetMouseWorldPosition()
+        {
             Vector3 vec = GetMouseWorldPositionWithZ(Input.mousePosition, Camera.main);
             vec.z = 0f;
             return vec;
         }
 
-        public static Vector3 GetMouseWorldPositionWithZ() {
+        public static Vector3 GetMouseWorldPositionWithZ()
+        {
             return GetMouseWorldPositionWithZ(Input.mousePosition, Camera.main);
         }
 
-        public static Vector3 GetMouseWorldPositionWithZ(Camera worldCamera) {
+        public static Vector3 GetMouseWorldPositionWithZ(Camera worldCamera)
+        {
             return GetMouseWorldPositionWithZ(Input.mousePosition, worldCamera);
         }
 
-        public static Vector3 GetMouseWorldPositionWithZ(Vector3 screenPosition, Camera worldCamera) {
+        public static Vector3 GetMouseWorldPositionWithZ(Vector3 screenPosition, Camera worldCamera)
+        {
             Vector3 worldPosition = worldCamera.ScreenToWorldPoint(screenPosition);
             return worldPosition;
         }

@@ -8,9 +8,9 @@ using UnityEngine;
 public class SheepDataReader : MonoBehaviour
 {
     public TextAsset sheepDataFile;
-    public SheepDataViewer sheepDataViewer;
-    public WormDataViewer wormDataViewer;
-    public ObjectDetailsEditor detailsEditor;
+    private SheepDataViewer sheepDataViewer;
+    private WormDataViewer wormDataViewer;
+    //public ObjectDetailsEditor detailsEditor;
     public TemporalDatabaseData testDatabase;
 
     // dummy var to `write from the editor
@@ -23,11 +23,18 @@ public class SheepDataReader : MonoBehaviour
 
     private void Start()
     {
+        sheepDataViewer = GetComponent<SheepDataViewer>();
+        wormDataViewer = GetComponent<WormDataViewer>();
+        
+        if (wormDataViewer != null)
+        {
+            wormDataViewer.dataReader = this;
+            wormDataViewer.CreateWormButtonsFromDB(testDatabase.worms);
+        }
+        
         sheepDataViewer.sheepDataReader = this;
-        wormDataViewer.dataReader = this;
         LoadSheepData(sheepDataFile);
         sheepDataViewer.CreateSheepButtonsFromDB(testDatabase.sheeps);
-        wormDataViewer.CreateWormButtonsFromDB(testDatabase.worms);
 
     }
 
