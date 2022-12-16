@@ -39,10 +39,13 @@ public class UICalendarWidget : MonoBehaviour
         bool bIsLeapYear = yr % 4 == 0;
         int daysInMonth = 31;
 
+        // februari
         if (currentMonth == 2)
         {
             daysInMonth = bIsLeapYear ? 29 : 28;
         }
+
+        // april, juni, september, november
         else if (currentMonth == 4 || currentMonth == 6 || currentMonth == 9 || currentMonth == 11)
         {
             daysInMonth = 30;

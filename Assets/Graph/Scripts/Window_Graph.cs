@@ -18,7 +18,8 @@ public class Window_Graph : MonoBehaviour {
 
     public List<SheepWeight> sheepWeights = new List<SheepWeight>();
 
-    private void Awake() {
+    private void Awake()
+    {
         graphContainer = transform.Find("graphContainer").GetComponent<RectTransform>();
         labelTemplateX = graphContainer.Find("labelTemplateX").GetComponent<RectTransform>();   
         labelTemplateY = graphContainer.Find("labelTemplateY").GetComponent<RectTransform>();
@@ -27,7 +28,8 @@ public class Window_Graph : MonoBehaviour {
         nChilds = graphContainer.childCount;
     }
 
-    private GameObject CreateCircle(Vector2 anchoredPosition) {
+    private GameObject CreateCircle(Vector2 anchoredPosition)
+    {
         GameObject gameObject = new GameObject("circle", typeof(Image));
         gameObject.transform.SetParent(graphContainer, false);
         gameObject.GetComponent<Image>().sprite = circleSprite;
@@ -79,12 +81,14 @@ public class Window_Graph : MonoBehaviour {
 
         GameObject lastCircleGameObject = null;
         
-        for (int i = 0; i < valueList.Count; i++) {
+        for (int i = 0; i < valueList.Count; i++) 
+        {
             float xPosition = xSize + i * xSize;
             float yPosition = (valueList[i] / yMaximum) * graphHeight;
             GameObject circleGameObject = CreateCircle(new Vector2(xPosition, yPosition));
             
-            if (lastCircleGameObject != null) {
+            if (lastCircleGameObject != null) 
+            {
                 CreateDotConnection(lastCircleGameObject.GetComponent<RectTransform>().anchoredPosition, circleGameObject.GetComponent<RectTransform>().anchoredPosition);
             }
             
@@ -104,7 +108,8 @@ public class Window_Graph : MonoBehaviour {
 
         int separatorCount = 10;
         
-        for (int i = 0; i <= separatorCount; i++) {
+        for (int i = 0; i <= separatorCount; i++) 
+        {
             RectTransform labelY = Instantiate(labelTemplateY);
             labelY.SetParent(graphContainer, false);
             labelY.gameObject.SetActive(true);

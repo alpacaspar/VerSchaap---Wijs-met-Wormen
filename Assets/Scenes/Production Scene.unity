@@ -19964,6 +19964,7 @@ GameObject:
   - component: {fileID: 1972799787}
   - component: {fileID: 1972799791}
   - component: {fileID: 1972799792}
+  - component: {fileID: 1972799793}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -20070,7 +20071,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sheepUIPanel: {fileID: 1242318815}
-  sheepUIObject: {fileID: 1338592553821737466, guid: 21fd6e726c34a2e4f9f484a14d6387fe, type: 3}
+  sheepUIObject: {fileID: 1338592553821737466, guid: 5fe9def483dee584bbec2720d9303ce8, type: 3}
   navPanel: {fileID: 0}
   overviewPanel: {fileID: 1970489404}
   detailsPanel: {fileID: 969665915}
@@ -20094,6 +20095,18 @@ MonoBehaviour:
   bAddingSheep: 0
   sheepDataReader: {fileID: 1972799791}
   sheepImg: {fileID: 785885804}
+--- !u!114 &1972799793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972799786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2d517c2c850a864a9bf18d5848a4592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1974899295
 GameObject:
   m_ObjectHideFlags: 0

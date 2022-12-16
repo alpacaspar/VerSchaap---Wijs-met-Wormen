@@ -4,6 +4,20 @@ using UnityEngine;
 
 class VerweidAdvisor : MonoBehaviour
 {
+	private WeatherInfo weather;
+	public WeatherInfo Weather
+	{
+		get
+		{
+			return weather;
+		}
+		set
+		{
+			weather = value;
+			if (weather != null) CalcValue();
+		}
+	}
+
 	static double calc_Q0(double q, double lambda, double mu, double beta, double p, double rho, double H, double m2)
 	{
 		double a = q * lambda / mu;
@@ -25,7 +39,7 @@ class VerweidAdvisor : MonoBehaviour
 		return -0.09746 + 0.01063 * T_mean;
 	}
 
-	public void Start()
+	public void CalcValue()
 	{
 		double c = 1.4; // dialy herbage dry matter intake per host
 		double B = 2000; // standing biomass
@@ -48,6 +62,8 @@ class VerweidAdvisor : MonoBehaviour
 
 		Debug.Log("environment:");
 
+		//weather.hourly.weathercode
+
 		// shaapskooi ermelo: https://www.bestereistijd.nl/nederland/ermelo-2938055/
 		double[] temperatuur_max = { 5, 6, 10, 14, 17, 19, 22, 21, 18, 14, 9, 6 };
 		double[] temperatuur_min = { 1, 1, 3, 6, 9, 11, 14, 14, 12, 9, 6, 3 };
@@ -65,7 +81,7 @@ class VerweidAdvisor : MonoBehaviour
 		DateTime now = DateTime.Now;
 		Debug.Log("current month = " + now.Month);
 
-		int m = 6;// now.Month - 1;
+		int m = now.Month - 1; //6
 
 		double P = neerslag[m];
 		double T_max = temperatuur_max[m], T_min = temperatuur_min[m];

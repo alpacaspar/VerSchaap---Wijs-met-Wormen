@@ -17,6 +17,13 @@ public class SheepButton : MonoBehaviour
     public SheepObject sheep;
     public SheepDataViewer dataViewer;
 
+    public Dictionary<Sex, string> SheepGenderNames = new Dictionary<Sex, string> 
+    {
+        { Sex.Female, "Ooi" },
+        { Sex.Male, "Ram" }
+    };
+
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -29,7 +36,8 @@ public class SheepButton : MonoBehaviour
         sheep = _sheep;
         dataViewer = _dataReader;
         SheepUuidText.text = sheep.UUID;
-        SheepGenderText.text = sheep.sex.ToString();
+        SheepGenderText.text = SheepGenderNames[sheep.sex];
+        //SheepGenderText.text = sheep.sex.ToString();
         SheepSpeciesText.text = sheep.sheepType.ToString();
         DateTimeOffset date = DateTimeOffset.FromUnixTimeSeconds(sheep.tsBorn);
         SheepTSBornText.text = date.Day + "-" + date.Month + "-" + date.Year;

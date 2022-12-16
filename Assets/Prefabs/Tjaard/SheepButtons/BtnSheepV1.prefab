@@ -285,7 +285,7 @@ GameObject:
   - component: {fileID: 4496707306297254027}
   - component: {fileID: 3185401083231893552}
   m_Layer: 5
-  m_Name: BtnSheep
+  m_Name: BtnSheepV1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
