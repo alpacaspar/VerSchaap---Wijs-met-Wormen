@@ -8,9 +8,8 @@ using System;
 public class WormButton : MonoBehaviour
 {
     public TextMeshProUGUI WormUuidText;
+    public TextMeshProUGUI WormNonScienceNameText;
     public TextMeshProUGUI WormTypeText;
-    //public TextMeshProUGUI SheepSpeciesText;
-    //public TextMeshProUGUI SheepTSBornText;
 
     public Button button;
     public Button btnDelete;
@@ -21,7 +20,7 @@ public class WormButton : MonoBehaviour
     private void Start()
     {
         button.onClick.AddListener(delegate { dataViewer.ShowDetails(worm); });
-        btnDelete.onClick.AddListener(delegate { dataViewer.dataReader.DeleteWorm(worm); });
+        //btnDelete.onClick.AddListener(delegate { dataViewer.dataReader.DeleteWorm(worm); });
     }
 
     public void SetInfo(WormObject _worm, WormDataViewer _dataReader)
@@ -29,6 +28,7 @@ public class WormButton : MonoBehaviour
         worm = _worm;
         dataViewer = _dataReader;
         WormUuidText.text = worm.UUID;
+        WormNonScienceNameText.text = worm.nonScienceName;
         WormTypeText.text = worm.wormType.ToString();
     }
 }

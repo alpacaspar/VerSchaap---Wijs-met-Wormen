@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-
+using System.Linq;
 
 class VerweidAdvisor : MonoBehaviour
 {
@@ -28,9 +28,7 @@ class VerweidAdvisor : MonoBehaviour
 
 	static double calc_q(double P, double E, double delta, double m1, double mu_e, double mu_l3)
 	{
-		if (P / E < 1)
-			return 0;
-
+		if (P / E < 1) return 0;
 		return delta * m1 / ((mu_e + delta) * (mu_l3 + m1));
 	}
 
@@ -60,56 +58,53 @@ class VerweidAdvisor : MonoBehaviour
 		double m1 = 0.25; // daily L3 migration rate between faeces and pasture
 		double m2 = 0.2; // proportion of total pasture L3 found on herbage
 
-		Debug.Log("environment:");
+		Debug.Log("verweidadvisor weerbericht:");
 
-		//weather.hourly.weathercode
+		double[] temperatures = new double[24];
+		Array.Copy(weather.hourly.temperature_2m, 0, temperatures, 0, 24);
+		double temperature_max = temperatures.Max();
+		double temperature_min = temperatures.Min();
+		double temperature_average = temperatures.Average();
+		Debug.Log("hoogste temperatuur = " + temperature_max);
+		Debug.Log("laagste temperatuur = " + temperature_min);
+		Debug.Log("gemiddelde temperatuur = " + temperature_average);
 
-		// shaapskooi ermelo: https://www.bestereistijd.nl/nederland/ermelo-2938055/
-		double[] temperatuur_max = { 5, 6, 10, 14, 17, 19, 22, 21, 18, 14, 9, 6 };
-		double[] temperatuur_min = { 1, 1, 3, 6, 9, 11, 14, 14, 12, 9, 6, 3 };
+		// Neerslag doet wat raars met de formule, maakt Q0 vaak 0 bij lage waardes
+		double[] precipitation = new double[24];
+		Array.Copy(weather.hourly.precipitation, 0, precipitation, 0, 24);
+		Debug.Log("totale neerslag = " + precipitation.Sum());
+ 
+		//double[] neerslag = { 19, 17, 22, 12, 20, 24, 28, 21, 12, 14, 14, 20 };
 
-		double[] neerslag = { 19, 17, 22, 12, 20, 24, 28, 21, 12, 14, 14, 20 };
-
-		// temperatuur
+		//Eextra terrestial radiation. Iets met zonnestraling, kan niet uit de weerinformatie gehaald worden
 		double[] wereld_Ra = { 20.8, 23, 21.6, 19.2, 18.8, 16.1, 14.7, 14.1, 16, 16.8, 20.6, 20.7 };
+		int m = DateTime.Now.Month - 1; //6
 
-		Debug.Assert(temperatuur_max.Length == 12);
-		Debug.Assert(temperatuur_min.Length == 12);
-		Debug.Assert(neerslag.Length == 12);
-		Debug.Assert(wereld_Ra.Length == 12);
-
-		DateTime now = DateTime.Now;
-		Debug.Log("current month = " + now.Month);
-
-		int m = now.Month - 1; //6
-
-		double P = neerslag[m];
-		double T_max = temperatuur_max[m], T_min = temperatuur_min[m];
+		double P = precipitation.Sum() * 1000;//neerslag[m]; * 1000 om te testen zodat ie geen 0 blijft
 		double Ra = wereld_Ra[m];
+		double E = 0.0023 * 0.408 * Ra * ((temperature_max + temperature_min) / 2 + 17.8) * Math.Sqrt(temperature_max - temperature_min);
 
-		double E = 0.0023 * 0.408 * Ra * ((T_max + T_min) / 2 + 17.8) * Math.Sqrt(T_max - T_min);
+		double delta = calc_delta(temperature_average);
+		double mu_e = Math.Exp(-1.3484 - 0.10488 * temperature_average + 0.00230 * temperature_average * temperature_average);
+		double mu_l3 = Math.Exp(-2.62088 - 0.14399 * temperature_average + 0.00462 * temperature_average * temperature_average);
 
-		// kon dit niet vinden dus maak maar een schatting
-		double T_mean = temperatuur_max[m] * 0.65 + temperatuur_min[m] * 0.35;
-
-		double delta = calc_delta(T_mean);
-		double mu_e = Math.Exp(-1.3484 - 0.10488 * T_mean + 0.00230 * T_mean * T_mean);
-		double mu_l3 = Math.Exp(-2.62088 - 0.14399 * T_mean + 0.00462 * T_mean * T_mean);
-
+		/*
 		Debug.Log("P      = " + P);
 		Debug.Log("Ra     = " + Ra);
 		Debug.Log("E      = " + E);
-		Debug.Log("T_mean = " + T_mean);
+		Debug.Log("T_mean = " + temperature_average);
 		Debug.Log("delta  = " + delta);
 		Debug.Log("mu_e   = " + mu_e);
 		Debug.Log("mu_l3  = " + mu_l3);
+		*/
 
 		q = calc_q(P, E, delta, m1, mu_e, mu_l3); // probability egg will develop into L3
 
-		Debug.Log("q = " + q);
+		//Debug.Log("q = " + q);
 
 		double rho = mu_l3 / 3; // mortality rate of L3 on pasture
 
+		/*
 		Debug.Log("lambda = " + lambda);
 		Debug.Log("mu     = " + mu);
 		Debug.Log("beta   = " + beta);
@@ -118,6 +113,7 @@ class VerweidAdvisor : MonoBehaviour
 		Debug.Log("H      = " +  H);
 		Debug.Log("m2     = " + m2);
 		Debug.Log(" ");
+		*/
 		Debug.Log("q0     = " + calc_Q0(q, lambda, mu, beta, p, rho, H, m2));
 	}
 }

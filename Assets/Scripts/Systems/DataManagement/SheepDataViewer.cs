@@ -37,6 +37,16 @@ public class SheepDataViewer : MonoBehaviour
     public Image sheepImg;
     public Dictionary<string, Sprite> sheepImages = new Dictionary<string, Sprite>();
 
+    private void LoadSheepImages()
+    {
+        var textures = Resources.LoadAll("SheepImages", typeof(Sprite));
+
+        foreach (var t in textures)
+        {
+            sheepImages.Add(t.name, (Sprite)t);
+        }
+    }
+
     public void UpdateSheepImage(string sheepName)
     {
         Sprite spr = null;
@@ -49,13 +59,7 @@ public class SheepDataViewer : MonoBehaviour
         calendarWidget.sheepDataReader = this;
         SetupDetailsPanel();
         SetupButtons();
-
-        var textures = Resources.LoadAll("SheepImages", typeof(Sprite));
-
-        foreach (var t in textures)
-        {
-            sheepImages.Add(t.name, (Sprite)t);
-        }
+        LoadSheepImages();
     }
 
     private void SetupButtons()
