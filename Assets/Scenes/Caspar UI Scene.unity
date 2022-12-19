@@ -452,7 +452,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63fa3db82148278448d1464acb53b505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weeksOnDisplay: 4
   estimateFillImageComponent: {fileID: 111318571}
   adviceFillImageComponent: {fileID: 1951844821}
 --- !u!1 &694050106
@@ -960,6 +959,7 @@ GameObject:
   - component: {fileID: 961692733}
   - component: {fileID: 961692732}
   - component: {fileID: 961692731}
+  - component: {fileID: 961692734}
   m_Layer: 0
   m_Name: API
   m_TagString: Untagged
@@ -1006,6 +1006,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &961692734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961692730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6039f64c03f0f4547892ac18d05aad89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weeksOnDisplay: 4
+  onUpdateDisplaySize:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 657915356}
+        m_TargetAssemblyTypeName: AdviceDisplay, Assembly-CSharp
+        m_MethodName: SetWeeksOnDisplay
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onUpdateAdvice:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1069489439
 GameObject:
   m_ObjectHideFlags: 0
