@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using Random = UnityEngine.Random;
 
 public class DataTester : MonoBehaviour
@@ -21,10 +22,35 @@ public class DataTester : MonoBehaviour
     /// </param>
     public void PopulateSheeps(int quantity)
     {
+        // quantity shouldnt be bigger then 99999
+        //NL-101631-6-07204
+        string SheepBaseTag = "NL-101631-6-";
+        List<int> sheepTagList = new List<int>();
+        
+        for (int i = 0; i < quantity; i++)
+        {
+            sheepTagList.Add(i);
+        }
+
+        System.Random rng = new System.Random();
+        var shuffledList = sheepTagList.OrderBy(a => rng.Next()).ToList();
+
         for (int i = 0; i < quantity; i++)
         {
             SheepObject newSheep = new SheepObject();
-            newSheep.UUID = Helpers.GenerateUUID();
+
+            string sheepUUIDString = SheepBaseTag;
+            string sheepTag = shuffledList[i].ToString();
+
+            // Put 0s before the number if it is small
+            for (int j = sheepTag.Length; j < 5; j++)
+            {
+                sheepUUIDString += "0";
+            }
+
+            sheepUUIDString += sheepTag;
+            newSheep.UUID = sheepUUIDString;
+            //newSheep.UUID = Helpers.GenerateUUID();
             newSheep.tsBorn = Helpers.GetCurrentTimestamp() - Random.Range(15000, 20000);
             newSheep.sex = (Sex)Random.Range(0, Enum.GetNames(typeof(Sex)).Length);
             newSheep.sheepType = (SheepType)Random.Range(0, Enum.GetNames(typeof(SheepType)).Length - 1); //-1 to exclude 'other'
@@ -54,7 +80,11 @@ public class DataTester : MonoBehaviour
         {
             WormObject newWorm = new WormObject();
             newWorm.UUID = Helpers.GenerateUUID();
-            newWorm.wormType = WormType.Leverbot;
+            newWorm.wormType = (WormType)Random.Range(0, Enum.GetNames(typeof(WormType)).Length);
+
+            string nonScienceName = "worm";
+            Dictionaries.wormNonScienceNames.TryGetValue(newWorm.wormType, out nonScienceName);
+            newWorm.nonScienceName = nonScienceName;
 
             string[] response = WurmAPI.MethodHandler(MethodType.Post, newWorm);
             Debug.Log(Helpers.CodeToMessage(response));

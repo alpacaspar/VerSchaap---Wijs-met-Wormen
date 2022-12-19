@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 public enum EventType
 {
@@ -125,8 +126,20 @@ public enum Disease
 
 public enum WormType
 {
-    Myasis,             // worm
-    Leverbot,           // worm
+    FasciolaHepatica,       // leverbot, platworm
+    HaemonchusContortus,    // rode lebmaagworm
+    NematodirusBattus,      // voorjaarsworm
+    //Myasis,               // worm
+}
+
+public static class Dictionaries
+{
+    public static Dictionary<WormType, string> wormNonScienceNames = new Dictionary<WormType, string>()
+    {
+        { WormType.FasciolaHepatica,    "leverbot" },
+        { WormType.HaemonchusContortus, "rode lebmaagworm" },
+        { WormType.NematodirusBattus,   "voorjaarsworm" }
+    };    
 }
 
 public enum Medicine

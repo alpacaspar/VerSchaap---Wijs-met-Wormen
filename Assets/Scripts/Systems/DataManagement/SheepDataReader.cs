@@ -25,15 +25,10 @@ public class SheepDataReader : MonoBehaviour
     {
         sheepDataViewer = GetComponent<SheepDataViewer>();
         wormDataViewer = GetComponent<WormDataViewer>();
-        
-        if (wormDataViewer != null)
-        {
-            wormDataViewer.dataReader = this;
-            wormDataViewer.CreateWormButtonsFromDB(testDatabase.worms);
-        }
-        
-        sheepDataViewer.sheepDataReader = this;
         LoadSheepData(sheepDataFile);
+        wormDataViewer.dataReader = this;
+        wormDataViewer.CreateWormButtonsFromDB(testDatabase.worms);
+        sheepDataViewer.sheepDataReader = this;
         sheepDataViewer.CreateSheepButtonsFromDB(testDatabase.sheeps);
 
     }

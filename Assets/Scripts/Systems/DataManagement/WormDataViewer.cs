@@ -14,8 +14,11 @@ public class WormDataViewer : MonoBehaviour
     public GameObject overviewPanel;
     public GameObject detailsPanel;
 
+    public TextMeshProUGUI detailsPanelTitle;
+
     public TMP_InputField inputUUID; //string UUID
     public TMP_Dropdown inputWormType; //WormType wormType
+    public TMP_InputField inputNonScienceName; //Non-science name
     //List<WormMedicines> effectiveMedicines
     //List<WormResistences> resistences
     //List<WormSymptoms> symptoms
@@ -24,20 +27,36 @@ public class WormDataViewer : MonoBehaviour
 
     public Button btnCancel;
     public Button btnSave;
-    public Button btnAddWorm;
 
     public WormObject selectedWorm;
-
-    // dirty var to fix the calendar
-    public DateTimeOffset tmpTime = new DateTimeOffset(DateTime.UtcNow);
     public bool bAddingSheep = false;
     public SheepDataReader dataReader;
 
+    public Image wormImg;
+    public Dictionary<string, Sprite> wormImages = new Dictionary<string, Sprite>();
+
+    private void LoadImages()
+    {
+        var textures = Resources.LoadAll("WormImages/Eggs", typeof(Sprite));
+
+        foreach (var t in textures)
+        {
+            wormImages.Add(t.name, (Sprite)t);
+        }
+    }
+
+    public void UpdateImage(string sheepName)
+    {
+        Sprite spr = null;
+        wormImages.TryGetValue(sheepName, out spr);
+        wormImg.sprite = spr;
+    }
+
     private void Start()
     {
-        //calendarWidget.sheepDataReader = this;
         SetupDetailsPanel();
         SetupButtons();
+        LoadImages();
     }
 
     private void SetupButtons()
@@ -49,13 +68,6 @@ public class WormDataViewer : MonoBehaviour
             bAddingSheep = false;
         });
 
-        btnAddWorm.onClick.AddListener(delegate
-        {
-            bAddingSheep = true;
-            selectedWorm = new WormObject();
-            ShowDetails(selectedWorm);
-        });
-
         btnSave.onClick.AddListener(delegate
         {
             Enum.TryParse<WormType>(inputWormType.GetComponentInChildren<TextMeshProUGUI>().text, out WormType wormType);
@@ -63,7 +75,8 @@ public class WormDataViewer : MonoBehaviour
             WormObject tmpWorm = new WormObject
             {
                 UUID = inputUUID.text,
-                wormType = wormType
+                wormType = wormType,
+                nonScienceName = inputNonScienceName.text
             };
 
             dataReader.UpdateWormData(tmpWorm);
@@ -97,6 +110,8 @@ public class WormDataViewer : MonoBehaviour
         {
             options.Add(new TMP_Dropdown.OptionData(val.ToString()));
         }
+
+        inputWormType.onValueChanged.AddListener(delegate { UpdateImage(inputWormType.captionText.text); });
     }
 
     public void ShowDetails(WormObject worm)
@@ -104,7 +119,10 @@ public class WormDataViewer : MonoBehaviour
         selectedWorm = worm;
         overviewPanel.SetActive(false);
         detailsPanel.SetActive(true);
+        detailsPanelTitle.text = worm.nonScienceName;
         inputUUID.SetTextWithoutNotify(worm.UUID);
+        inputNonScienceName.SetTextWithoutNotify(worm.nonScienceName);
+        UpdateImage(selectedWorm.wormType.ToString());
 
         // Set the worm type input dropdown to the correct value
         for (int i = 0; i < inputWormType.options.Count; i++)

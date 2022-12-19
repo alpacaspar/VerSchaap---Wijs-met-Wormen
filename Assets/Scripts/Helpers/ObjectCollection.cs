@@ -44,6 +44,7 @@ public class SheepObject : ObjectUUID
 public class WormObject : ObjectUUID
 {
     public WormType wormType = 0;
+    public string nonScienceName = "worm";
     public List<WormMedicines> effectiveMedicines = new List<WormMedicines>();  // list is not sorted on timestamps!
     public List<WormResistences> resistences = new List<WormResistences>();       // list is not sorted on timestamps!
     public List<WormSymptoms> symptoms = new List<WormSymptoms>();             // list is not sorted on timestamps!
