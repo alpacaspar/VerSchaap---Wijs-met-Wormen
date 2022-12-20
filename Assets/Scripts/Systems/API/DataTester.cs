@@ -103,6 +103,7 @@ public class DataTester : MonoBehaviour
         {
             WeideObject newWeide = new WeideObject();
             newWeide.UUID = Helpers.GenerateUUID();
+            newWeide.perceelName = $"Perceel {i}";
             newWeide.surfaceSqrMtr = Random.Range(50, 500);
             newWeide.surfaceQuality = Random.Range(10, 95);
 

@@ -22,6 +22,7 @@ public abstract class ObjectUUID : IObject
 [Serializable]
 public class WeideObject : ObjectUUID
 {
+    public string perceelName = "Perceel";
     public int surfaceSqrMtr = 0;
     public float surfaceQuality = 0;
     public List<GrassType[]> grassTypes = new List<GrassType[]>();
