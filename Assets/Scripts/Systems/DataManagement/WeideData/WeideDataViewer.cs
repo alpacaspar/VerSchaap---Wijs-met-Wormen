@@ -13,8 +13,6 @@ public class WeideDataViewer : MonoBehaviour
 
     public GameObject overviewPanel;
     public GameObject detailsPanel;
-
-    public TMP_InputField inputUUID;
     public TMP_InputField inputPerceelName;
 
     public Button btnCancel;
@@ -76,7 +74,7 @@ public class WeideDataViewer : MonoBehaviour
 
             WeideObject tmpWeide = new WeideObject
             {
-                UUID = inputUUID.text,
+
             };
             
             SetPanelVisibilty(false);
@@ -112,7 +110,6 @@ public class WeideDataViewer : MonoBehaviour
     {
         selectedElement = element;
         SetPanelVisibilty(true);
-        inputUUID.SetTextWithoutNotify(element.UUID);
         inputPerceelName.SetTextWithoutNotify(element.perceelName);
     }
 }

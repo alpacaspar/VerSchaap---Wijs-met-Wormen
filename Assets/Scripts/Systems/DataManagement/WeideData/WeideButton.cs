@@ -7,10 +7,7 @@ using System;
 
 public class WeideButton : MonoBehaviour
 {
-    public TextMeshProUGUI SheepUuidText;
-    public TextMeshProUGUI SheepGenderText;
-    public TextMeshProUGUI SheepSpeciesText;
-    public TextMeshProUGUI SheepTSBornText;
+    public TextMeshProUGUI txtPerceelName;
 
     public Button button;
     public Button btnDelete;
@@ -28,11 +25,6 @@ public class WeideButton : MonoBehaviour
     {
         weide = _weide;
         dataViewer = _dataViewer;
-        SheepUuidText.text = weide.UUID;
-        //SheepGenderText.text = Dictionaries.SheepGenderNames[sheep.sex];
-        //SheepGenderText.text = sheep.sex.ToString();
-        //SheepSpeciesText.text = sheep.sheepType.ToString();
-        //DateTimeOffset date = DateTimeOffset.FromUnixTimeSeconds(sheep.tsBorn);
-        //SheepTSBornText.text = date.Day + "-" + date.Month + "-" + date.Year;
+        txtPerceelName.text = weide.perceelName;
     }
 }
