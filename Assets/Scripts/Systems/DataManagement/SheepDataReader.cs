@@ -10,6 +10,7 @@ public class SheepDataReader : MonoBehaviour
     public TextAsset sheepDataFile;
     private SheepDataViewer sheepDataViewer;
     private WormDataViewer wormDataViewer;
+    private WeideDataViewer weideDataViewer;
     public TemporalDatabaseData testDatabase;
 
     // dummy var to `write from the editor
@@ -24,11 +25,14 @@ public class SheepDataReader : MonoBehaviour
     {
         sheepDataViewer = GetComponent<SheepDataViewer>();
         wormDataViewer = GetComponent<WormDataViewer>();
+        weideDataViewer = GetComponent<WeideDataViewer>();
         LoadSheepData(sheepDataFile);
         wormDataViewer.dataReader = this;
         wormDataViewer.CreateWormButtonsFromDB(testDatabase.worms);
         sheepDataViewer.sheepDataReader = this;
         sheepDataViewer.CreateSheepButtonsFromDB(testDatabase.sheeps);
+        weideDataViewer.sheepDataReader = this;
+        weideDataViewer.CreateSheepButtonsFromDB(testDatabase.weides);
 
     }
 
