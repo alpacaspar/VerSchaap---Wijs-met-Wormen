@@ -104,3 +104,18 @@ public struct WormFaveConditions
     public List<Condition> diseases;
     public long timestamp;
 }
+public static class Dictionaries
+{
+    public static Dictionary<WormType, string> wormNonScienceNames = new Dictionary<WormType, string>()
+    {
+        { WormType.FasciolaHepatica,    "leverbot" },
+        { WormType.HaemonchusContortus, "rode lebmaagworm" },
+        { WormType.NematodirusBattus,   "voorjaarsworm" }
+    };
+
+    public static Dictionary<Sex, string> SheepGenderNames = new Dictionary<Sex, string>
+    {
+        { Sex.Female,   "Ooi" },
+        { Sex.Male,     "Ram" }
+    };
+}

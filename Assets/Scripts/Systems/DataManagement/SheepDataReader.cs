@@ -10,7 +10,6 @@ public class SheepDataReader : MonoBehaviour
     public TextAsset sheepDataFile;
     private SheepDataViewer sheepDataViewer;
     private WormDataViewer wormDataViewer;
-    //public ObjectDetailsEditor detailsEditor;
     public TemporalDatabaseData testDatabase;
 
     // dummy var to `write from the editor
@@ -141,6 +140,11 @@ public class SheepDataReader : MonoBehaviour
         testDatabase.worms.RemoveAt(index);
     }
 
+    public void DeleteWeide(WeideObject weide)
+    {
+
+    }
+
     private void Update()
     {
         if (writeToFile)
@@ -183,12 +187,11 @@ public class SheepDataReader : MonoBehaviour
     {
         testDatabase = JsonUtility.FromJson<TemporalDatabaseData>(inputFile.text);
         
-        // TODO fix the timestamp calculation, because this assumes the input is in nano seconds and converts it to seconds
+        // Assumes the timestamp is in nanoseconds and converts it to seconds
         foreach (var s in testDatabase.sheeps)
         {
             s.tsBorn /= 1000000000;
         }
-        //allSheep = JsonUtility.FromJson<SheepArray>(inputFile.text);
     }
 
     /// <summary>
