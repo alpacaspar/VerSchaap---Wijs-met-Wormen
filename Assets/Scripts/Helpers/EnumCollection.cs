@@ -132,16 +132,6 @@ public enum WormType
     //Myasis,               // worm
 }
 
-public static class Dictionaries
-{
-    public static Dictionary<WormType, string> wormNonScienceNames = new Dictionary<WormType, string>()
-    {
-        { WormType.FasciolaHepatica,    "leverbot" },
-        { WormType.HaemonchusContortus, "rode lebmaagworm" },
-        { WormType.NematodirusBattus,   "voorjaarsworm" }
-    };    
-}
-
 public enum Medicine
 {
     Benzodyne,          // probably spelled wrong

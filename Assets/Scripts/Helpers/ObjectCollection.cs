@@ -22,6 +22,7 @@ public abstract class ObjectUUID : IObject
 [Serializable]
 public class WeideObject : ObjectUUID
 {
+    public string perceelName = "Perceel";
     public int surfaceSqrMtr = 0;
     public float surfaceQuality = 0;
     public List<GrassType[]> grassTypes = new List<GrassType[]>();
@@ -103,4 +104,19 @@ public struct WormFaveConditions
     // active diseases at given time
     public List<Condition> diseases;
     public long timestamp;
+}
+public static class Dictionaries
+{
+    public static Dictionary<WormType, string> wormNonScienceNames = new Dictionary<WormType, string>()
+    {
+        { WormType.FasciolaHepatica,    "leverbot" },
+        { WormType.HaemonchusContortus, "rode lebmaagworm" },
+        { WormType.NematodirusBattus,   "voorjaarsworm" }
+    };
+
+    public static Dictionary<Sex, string> SheepGenderNames = new Dictionary<Sex, string>
+    {
+        { Sex.Female,   "Ooi" },
+        { Sex.Male,     "Ram" }
+    };
 }
