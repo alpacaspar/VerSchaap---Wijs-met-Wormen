@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
 
 public class SheepDataReader : MonoBehaviour
@@ -28,7 +27,10 @@ public class SheepDataReader : MonoBehaviour
         wormDataViewer = GetComponent<WormDataViewer>();
         weideDataViewer = GetComponent<WeideDataViewer>();
         koppelDataViewer = GetComponent<KoppelDataViewer>();
+
+        //testDatabase = WurmAPI.GetDatabase();
         LoadSheepData(sheepDataFile);
+
         koppelDataViewer.dataReader = this;
         koppelDataViewer.CreateButtonsFromDB(testDatabase.sheepKoppels);
         wormDataViewer.dataReader = this;
