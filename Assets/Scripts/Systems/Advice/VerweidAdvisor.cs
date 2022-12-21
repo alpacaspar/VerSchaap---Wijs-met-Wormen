@@ -14,7 +14,11 @@ class VerweidAdvisor : MonoBehaviour
 		set
 		{
 			weather = value;
-			if (weather != null) CalcValue();
+			if (weather != null)
+			{
+				CalcValue();
+				//CronScheduler.instance.SetRepeat("CalcValue", 3600);
+			}
 		}
 	}
 

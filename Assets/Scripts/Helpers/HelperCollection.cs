@@ -79,6 +79,26 @@ public static class Helpers
     }
 
     /// <summary>
+    ///     Converts list of SheepKoppel to list of ObjectUUIDs
+    /// </summary>
+    /// <param name="objects">
+    ///     List of WormObjects
+    /// </param>
+    /// <returns>
+    ///     Returns a collection of ObjectUUIDs
+    /// </returns>
+    public static List<ObjectUUID> SheepKoppelToUUID(List<SheepKoppel> objects)
+    {
+        List<ObjectUUID> uuids = new List<ObjectUUID>();
+        foreach (SheepKoppel obj in objects)
+        {
+            uuids.Add(obj);
+        }
+
+        return uuids;
+    }
+
+    /// <summary>
     ///     Converts list of WormObjects to list of ObjectUUIDs
     /// </summary>
     /// <param name="objects">

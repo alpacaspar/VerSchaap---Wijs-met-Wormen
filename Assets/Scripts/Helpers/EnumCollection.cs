@@ -44,7 +44,7 @@ public enum Status
 [Flags]
 public enum GrassType
 {   // increment with times 2 - eg. 1, 2, 4, 8, etc.
-    Grass = 1,              // Just your normal average grass
+    Other = 1,              // Just your normal average grass
 }
 
 public enum SheepType
@@ -178,4 +178,22 @@ public enum WeatherType
     Thunderstorm = 95,  // Only in Central Europe.
     ThunderstormSlightHail = 96,    // Only in Central Europe.
     ThunderstormHeavyHail = 99, // Only in Central Europe.
+}
+
+public enum Quality
+{
+    Excellent,
+    VeryGood,
+    Good,
+    Mediocre,
+    Poor,
+    VeryPoor,
+    Appalling
+}
+
+public enum SheepAge
+{
+    Lamb,
+    Adult,
+    Elder
 }

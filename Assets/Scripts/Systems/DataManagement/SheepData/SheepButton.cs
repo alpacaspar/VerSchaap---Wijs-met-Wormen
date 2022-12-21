@@ -7,10 +7,8 @@ using System;
 
 public class SheepButton : MonoBehaviour
 {
-    public TextMeshProUGUI SheepUuidText;
-    public TextMeshProUGUI SheepGenderText;
-    public TextMeshProUGUI SheepSpeciesText;
-    public TextMeshProUGUI SheepTSBornText;
+    public TextMeshProUGUI txtSheepTag;
+    public TextMeshProUGUI txtSheepGender;
 
     public Button button;
     public Button btnDelete;
@@ -28,11 +26,7 @@ public class SheepButton : MonoBehaviour
     {
         sheep = _sheep;
         dataViewer = _dataReader;
-        SheepUuidText.text = sheep.UUID;
-        SheepGenderText.text = Dictionaries.SheepGenderNames[sheep.sex];
-        //SheepGenderText.text = sheep.sex.ToString();
-        SheepSpeciesText.text = sheep.sheepType.ToString();
-        DateTimeOffset date = DateTimeOffset.FromUnixTimeSeconds(sheep.tsBorn);
-        SheepTSBornText.text = date.Day + "-" + date.Month + "-" + date.Year;
+        txtSheepTag.text = sheep.sheepTag;
+        txtSheepGender.text = Dictionaries.SheepGenderNames[sheep.sex];
     }
 }

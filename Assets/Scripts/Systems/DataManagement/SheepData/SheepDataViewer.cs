@@ -8,6 +8,7 @@ using System.Linq;
 
 public class SheepDataViewer : MonoBehaviour
 {
+    // The "content" object inside the scroll view
     public RectTransform sheepUIPanel;
     public GameObject sheepUIObject;
 
@@ -15,7 +16,7 @@ public class SheepDataViewer : MonoBehaviour
     public GameObject overviewPanel;
     public GameObject detailsPanel;
 
-    public TMP_InputField inputUUID;
+    public TMP_InputField inputTag;
     public TMP_Dropdown inputSex;
     public TMP_Dropdown inputSheepType;
     
@@ -36,6 +37,8 @@ public class SheepDataViewer : MonoBehaviour
 
     public Image sheepImg;
     public Dictionary<string, Sprite> sheepImages = new Dictionary<string, Sprite>();
+
+    public ScrollRect scrollRect;
 
     private void LoadSheepImages()
     {
@@ -88,7 +91,8 @@ public class SheepDataViewer : MonoBehaviour
 
             SheepObject tmpSheep = new SheepObject
             {
-                UUID = inputUUID.text,
+                UUID = Helpers.GenerateUUID(),
+                sheepTag = inputTag.text,
                 sex = sex,
                 sheepType = sheepType,
                 tsBorn = calendarWidget.timeStamp.ToUnixTimeSeconds(),
@@ -108,10 +112,17 @@ public class SheepDataViewer : MonoBehaviour
         }
     }
     
-    public void CreateNewSheepButton(SheepObject s)
+    public GameObject CreateNewSheepButton(SheepObject s)
     {
         var sheepPanelGameObject = Instantiate(sheepUIObject, sheepUIPanel);
         sheepPanelGameObject.GetComponentInChildren<SheepButton>().SetInfo(s, this);
+        return sheepPanelGameObject;
+    }
+
+    public void MoveScrollViewToElement(RectTransform target)
+    {
+        Canvas.ForceUpdateCanvases();
+        sheepUIPanel.anchoredPosition = (Vector2)scrollRect.transform.InverseTransformPoint(sheepUIPanel.position) - (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
     }
     
     public void UpdateTSButton(DateTimeOffset time)
@@ -158,7 +169,7 @@ public class SheepDataViewer : MonoBehaviour
         SetPanelVisibilty(true);
         UpdateSheepImage(selectedSheep.sheepType.ToString());
         calendarWidget.SetDate(sheep.tsBorn);
-        inputUUID.SetTextWithoutNotify(sheep.UUID);
+        inputTag.SetTextWithoutNotify(sheep.sheepTag);
 
         // Set the sex input dropdown to the correct value
         for (int i = 0; i < inputSex.options.Count; i++)

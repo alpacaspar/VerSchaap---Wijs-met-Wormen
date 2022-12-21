@@ -6,9 +6,13 @@ using Random = UnityEngine.Random;
 
 public class DataTester : MonoBehaviour
 {
+    // This should be replaced with a GET from the database
+    private List<SheepKoppel> koppels = new List<SheepKoppel>();
+
     void Start()
     {
         // populate file
+        PopulateKoppels(5);
         PopulateSheeps(250);
         PopulateWorms(5);
         PopulateSurfaces(20);
@@ -39,18 +43,18 @@ public class DataTester : MonoBehaviour
         {
             SheepObject newSheep = new SheepObject();
 
-            string sheepUUIDString = SheepBaseTag;
+            string sheepTagString = SheepBaseTag;
             string sheepTag = shuffledList[i].ToString();
 
             // Put 0s before the number if it is small
             for (int j = sheepTag.Length; j < 5; j++)
             {
-                sheepUUIDString += "0";
+                sheepTagString += "0";
             }
 
-            sheepUUIDString += sheepTag;
-            newSheep.UUID = sheepUUIDString;
-            //newSheep.UUID = Helpers.GenerateUUID();
+            sheepTagString += sheepTag;
+            newSheep.UUID = Helpers.GenerateUUID();
+            newSheep.sheepTag = sheepTagString;
             newSheep.tsBorn = Helpers.GetCurrentTimestamp() - Random.Range(15000, 20000);
             newSheep.sex = (Sex)Random.Range(0, Enum.GetNames(typeof(Sex)).Length);
             newSheep.sheepType = (SheepType)Random.Range(0, Enum.GetNames(typeof(SheepType)).Length - 1); //-1 to exclude 'other'
@@ -63,6 +67,7 @@ public class DataTester : MonoBehaviour
                 newSheep.weight.Add(weight);
             }
 
+            newSheep.sheepKoppelID = koppels[Random.Range(0, koppels.Count)].UUID;
             string[] response = WurmAPI.MethodHandler(MethodType.Post, newSheep);
             Debug.Log(Helpers.CodeToMessage(response));
         }
@@ -113,6 +118,22 @@ public class DataTester : MonoBehaviour
     }
 
     /// <summary>
+    ///     Make sheep groups
+    /// </summary>
+    public void PopulateKoppels(int quantity)
+    {
+        for (int i = 0; i < quantity; i++)
+        {
+            SheepKoppel newKoppel = new SheepKoppel();
+            newKoppel.UUID = Helpers.GenerateUUID();
+            koppels.Add(newKoppel);
+
+            string[] response = WurmAPI.MethodHandler(MethodType.Post, newKoppel);
+            Debug.Log(Helpers.CodeToMessage(response));
+        }
+    }
+
+    /// <summary>
     ///     Test sample of doing a request for an entire database
     /// </summary>
     /// <param name="type">
@@ -139,6 +160,14 @@ public class DataTester : MonoBehaviour
 
         // iterate through all sheeps from database
         foreach (SheepObject newObj in tempDatabase.sheeps)
+        {
+            string[] response = WurmAPI.MethodHandler(type, newObj);
+            httpsMessages.Add(response[0]);
+            data.Add(response[1]);
+        }
+
+        // iterate through all sheep koppels from database
+        foreach (SheepKoppel newObj in tempDatabase.sheepKoppels)
         {
             string[] response = WurmAPI.MethodHandler(type, newObj);
             httpsMessages.Add(response[0]);

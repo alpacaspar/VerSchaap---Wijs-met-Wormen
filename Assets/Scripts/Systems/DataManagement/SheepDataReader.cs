@@ -33,7 +33,6 @@ public class SheepDataReader : MonoBehaviour
         sheepDataViewer.CreateSheepButtonsFromDB(testDatabase.sheeps);
         weideDataViewer.sheepDataReader = this;
         weideDataViewer.CreateSheepButtonsFromDB(testDatabase.weides);
-
     }
 
     public void UpdateSheepData(SheepObject sheep)
@@ -47,7 +46,7 @@ public class SheepDataReader : MonoBehaviour
             // magic, ignore casing and check if names are the same
             foreach (var shp in testDatabase.sheeps.Where(shp => string.Equals(shp.UUID, sheepDataViewer.selectedSheep.UUID, StringComparison.CurrentCultureIgnoreCase)))
             {
-                shp.UUID = sheep.UUID;
+                shp.sheepTag = sheep.sheepTag;
                 shp.sex = sheep.sex;
                 shp.sheepType = sheep.sheepType;
                 shp.tsBorn = sheep.tsBorn;
@@ -68,7 +67,8 @@ public class SheepDataReader : MonoBehaviour
         else
         {
             testDatabase.sheeps.Add(sheep);
-            sheepDataViewer.CreateNewSheepButton(sheep);
+            var obj = sheepDataViewer.CreateNewSheepButton(sheep);
+            sheepDataViewer.MoveScrollViewToElement(obj.GetComponent<RectTransform>());
         }
 
         sheepDataViewer.bAddingSheep = false;
@@ -146,7 +146,19 @@ public class SheepDataReader : MonoBehaviour
 
     public void DeleteWeide(WeideObject weide)
     {
+        int index = -1;
 
+        for (int i = 0; i < testDatabase.weides.Count; i++)
+        {
+            var wd = testDatabase.weides[i];
+            if (wd.UUID.Trim() != weide.UUID.Trim()) continue;
+            index = i;
+            break;
+        }
+
+        if (index == -1) return;
+        Destroy(weideDataViewer.ButtonListContainer.GetChild(index).gameObject);
+        testDatabase.weides.RemoveAt(index);
     }
 
     private void Update()

@@ -13,7 +13,10 @@ public class WeideDataViewer : MonoBehaviour
 
     public GameObject overviewPanel;
     public GameObject detailsPanel;
+
     public TMP_InputField inputPerceelName;
+    public TMP_InputField inputSurfaceArea;
+    public TMP_InputField inputSurfaceQuality;
 
     public Button btnCancel;
     public Button btnSave;
@@ -111,5 +114,7 @@ public class WeideDataViewer : MonoBehaviour
         selectedElement = element;
         SetPanelVisibilty(true);
         inputPerceelName.SetTextWithoutNotify(element.perceelName);
+        inputSurfaceArea.SetTextWithoutNotify(element.surfaceSqrMtr.ToString());
+        inputSurfaceQuality.SetTextWithoutNotify(element.surfaceQuality.ToString());
     }
 }

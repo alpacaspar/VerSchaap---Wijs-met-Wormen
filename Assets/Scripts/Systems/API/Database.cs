@@ -46,6 +46,13 @@ public static class Database
         return tempDatabase.sheeps;
     }
 
+    public static List<SheepKoppel> GetSheepKoppelCollection()
+    {
+        if (tempDatabase == null) InitializeDatabase();
+
+        return tempDatabase.sheepKoppels;
+    }
+
     /// <summary>
     ///     Used to correctly digest the values
     /// </summary>
@@ -204,6 +211,10 @@ public static class Database
                 case WormObject newWormObject:
                     newData = AddEntry(newWormObject, Helpers.WormToUUID(tempDatabase.worms), new WormObject().GetType());
                     break;
+
+                case SheepKoppel newSheepKoppelObject:
+                    newData = AddEntry(newSheepKoppelObject, Helpers.SheepKoppelToUUID(tempDatabase.sheepKoppels), new SheepKoppel().GetType());
+                    break;
             }
 
             WriteDatabase(tempDatabase);
@@ -275,6 +286,7 @@ public static class Database
         tempDatabase.farmerUUID = Helpers.GenerateUUID();
         tempDatabase.weides = new List<WeideObject>();
         tempDatabase.sheeps = new List<SheepObject>();
+        tempDatabase.sheepKoppels = new List<SheepKoppel>();
         tempDatabase.worms = new List<WormObject>();
 
         WriteDatabase(tempDatabase);
@@ -312,6 +324,10 @@ public static class Database
                     break;
                 case "WormObject":
                     tempDatabase.worms.Add((WormObject)newObject);
+                    newData[0] = (int)Status.Success1 + "";
+                    break;
+                case "SheepKoppel":
+                    tempDatabase.sheepKoppels.Add((SheepKoppel)newObject);
                     newData[0] = (int)Status.Success1 + "";
                     break;
             }
