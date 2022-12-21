@@ -5,6 +5,7 @@ public enum EventType
 {
     locationDataReceived,
     weatherDataReceived,
+    onAdviceValueCalculated,
 }
 
 public enum MethodType

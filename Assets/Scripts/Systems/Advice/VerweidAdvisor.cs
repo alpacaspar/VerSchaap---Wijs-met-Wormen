@@ -3,23 +3,26 @@ using UnityEngine;
 using System.Linq;
 
 class VerweidAdvisor : MonoBehaviour
-{
+{	
 	private WeatherInfo weather;
 	public WeatherInfo Weather
 	{
-		get
-		{
-			return weather;
-		}
+		get => weather;
 		set
 		{
 			weather = value;
 			if (weather != null)
 			{
 				CalcValue();
-				//CronScheduler.instance.SetRepeat("CalcValue", 3600);
+				CronScheduler.instance.SetRepeat(this, "FireCalcValue", 3600);
 			}
 		}
+	}
+
+	private void FireCalcValue()
+	{
+		var result = CalcValue();
+		EventSystem<double>.InvokeEvent(EventType.onAdviceValueCalculated, result);
 	}
 
 	static double calc_Q0(double q, double lambda, double mu, double beta, double p, double rho, double H, double m2)

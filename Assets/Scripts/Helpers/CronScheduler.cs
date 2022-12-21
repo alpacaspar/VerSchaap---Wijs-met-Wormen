@@ -27,8 +27,8 @@ public class CronScheduler : MonoBehaviour
     /// <param name="interval">
     ///     Amount of time in seconds between every time that the method is fired
     /// </param>
-    public void SetRepeat(string methodName, float interval)
+    public void SetRepeat(MonoBehaviour reference, string methodName, float interval)
     {
-        InvokeRepeating(methodName, 0, interval);
+        reference.InvokeRepeating(methodName, 0, interval);
     }
 }
