@@ -124,7 +124,10 @@ public class DataTester : MonoBehaviour
     {
         for (int i = 0; i < quantity; i++)
         {
-            SheepKoppel newKoppel = new SheepKoppel();
+            SheepKoppel newKoppel = new SheepKoppel()
+            {
+                koppelName = $"Koppel {i + 1}"
+            };
             newKoppel.UUID = Helpers.GenerateUUID();
             koppels.Add(newKoppel);
 

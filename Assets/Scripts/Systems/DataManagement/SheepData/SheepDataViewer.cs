@@ -91,7 +91,7 @@ public class SheepDataViewer : MonoBehaviour
 
             SheepObject tmpSheep = new SheepObject
             {
-                UUID = Helpers.GenerateUUID(),
+                UUID = selectedSheep != null ? selectedSheep.UUID : Helpers.GenerateUUID(),
                 sheepTag = inputTag.text,
                 sex = sex,
                 sheepType = sheepType,

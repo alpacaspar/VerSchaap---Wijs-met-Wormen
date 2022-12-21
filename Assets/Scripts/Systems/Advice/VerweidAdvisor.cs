@@ -41,8 +41,10 @@ class VerweidAdvisor : MonoBehaviour
 		return -0.09746 + 0.01063 * T_mean;
 	}
 
-	public void CalcValue()
+	public double CalcValue(WeatherInfo weatherInfo = null)
 	{
+		if (weatherInfo == null) weatherInfo = weather;
+
 		double c = 1.4; // dialy herbage dry matter intake per host
 		double B = 2000; // standing biomass
 		double A = 1; // grazing area
@@ -65,7 +67,7 @@ class VerweidAdvisor : MonoBehaviour
 		Debug.Log("verweidadvisor weerbericht:");
 
 		double[] temperatures = new double[24];
-		Array.Copy(weather.hourly.temperature_2m, 0, temperatures, 0, 24);
+		Array.Copy(weatherInfo.hourly.temperature_2m, 0, temperatures, 0, 24);
 		double temperature_max = temperatures.Max();
 		double temperature_min = temperatures.Min();
 		double temperature_average = temperatures.Average();
@@ -75,7 +77,7 @@ class VerweidAdvisor : MonoBehaviour
 
 		// Neerslag doet wat raars met de formule, maakt Q0 vaak 0 bij lage waardes
 		double[] precipitation = new double[24];
-		Array.Copy(weather.hourly.precipitation, 0, precipitation, 0, 24);
+		Array.Copy(weatherInfo.hourly.precipitation, 0, precipitation, 0, 24);
 		Debug.Log("totale neerslag = " + precipitation.Sum());
  
 		//double[] neerslag = { 19, 17, 22, 12, 20, 24, 28, 21, 12, 14, 14, 20 };
@@ -119,5 +121,6 @@ class VerweidAdvisor : MonoBehaviour
 		Debug.Log(" ");
 		*/
 		Debug.Log("q0     = " + calc_Q0(q, lambda, mu, beta, p, rho, H, m2));
+		return calc_Q0(q, lambda, mu, beta, p, rho, H, m2);
 	}
 }

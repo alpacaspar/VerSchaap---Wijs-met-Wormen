@@ -59,6 +59,7 @@ public class WormObject : ObjectUUID
 [Serializable]
 public class SheepKoppel : ObjectUUID
 {
+    public string koppelName = "koppel";
     //public List<string> allSheep = new List<string>();
 }
 

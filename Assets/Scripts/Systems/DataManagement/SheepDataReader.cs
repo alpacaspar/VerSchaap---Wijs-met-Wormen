@@ -11,6 +11,7 @@ public class SheepDataReader : MonoBehaviour
     private SheepDataViewer sheepDataViewer;
     private WormDataViewer wormDataViewer;
     private WeideDataViewer weideDataViewer;
+    private KoppelDataViewer koppelDataViewer;
     public TemporalDatabaseData testDatabase;
 
     // dummy var to `write from the editor
@@ -26,13 +27,18 @@ public class SheepDataReader : MonoBehaviour
         sheepDataViewer = GetComponent<SheepDataViewer>();
         wormDataViewer = GetComponent<WormDataViewer>();
         weideDataViewer = GetComponent<WeideDataViewer>();
+        koppelDataViewer = GetComponent<KoppelDataViewer>();
         LoadSheepData(sheepDataFile);
+        /*
         wormDataViewer.dataReader = this;
         wormDataViewer.CreateWormButtonsFromDB(testDatabase.worms);
         sheepDataViewer.sheepDataReader = this;
         sheepDataViewer.CreateSheepButtonsFromDB(testDatabase.sheeps);
         weideDataViewer.sheepDataReader = this;
         weideDataViewer.CreateSheepButtonsFromDB(testDatabase.weides);
+        */
+        koppelDataViewer.sheepDataReader = this;
+        koppelDataViewer.CreateSheepButtonsFromDB(testDatabase.sheepKoppels);
     }
 
     public void UpdateSheepData(SheepObject sheep)
