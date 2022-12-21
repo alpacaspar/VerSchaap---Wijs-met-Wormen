@@ -22768,7 +22768,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 282958238}
+      - m_Target: {fileID: 1970489404}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -32621,6 +32621,8 @@ MonoBehaviour:
     sheepType: 0
     extraRemarks: []
     sheepKoppelID: 
+  btnSortByTag: {fileID: 0}
+  btnSortByGender: {fileID: 0}
   bAddingSheep: 0
   sheepDataReader: {fileID: 1972799791}
   sheepImg: {fileID: 785885804}
@@ -32725,7 +32727,7 @@ MonoBehaviour:
     UUID: 
     koppelName: koppel
   bAddingElement: 0
-  sheepDataReader: {fileID: 0}
+  dataReader: {fileID: 0}
   scrollRect: {fileID: 0}
 --- !u!1 &1974781596
 GameObject:

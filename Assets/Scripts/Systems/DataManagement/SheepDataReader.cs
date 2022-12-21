@@ -29,16 +29,14 @@ public class SheepDataReader : MonoBehaviour
         weideDataViewer = GetComponent<WeideDataViewer>();
         koppelDataViewer = GetComponent<KoppelDataViewer>();
         LoadSheepData(sheepDataFile);
-        /*
+        koppelDataViewer.dataReader = this;
+        koppelDataViewer.CreateButtonsFromDB(testDatabase.sheepKoppels);
         wormDataViewer.dataReader = this;
         wormDataViewer.CreateWormButtonsFromDB(testDatabase.worms);
         sheepDataViewer.sheepDataReader = this;
         sheepDataViewer.CreateSheepButtonsFromDB(testDatabase.sheeps);
         weideDataViewer.sheepDataReader = this;
         weideDataViewer.CreateSheepButtonsFromDB(testDatabase.weides);
-        */
-        koppelDataViewer.sheepDataReader = this;
-        koppelDataViewer.CreateSheepButtonsFromDB(testDatabase.sheepKoppels);
     }
 
     public void UpdateSheepData(SheepObject sheep)
@@ -148,6 +146,23 @@ public class SheepDataReader : MonoBehaviour
         if (index == -1) return;
         Destroy(wormDataViewer.wormUIPanel.GetChild(index).gameObject);
         testDatabase.worms.RemoveAt(index);
+    }
+
+    public void DeleteKoppel(SheepKoppel koppel)
+    {
+        int index = -1;
+
+        for (int i = 0; i < testDatabase.sheepKoppels.Count; i++)
+        {
+            var wrm = testDatabase.sheepKoppels[i];
+            if (wrm.UUID.Trim() != koppel.UUID.Trim()) continue;
+            index = i;
+            break;
+        }
+
+        if (index == -1) return;
+        Destroy(koppelDataViewer.buttonListContainer.GetChild(index).gameObject);
+        testDatabase.sheepKoppels.RemoveAt(index);
     }
 
     public void DeleteWeide(WeideObject weide)

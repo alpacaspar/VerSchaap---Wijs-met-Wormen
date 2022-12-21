@@ -90,7 +90,6 @@ GameObject:
   - component: {fileID: 2832064773502889356}
   - component: {fileID: 2832064773502889357}
   - component: {fileID: 2832064773502889358}
-  - component: {fileID: 3239251061162966617}
   - component: {fileID: 2155348572594642598}
   - component: {fileID: 4514704409011349218}
   m_Layer: 5
@@ -204,33 +203,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3239251061162966617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2832064773502889344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acce235a795dd5a439d4a5007af7f381, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  txtSheepTag: {fileID: 2832064773506261584}
-  txtSheepGender: {fileID: 7343589341779140872}
-  button: {fileID: 2832064773502889358}
-  btnDelete: {fileID: 7430259849556857893}
-  sheep:
-    UUID: 
-    sheepTag: NL-000000-0-00000
-    tsBorn: 0
-    weight: []
-    diseases: []
-    sex: 0
-    sheepType: 0
-    extraRemarks: []
-    sheepKoppelID: 
-  dataViewer: {fileID: 0}
 --- !u!114 &2155348572594642598
 MonoBehaviour:
   m_ObjectHideFlags: 0

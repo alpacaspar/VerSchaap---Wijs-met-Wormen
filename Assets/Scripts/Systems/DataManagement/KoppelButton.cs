@@ -18,7 +18,7 @@ public class KoppelButton : MonoBehaviour
     private void Start()
     {
         button.onClick.AddListener(delegate { dataViewer.ShowDetails(element); });
-        //btnDelete.onClick.AddListener(delegate { dataViewer.dataReader.DeleteWorm(worm); });
+        btnDelete.onClick.AddListener(delegate { dataViewer.dataReader.DeleteKoppel(element); });
     }
 
     public void SetInfo(SheepKoppel _element, KoppelDataViewer _dataViewer)

@@ -29,6 +29,8 @@ public class SheepDataViewer : MonoBehaviour
     public Button btnAddSheep;
     
     public SheepObject selectedSheep;
+    public Button btnSortByTag;
+    public Button btnSortByGender;
     
     // dirty var to fix the calendar
     public DateTimeOffset tmpTime = new DateTimeOffset(DateTime.UtcNow);
@@ -39,6 +41,83 @@ public class SheepDataViewer : MonoBehaviour
     public Dictionary<string, Sprite> sheepImages = new Dictionary<string, Sprite>();
 
     public ScrollRect scrollRect;
+
+    public void SortSheepByTag()
+    {
+        List<string> tmpList = new List<string>();
+        foreach (var s in sheepDataReader.testDatabase.sheeps)
+        {
+            tmpList.Add(s.sheepTag);
+        }
+
+        tmpList.Sort();
+        RemoveAllButtons();
+
+        foreach (var ss in tmpList)
+        {
+            foreach (var sheep in sheepDataReader.testDatabase.sheeps)
+            {
+                if (sheep.sheepTag == ss)
+                {
+                    CreateNewSheepButton(sheep);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void SortSheepByGender()
+    {
+        List<SheepObject> tmpList = new List<SheepObject>();
+        foreach (var s in sheepDataReader.testDatabase.sheeps)
+        {
+            tmpList.Add(s);
+        }
+
+        tmpList.Sort(delegate (SheepObject x, SheepObject y)
+        {
+            if (x.sex > y.sex) return 1;
+            else return -1;
+            /*
+            if (x.sex == null && y.sex == null) return 0;
+            else if (x.PartName == null) return -1;
+            else if (y.PartName == null) return 1;
+            else return x.PartName.CompareTo(y.PartName);
+            */
+        });
+
+        RemoveAllButtons();
+
+        foreach (var ss in tmpList)
+        {
+            CreateNewSheepButton(ss);
+        }
+
+        /*
+        tmpList.Sort();
+        RemoveAllButtons();
+
+        foreach (var ss in tmpList)
+        {
+            foreach (var sheep in sheepDataReader.testDatabase.sheeps)
+            {
+                if (sheep.sheepTag == ss)
+                {
+                    CreateNewSheepButton(sheep);
+                    break;
+                }
+            }
+        }
+        */
+    }
+
+    private void RemoveAllButtons()
+    {
+        for (int i = sheepUIPanel.childCount - 1; i >= 0; i--)
+        {
+            Destroy(sheepUIPanel.GetChild(i).gameObject);
+        }
+    }
 
     private void LoadSheepImages()
     {
@@ -154,6 +233,18 @@ public class SheepDataViewer : MonoBehaviour
             calendarWidget.gameObject.SetActive(!calendarWidget.gameObject.activeSelf);
             calendarWidget.SetDate(tmpTime.ToUnixTimeSeconds());
         });
+
+        /*
+        btnSortByTag.onClick.AddListener(delegate
+        {
+            SortSheepByTag();
+        });
+
+        btnSortByGender.onClick.AddListener(delegate
+        {
+            SortSheepByGender();
+        });
+        */
     }
 
     public void SetPanelVisibilty(bool showDetails)

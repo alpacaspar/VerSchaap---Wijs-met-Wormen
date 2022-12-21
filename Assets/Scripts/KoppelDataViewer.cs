@@ -21,14 +21,14 @@ public class KoppelDataViewer : MonoBehaviour
 
     public SheepKoppel selectedElement;
     public bool bAddingElement = false;
-    public SheepDataReader sheepDataReader;
+    public SheepDataReader dataReader;
 
     public ScrollRect scrollRect;
 
     public void GetKoppels()
     {
         //sheepDataReader.testDatabase.sheepKoppels
-        foreach (var kop in sheepDataReader.testDatabase.sheepKoppels)
+        foreach (var kop in dataReader.testDatabase.sheepKoppels)
         {
             /*
             foreach (var shp in sheepDataReader.testDatabase.sheeps.Where(shp => shp.sheepKoppelID == kop.UUID))
@@ -75,7 +75,7 @@ public class KoppelDataViewer : MonoBehaviour
         */
     }
 
-    public void CreateSheepButtonsFromDB(List<SheepKoppel> elementList)
+    public void CreateButtonsFromDB(List<SheepKoppel> elementList)
     {
         foreach (SheepKoppel s in elementList)
         {
@@ -103,8 +103,8 @@ public class KoppelDataViewer : MonoBehaviour
 
     public void SetPanelVisibilty(bool showDetails)
     {
-        overviewPanel.SetActive(!showDetails);
-        detailsPanel.SetActive(showDetails);
+        if (overviewPanel != null) overviewPanel.SetActive(!showDetails);
+        if (detailsPanel != null) detailsPanel.SetActive(showDetails);
     }
 
     public void ShowDetails(SheepKoppel element)
