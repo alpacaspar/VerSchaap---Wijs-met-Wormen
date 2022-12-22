@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,13 +25,13 @@ public class HourlyForecast : MonoBehaviour
 
     private HourlyForecast()
     {
-        EventSystem<WeatherInfo>.AddListener(EventType.weatherDataReceived, OnWeatherDataReceived);
+        EventSystem<WeatherInfo>.AddListener(EventType.performWeatherUpdate, OnWeatherDataReceived);
         EventSystem<LocationInfo>.AddListener(EventType.locationDataReceived, OnLocationDataReceived);
     }
 
     private void OnDestroy()
     {
-        EventSystem<WeatherInfo>.RemoveListener(EventType.weatherDataReceived, OnWeatherDataReceived);
+        EventSystem<WeatherInfo>.RemoveListener(EventType.performWeatherUpdate, OnWeatherDataReceived);
         EventSystem<LocationInfo>.RemoveListener(EventType.locationDataReceived, OnLocationDataReceived);
     }
 
@@ -51,7 +52,9 @@ public class HourlyForecast : MonoBehaviour
         string[] time = weatherInfo.hourly.time[index].Split("T");
         int forecastDay = ((int)DateTime.Today.DayOfWeek + weeklyForecastComponent.selectedDayIndex) % 7;
 
-        string dateTime = $"{WeeklyForecast.GetDay((DayOfWeek)forecastDay)} {time[1]}";
+        CultureInfo cultureInfo = new CultureInfo("nl-NL");
+        string dateTime = $"{cultureInfo.DateTimeFormat.GetDayName((DayOfWeek)forecastDay)} {time[1]}"; 
+        //string dateTime = $"{WeeklyForecast.GetDay((DayOfWeek)forecastDay)} {time[1]}";
         Sprite weatherIcon = weatherIconsObject.WeatherIcons[weatherInfo.hourly.weathercode[index]];
         UpdateInfo(locationInfo.city, dateTime, weatherInfo.hourly.temperature_2m[index], weatherInfo.hourly.precipitation[index], weatherInfo.hourly.relativehumidity_2m[index], weatherIcon);
     }

@@ -6,12 +6,12 @@ public class HttpClientTest : MonoBehaviour
 {
     private void OnEnable()
     {
-        EventSystem<WeatherInfo>.AddListener(EventType.weatherDataReceived, OnWeatherDataReceived);
+        EventSystem<WeatherInfo>.AddListener(EventType.performWeatherUpdate, OnWeatherDataReceived);
     }
 
     private void OnDisable()
     {
-        EventSystem<WeatherInfo>.RemoveListener(EventType.weatherDataReceived, OnWeatherDataReceived);
+        EventSystem<WeatherInfo>.RemoveListener(EventType.performWeatherUpdate, OnWeatherDataReceived);
     }
     
     private void Start()

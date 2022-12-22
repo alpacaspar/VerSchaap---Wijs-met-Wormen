@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 
@@ -16,12 +17,12 @@ public class WeeklyForecast : MonoBehaviour
 
     private WeeklyForecast()
     {
-        EventSystem<WeatherInfo>.AddListener(EventType.weatherDataReceived, OnWeatherDataReceived);
+        EventSystem<WeatherInfo>.AddListener(EventType.performWeatherUpdate, OnWeatherDataReceived);
     }
 
     private void OnDestroy()
     {
-        EventSystem<WeatherInfo>.RemoveListener(EventType.weatherDataReceived, OnWeatherDataReceived);
+        EventSystem<WeatherInfo>.RemoveListener(EventType.performWeatherUpdate, OnWeatherDataReceived);
     }
 
     private void OnWeatherDataReceived(WeatherInfo info)
@@ -38,8 +39,10 @@ public class WeeklyForecast : MonoBehaviour
         {
             if (i % 24 == 0)
             {
+                CultureInfo cultureInfo = new CultureInfo("nl-NL");
+                
                 int forecastDay = ((int)DateTime.Today.DayOfWeek + day) % 7;
-                string dayAbbreviation = GetDayAbbreviation((DayOfWeek)forecastDay);
+                string dayAbbreviation = cultureInfo.DateTimeFormat.AbbreviatedDayNames[forecastDay];
                 Sprite sprite = weatherIconsObject.WeatherIcons[GetAverageWeatherCode(i)];
                 
                 GameObject instance = Instantiate(dailyForecastPrefab, dailyForecastParent);
@@ -74,45 +77,5 @@ public class WeeklyForecast : MonoBehaviour
         IOrderedEnumerable<IGrouping<WeatherType, WeatherType>> groups = currentDayWeatherCodes.GroupBy(x => x).OrderByDescending(x => x.Count());
 
         return groups.First().Key;
-    }
-
-    /// <summary>
-    /// Converts DayOfWeek enum to dutch abbreviation.
-    /// </summary>
-    /// <param name="dayOfWeek">DayOfTheWeek enum.</param>
-    /// <returns>Dutch abbreviation of the DayOfWeek input as string.</returns>
-    public static string GetDayAbbreviation(DayOfWeek dayOfWeek)
-    {
-        return dayOfWeek switch
-        {
-            DayOfWeek.Monday => "Ma",
-            DayOfWeek.Tuesday => "Di",
-            DayOfWeek.Wednesday => "Wo",
-            DayOfWeek.Thursday => "Do",
-            DayOfWeek.Friday => "Vr",
-            DayOfWeek.Saturday => "Za",
-            DayOfWeek.Sunday => "Zo",
-            _ => null
-        };
-    }
-    
-    /// <summary>
-    /// Converts DayOfWeek enum to string
-    /// </summary>
-    /// <param name="dayOfWeek">DayOfWeek enum</param>
-    /// <returns>Name of the day of the week in dutch.</returns>
-    public static string GetDay(DayOfWeek dayOfWeek)
-    {
-        return dayOfWeek switch
-        {
-            DayOfWeek.Monday => "Maandag",
-            DayOfWeek.Tuesday => "Dinsdag",
-            DayOfWeek.Wednesday => "Woensdag",
-            DayOfWeek.Thursday => "Donderdag",
-            DayOfWeek.Friday => "Vrijdag",
-            DayOfWeek.Saturday => "Zaterdag",
-            DayOfWeek.Sunday => "Zondag",
-            _ => null
-        };
     }
 }

@@ -21,7 +21,7 @@ public static class VerweidAdvisor
 	
 	static VerweidAdvisor()
 	{
-		EventSystem<WeatherInfo>.AddListener(EventType.weatherDataReceived, OnWeatherDataReceived);
+		EventSystem<WeatherInfo>.AddListener(EventType.performWeatherUpdate, OnWeatherDataReceived);
 	}
 
 	private static void OnWeatherDataReceived(WeatherInfo info)

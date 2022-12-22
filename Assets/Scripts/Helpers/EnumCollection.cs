@@ -4,8 +4,9 @@ using System.Collections.Generic;
 public enum EventType
 {
     locationDataReceived,
-    weatherDataReceived,
+    performWeatherUpdate,
     onAdviceValueCalculated,
+    performAdviceUpdate,
 }
 
 public enum MethodType

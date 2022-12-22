@@ -50,7 +50,7 @@ public class Weather : MonoBehaviour
 
         WeatherInfo info = JsonUtility.FromJson<WeatherInfo>(www.downloadHandler.text);
         
-        EventSystem<WeatherInfo>.InvokeEvent(EventType.weatherDataReceived, info);
+        EventSystem<WeatherInfo>.InvokeEvent(EventType.performWeatherUpdate, info);
     }
 }
 

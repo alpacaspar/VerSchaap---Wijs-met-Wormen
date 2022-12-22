@@ -3,28 +3,32 @@ using UnityEngine.UI;
 
 public class AdviceDisplay : MonoBehaviour
 {
+    public float lat;
+    public float lon;
+    public WeatherInfo info;
+    
     public Image fillImageComponent;
 
     private float fill;
     private bool updated;
 
-    private AdviceDisplay()
+    private void Start()
     {
-        EventSystem<double>.AddListener(EventType.onAdviceValueCalculated, OnAdviceUpdate);
+        EventSystem.AddListener(EventType.performAdviceUpdate, OnAdviceUpdate);
     }
     
     private void OnDestroy()
     {
-        EventSystem<double>.RemoveListener(EventType.onAdviceValueCalculated, OnAdviceUpdate);
+        EventSystem.RemoveListener(EventType.performAdviceUpdate, OnAdviceUpdate);
     }
 
     /// <summary>
-    /// Update Advice UI.
+    /// Perform Update to Advice Display.
     /// </summary>
-    /// <param name="value">The calculated value received from the event system.</param>
-    public void OnAdviceUpdate(double value)
+    public void OnAdviceUpdate()
     {
-        fill = Mathf.InverseLerp(-50f, 200f, (float)value);
+        if (info == null) return;
+        fill = Mathf.InverseLerp(-50f, 200f, (float)VerweidAdvisor.CalcValue(info));
 
         updated = false;
     }

@@ -73,7 +73,7 @@ public class HttpListenerTest : MonoBehaviour
             string data = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding).ReadToEnd();
             WeatherInfo json = JsonUtility.FromJson<WeatherInfo>(data);
             Debug.Log(json.timezone);
-            EventSystem<WeatherInfo>.InvokeEvent(EventType.weatherDataReceived, json);
+            EventSystem<WeatherInfo>.InvokeEvent(EventType.performWeatherUpdate, json);
         }
 
         context.Response.Close();

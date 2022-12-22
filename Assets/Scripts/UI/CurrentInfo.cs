@@ -17,12 +17,12 @@ public class CurrentInfo : MonoBehaviour
 
     private CurrentInfo()
     {
-        EventSystem<WeatherInfo>.AddListener(EventType.weatherDataReceived, OnWeatherDataReceived);
+        EventSystem<WeatherInfo>.AddListener(EventType.performWeatherUpdate, OnWeatherDataReceived);
     }
 
     private void OnDestroy()
     {
-        EventSystem<WeatherInfo>.RemoveListener(EventType.weatherDataReceived, OnWeatherDataReceived);
+        EventSystem<WeatherInfo>.RemoveListener(EventType.performWeatherUpdate, OnWeatherDataReceived);
     }
 
     private void OnWeatherDataReceived(WeatherInfo info)

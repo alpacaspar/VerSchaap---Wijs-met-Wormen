@@ -712,7 +712,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63fa3db82148278448d1464acb53b505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  verweidButton: {fileID: 327810720}
+  lat: 0
+  lon: 0
+  info:
+    latitude: 0
+    longitude: 0
+    generationtime_ms: 0
+    utc_offset_seconds: 0
+    timezone: 
+    timezone_abbreviation: 
+    elevation: 0
+    hourly_units:
+      time: 
+      temperature_2m: 
+      relativehumidity_2m: 
+      precipitation: 
+      cloudcover: 
+    hourly:
+      time: []
+      temperature_2m: []
+      relativehumidity_2m: 
+      precipitation: 
+      cloudcover: 
+      weathercode: 
   fillImageComponent: {fileID: 247310298}
 --- !u!1 &694050106
 GameObject:
@@ -1221,6 +1243,7 @@ GameObject:
   - component: {fileID: 961692732}
   - component: {fileID: 961692731}
   - component: {fileID: 961692734}
+  - component: {fileID: 961692735}
   m_Layer: 0
   m_Name: API
   m_TagString: Untagged
@@ -1276,28 +1299,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 961692730}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6039f64c03f0f4547892ac18d05aad89, type: 3}
+  m_Script: {fileID: 11500000, guid: 975cca0a4dd867544890bea2eb567944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weeksOnDisplay: 4
-  onUpdateDisplaySize:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AdviceDisplay, Assembly-CSharp
-        m_MethodName: SetWeeksOnDisplay
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onUpdateAdvice:
-    m_PersistentCalls:
-      m_Calls: []
+--- !u!114 &961692735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961692730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1988b29eb4e2f4144bc8cdd39fe41562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1069489439
 GameObject:
   m_ObjectHideFlags: 0
