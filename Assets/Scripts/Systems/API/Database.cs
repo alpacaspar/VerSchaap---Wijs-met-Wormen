@@ -1,7 +1,10 @@
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows.Forms.VisualStyles;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public static class Database
 {
@@ -362,5 +365,46 @@ public static class Database
         }
 
         return newData;
+    }
+
+    // TODO implement
+    private static void FireURI(string[] fieldCollection, string[] dataCollection, MethodType type)
+    {
+        // TODO implement http return codes
+
+        if (fieldCollection.Length != dataCollection.Length)
+        {
+            // return that entries are not matching
+        }
+
+        string baseUrl = "https://google.com/";
+        string pageUrl = "index.php";
+        string uri = baseUrl + pageUrl + "?type=" + type.ToString();
+
+        for (int i = 0; i < fieldCollection.Length; i++)
+        {
+            uri += "&" + fieldCollection[i] + "=" + dataCollection[i];
+        }
+
+        // TODO fire uri
+        Debug.Log("Fired: " + uri);
+
+        // TODO implement unity webrequest
+        /*UnityWebRequest unityWebRequest;
+        switch (type)
+        {
+            default:
+            case MethodType.Get:
+                unityWebRequest = UnityWebRequest.Get(uri);
+                break;
+
+            case MethodType.Post:
+                unityWebRequest = UnityWebRequest.Post(uri);
+                break;
+
+            case MethodType.Put:
+                unityWebRequest = UnityWebRequest.Put(uri);
+                break;
+        }*/
     }
 }
