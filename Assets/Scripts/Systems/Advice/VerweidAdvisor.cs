@@ -61,7 +61,7 @@ class VerweidAdvisor : MonoBehaviour
 
 	public static double CalcValue(WeatherInfo weatherInfo = null)
 	{
-		if (weatherInfo == null) weatherInfo = weather;
+		if (weatherInfo == null) weatherInfo = Weather;
 
 		double c = 1.4; // dialy herbage dry matter intake per host
 		double B = 2000; // standing biomass
