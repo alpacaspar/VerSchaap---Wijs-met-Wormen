@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using System.Linq;
 
-class VerweidAdvisor : MonoBehaviour
+public static class VerweidAdvisor
 {	
 	private static WeatherInfo weather;
 	public static WeatherInfo Weather
@@ -19,14 +19,9 @@ class VerweidAdvisor : MonoBehaviour
 		}
 	}
 	
-	private VerweidAdvisor()
+	static VerweidAdvisor()
 	{
 		EventSystem<WeatherInfo>.AddListener(EventType.weatherDataReceived, OnWeatherDataReceived);
-	}
-
-	~VerweidAdvisor()
-	{
-		EventSystem<WeatherInfo>.RemoveListener(EventType.weatherDataReceived, OnWeatherDataReceived);
 	}
 
 	private static void OnWeatherDataReceived(WeatherInfo info)
@@ -34,7 +29,7 @@ class VerweidAdvisor : MonoBehaviour
 		Weather = info;
 	}
 
-	private void FireCalcValue()
+	private static void FireCalcValue()
 	{
 		var result = CalcValue();
 		EventSystem<double>.InvokeEvent(EventType.onAdviceValueCalculated, result);
