@@ -28,8 +28,6 @@ public class CurrentInfo : MonoBehaviour
     private void OnWeatherDataReceived(WeatherInfo info)
     {
         weatherInfo = info;
-        VerweidAdvisor advisor = FindObjectOfType<VerweidAdvisor>();
-        if (advisor != null) advisor.Weather = info;
     }
 
     private void FixedUpdate()

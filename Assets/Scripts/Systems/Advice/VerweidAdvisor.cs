@@ -4,8 +4,8 @@ using System.Linq;
 
 class VerweidAdvisor : MonoBehaviour
 {	
-	private WeatherInfo weather;
-	public WeatherInfo Weather
+	private static WeatherInfo weather;
+	public static WeatherInfo Weather
 	{
 		get => weather;
 		set
@@ -14,9 +14,24 @@ class VerweidAdvisor : MonoBehaviour
 			if (weather != null)
 			{
 				CalcValue();
-				CronScheduler.instance.SetRepeat(this, "FireCalcValue", 3600);
+				//CronScheduler.instance.SetRepeat(this, "FireCalcValue", 3600);
 			}
 		}
+	}
+	
+	private VerweidAdvisor()
+	{
+		EventSystem<WeatherInfo>.AddListener(EventType.weatherDataReceived, OnWeatherDataReceived);
+	}
+
+	~VerweidAdvisor()
+	{
+		EventSystem<WeatherInfo>.RemoveListener(EventType.weatherDataReceived, OnWeatherDataReceived);
+	}
+
+	private static void OnWeatherDataReceived(WeatherInfo info)
+	{
+		Weather = info;
 	}
 
 	private void FireCalcValue()
@@ -44,7 +59,7 @@ class VerweidAdvisor : MonoBehaviour
 		return -0.09746 + 0.01063 * T_mean;
 	}
 
-	public double CalcValue(WeatherInfo weatherInfo = null)
+	public static double CalcValue(WeatherInfo weatherInfo = null)
 	{
 		if (weatherInfo == null) weatherInfo = weather;
 
