@@ -36,10 +36,10 @@ public class Weather : MonoBehaviour
     public void UpdateWeather()
     {
         if (info == null) return;
-        StartCoroutine(GetWeather(info.lat, info.lon, info.timezone));
+        StartCoroutine(GetWeather(info.timezone, Location.latitude, Location.longitude));
     }
     
-    private IEnumerator GetWeather(float latitude, float longitude, string timezone)
+    private IEnumerator GetWeather(string timezone, float latitude = 52.1326f, float longitude = 5.2913f)
     {
         string latitudeString = latitude.ToString(CultureInfo.InvariantCulture);
         string longitudeString = longitude.ToString(CultureInfo.InvariantCulture);
@@ -56,9 +56,9 @@ public class Weather : MonoBehaviour
             yield break;
         }
 
-        WeatherInfo info = JsonUtility.FromJson<WeatherInfo>(www.downloadHandler.text);
+        WeatherInfo weatherInfo = JsonUtility.FromJson<WeatherInfo>(www.downloadHandler.text);
         
-        EventSystem<WeatherInfo>.InvokeEvent(EventType.performWeatherUpdate, info);
+        EventSystem<WeatherInfo>.InvokeEvent(EventType.performWeatherUpdate, weatherInfo);
     }
 }
 

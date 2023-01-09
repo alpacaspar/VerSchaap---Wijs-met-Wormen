@@ -5,15 +5,21 @@ using UnityEngine.Networking;
 
 public class Location : MonoBehaviour
 {
+    public static float longitude = 5.2913f;
+    public static float latitude = 52.1326f;
     private string ipAddress;
 
-    private void Start()
+    private bool isRunning;
+    
+    public void GetLocation()
     {
+        if (isRunning) return;
         StartCoroutine(GetIPAddress());
     }
 
     private IEnumerator GetIPAddress()
     {
+        isRunning = true;
         UnityWebRequest www = UnityWebRequest.Get("http://checkip.dyndns.org");
         yield return www.SendWebRequest();
 
@@ -33,6 +39,8 @@ public class Location : MonoBehaviour
         ipAddress = a4;
         
         yield return StartCoroutine(GetCoordinates());
+
+        isRunning = false;
     }
 
     private IEnumerator GetCoordinates()
@@ -51,8 +59,49 @@ public class Location : MonoBehaviour
         }
 
         LocationInfo info = JsonUtility.FromJson<LocationInfo>(www.downloadHandler.text);
+        longitude = info.lon;
+        longitude = info.lon;
 
         EventSystem<LocationInfo>.InvokeEvent(EventType.locationDataReceived, info);
+    }
+
+    public void SetLongitude(string longitude)
+    {
+        float value;
+        try
+        {
+            value = float.Parse(longitude);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Warning: Could not parse longitude, using default value instead.");
+            value = 5.2913f;
+        }
+
+        Location.longitude = Mathf.Clamp(value, -180f, 180f);
+    }
+    
+    public void SetLatitude(string latitude)
+    {
+        float value;
+        try
+        {
+            value = float.Parse(latitude);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Warning: Could not parse latitude, using default value instead.");
+            value = 52.1326f;
+        }
+        Location.latitude = Mathf.Clamp(value, -90f, 90f);
+    }
+
+    public void OnToggleValueChanged(bool value)
+    {
+        if (value)
+        {
+            GetLocation();
+        }
     }
 }
 
