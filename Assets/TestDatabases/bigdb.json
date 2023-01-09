@@ -5,7 +5,7 @@
     [
         {
             "UUID": "3b93e539-656d-4dec-be2d-a445a8f3f4b5",
-            "perceelName": "Perceel 0",
+            "perceelName": "Quarantaine",
             "surfaceSqrMtr": 98,
             "surfaceQuality": 54.0,
             "extraRemarks":
@@ -13,7 +13,7 @@
         },
         {
             "UUID": "cc659af2-a17c-4927-9aff-869826463d76",
-            "perceelName": "Perceel 1",
+            "perceelName": "Bij de smalle sloot",
             "surfaceSqrMtr": 296,
             "surfaceQuality": 44.0,
             "extraRemarks":
@@ -21,7 +21,7 @@
         },
         {
             "UUID": "a809d003-fd41-45ad-ac58-735d3ae9653c",
-            "perceelName": "Perceel 2",
+            "perceelName": "Bij de brede sloot",
             "surfaceSqrMtr": 167,
             "surfaceQuality": 35.0,
             "extraRemarks":
@@ -29,7 +29,7 @@
         },
         {
             "UUID": "bc2a5546-e567-4f46-850e-6d51a45dc391",
-            "perceelName": "Perceel 3",
+            "perceelName": "Dijk",
             "surfaceSqrMtr": 55,
             "surfaceQuality": 79.0,
             "extraRemarks":
@@ -37,7 +37,7 @@
         },
         {
             "UUID": "99b0e43f-690c-4f83-a530-245e5b760dd1",
-            "perceelName": "Perceel 4",
+            "perceelName": "Naast de molen",
             "surfaceSqrMtr": 391,
             "surfaceQuality": 33.0,
             "extraRemarks":
@@ -45,7 +45,7 @@
         },
         {
             "UUID": "8f8e71b6-7e4a-418b-8a8c-0ff2eccf9aaa",
-            "perceelName": "Perceel 5",
+            "perceelName": "Naast de wilgen",
             "surfaceSqrMtr": 193,
             "surfaceQuality": 40.0,
             "extraRemarks":
@@ -53,7 +53,7 @@
         },
         {
             "UUID": "730b6022-247f-4688-96d2-bf5380d4c359",
-            "perceelName": "Perceel 6",
+            "perceelName": "Bij de perenbomen",
             "surfaceSqrMtr": 270,
             "surfaceQuality": 36.0,
             "extraRemarks":
@@ -61,7 +61,7 @@
         },
         {
             "UUID": "cb6f4f64-8500-496f-a9ab-4ff5847a29c8",
-            "perceelName": "Perceel 7",
+            "perceelName": "Oude schuur",
             "surfaceSqrMtr": 106,
             "surfaceQuality": 26.0,
             "extraRemarks":
@@ -69,7 +69,7 @@
         },
         {
             "UUID": "17fae24f-88ec-4a54-8a8c-4ce2fd95673f",
-            "perceelName": "Perceel 8",
+            "perceelName": "Grote stal",
             "surfaceSqrMtr": 337,
             "surfaceQuality": 27.0,
             "extraRemarks":
@@ -10483,7 +10483,7 @@
     [
         {
             "UUID": "5190e27a-7332-48de-ba20-a6faf93fd3fc",
-            "koppelName": "Grote stal",
+            "koppelName": "Koppel 1",
             "allSheep":
             [
                 "29818747-a4b6-40da-ba69-378d50c9d5f6",
@@ -10532,7 +10532,7 @@
         },
         {
             "UUID": "f46a1a30-3a5e-4631-b7ae-e70a0ccdb98d",
-            "koppelName": "Oude schuur",
+            "koppelName": "Koppel 2",
             "allSheep":
             [
                 "4b47c0ff-2f32-4372-a65d-065f1b0d6359",
@@ -10606,7 +10606,7 @@
         },
         {
             "UUID": "4b207c28-494b-43cb-ac4e-f4b3b994b140",
-            "koppelName": "Dijkkoppel",
+            "koppelName": "Koppel 3",
             "allSheep":
             [
                 "fd8aea99-02fa-4d83-b43d-84ff5850b4bd",
@@ -10657,7 +10657,7 @@
         },
         {
             "UUID": "64890980-be81-49ae-9188-607ac6a4c49b",
-            "koppelName": "Wildernis",
+            "koppelName": "Koppel 4",
             "allSheep":
             [
                 "2b47f98e-7d81-442d-9229-b1d3bd668aad",
@@ -10713,7 +10713,7 @@
         },
         {
             "UUID": "6522dd81-ba51-4e4f-ac9c-2ec5ed756c6b",
-            "koppelName": "Quarantaine",
+            "koppelName": "Koppel 5",
             "allSheep":
             [
                 "9cde7e92-eab0-460d-bc12-04a55feb3fe4",

@@ -33,20 +33,6 @@ public class KoppelDataViewer : MonoBehaviour
     [Header("Other")]
     public ScrollRect scrollRect;
 
-    public void GetKoppels()
-    {
-        //sheepDataReader.testDatabase.sheepKoppels
-        foreach (var kop in dataReader.testDatabase.sheepKoppels)
-        {
-            /*
-            foreach (var shp in sheepDataReader.testDatabase.sheeps.Where(shp => shp.sheepKoppelID == kop.UUID))
-            {
-
-            }
-            */
-        }
-    }
-
     private void Start()
     {
         SetupDetailsPanel();

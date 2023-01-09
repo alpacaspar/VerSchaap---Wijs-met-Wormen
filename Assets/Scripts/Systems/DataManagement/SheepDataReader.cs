@@ -51,6 +51,16 @@ public class SheepDataReader : MonoBehaviour
         return null;
     }
 
+    public SheepKoppel GetKoppelByUUID(string uuid)
+    {
+        foreach (var koppel in testDatabase.sheepKoppels)
+        {
+            if (koppel.UUID == uuid) return koppel;
+        }
+
+        return null;
+    }
+
     public void UpdateSheepData(SheepObject sheep)
     {
         int nChilds = sheepDataViewer.sheepButtonContainer.childCount;
@@ -90,6 +100,47 @@ public class SheepDataReader : MonoBehaviour
         sheepDataViewer.bAddingSheep = false;
     }
 
+    public void UpdateWeideData(WeideObject weide)
+    {
+        int nChilds = sheepDataViewer.sheepButtonContainer.childCount;
+
+        // editing existing sheep
+        if (!weideDataViewer.bAddingElement)
+        {
+            // update the actual data
+            // magic, ignore casing and check if names are the same
+            foreach (var wds in testDatabase.weides.Where(wds => string.Equals(wds.UUID, weideDataViewer.selectedElement.UUID, StringComparison.CurrentCultureIgnoreCase)))
+            {
+                wds.perceelName = weide.perceelName;
+                wds.surfaceQuality = weide.surfaceQuality;
+                wds.surfaceSqrMtr = weide.surfaceSqrMtr;
+            }
+
+            // update the visuals representing the data
+            for (int i = 0; i < nChilds; i++)
+            {
+                var obj = weideDataViewer.WeideButtonContainer.GetChild(i).gameObject.GetComponentInChildren<WeideButton>();
+                if (obj.weide.UUID != weideDataViewer.selectedElement.UUID) continue;
+                obj.SetInfo(weide, weideDataViewer);
+                break;
+            }
+        }
+
+        // Adding a new sheep
+        // TODO check if UUID doesnt already exist
+        else
+        {
+            testDatabase.weides.Add(weide);
+            weideDataViewer.CreateNewWeideButton(weide);
+            //testDatabase.sheeps.Add(sheep);
+            //var obj = sheepDataViewer.CreateNewSheepButton(sheep);
+            //sheepDataViewer.MoveScrollViewToElement(obj.GetComponent<RectTransform>());
+        }
+
+        weideDataViewer.bAddingElement = false;
+    }
+
+    /*
     public void UpdateWormData(WormObject worm)
     {
         int nChilds = wormDataViewer.wormButtonContainer.childCount;
@@ -125,6 +176,7 @@ public class SheepDataReader : MonoBehaviour
 
         sheepDataViewer.bAddingSheep = false;
     }
+    */
 
     public void DeleteSheep(SheepObject sheep)
     {

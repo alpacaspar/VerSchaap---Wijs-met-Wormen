@@ -21,6 +21,7 @@ public class SheepDataViewer : MonoBehaviour
     public TMP_InputField inputTag;
     public TMP_Dropdown inputSex;
     public TMP_Dropdown inputSheepType;   
+    public TMP_Dropdown inputKoppel;   
     public Button inputTSBorn;
     public UICalendarWidget calendarWidget;
     public Window_Graph graph;
@@ -246,10 +247,24 @@ public class SheepDataViewer : MonoBehaviour
         detailsPanel.SetActive(showDetails);   
     }
 
+    public void UpdateKoppelDropDown()
+    {
+        inputKoppel.options = new List<TMP_Dropdown.OptionData>();
+        List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
+
+        foreach (var val in sheepDataReader.testDatabase.sheepKoppels)
+        {
+            options.Add(new TMP_Dropdown.OptionData(val.UUID));
+        }
+
+        inputKoppel.AddOptions(options);
+    }
+
     public void ShowDetails(SheepObject sheep)
     {
         selectedSheep = sheep;
         SetPanelVisibilty(true);
+        UpdateKoppelDropDown();
         UpdateSheepImage(selectedSheep.sheepType.ToString());
         calendarWidget.SetDate(sheep.tsBorn);
         inputTag.SetTextWithoutNotify(sheep.sheepTag);
@@ -267,6 +282,15 @@ public class SheepDataViewer : MonoBehaviour
         {
             if (!string.Equals(inputSheepType.options[i].text, sheep.sheepType.ToString(), StringComparison.CurrentCultureIgnoreCase)) continue;
             inputSheepType.value = i;
+            break;
+        }
+
+        // Set the koppel input dropdown to the correct value
+        for (int i = 0; i < inputKoppel.options.Count; i++)
+        {
+            // TODO convert from uuid to readible koppel name
+            if (!string.Equals(inputKoppel.options[i].text, sheep.sheepKoppelID.ToString(), StringComparison.CurrentCultureIgnoreCase)) continue;
+            inputKoppel.value = i;
             break;
         }
 

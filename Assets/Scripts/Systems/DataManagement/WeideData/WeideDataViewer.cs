@@ -15,6 +15,7 @@ public class WeideDataViewer : MonoBehaviour
     public RectTransform WeideButtonContainer;
     public GameObject overviewPanel;
     public GameObject detailsPanel;
+    public TextMeshProUGUI detailPanelTitle;
 
     [Header("Weide variable fields")]
     public TMP_InputField inputPerceelName;
@@ -73,7 +74,7 @@ public class WeideDataViewer : MonoBehaviour
             bAddingElement = true;
             selectedElement = new WeideObject
             {
-
+                UUID = Helpers.GenerateUUID()
             };
 
             ShowDetails(selectedElement);
@@ -84,9 +85,16 @@ public class WeideDataViewer : MonoBehaviour
 
             WeideObject tmpWeide = new WeideObject
             {
-
+                UUID = selectedElement != null ? selectedElement.UUID : Helpers.GenerateUUID(),
+                perceelName = inputPerceelName.text,
+                surfaceSqrMtr = int.Parse(inputSurfaceArea.text),
+                surfaceQuality = float.Parse(inputSurfaceQuality.text),
+                //grassTypes = new List<GrassType[]>(),
+                //currentSheeps = new List<SheepType[]>(),
+                //extraRemarks = new List<string>()
             };
-            
+
+            sheepDataReader.UpdateWeideData(tmpWeide);
             SetPanelVisibilty(false);
         });
     }
@@ -95,11 +103,11 @@ public class WeideDataViewer : MonoBehaviour
     {
         foreach (WeideObject s in database)
         {
-            CreateNewElementButton(s);
+            CreateNewWeideButton(s);
         }
     }
     
-    public void CreateNewElementButton(WeideObject s)
+    public void CreateNewWeideButton(WeideObject s)
     {
         var sheepPanelGameObject = Instantiate(WeideButtonPrefab, WeideButtonContainer);
         sheepPanelGameObject.GetComponentInChildren<WeideButton>().SetInfo(s, this);
@@ -119,6 +127,7 @@ public class WeideDataViewer : MonoBehaviour
     public void ShowDetails(WeideObject element)
     {
         selectedElement = element;
+        detailPanelTitle.text = bAddingElement ? "Perceel toevoegen" : "Perceel bewerken";
         SetPanelVisibilty(true);
         inputPerceelName.SetTextWithoutNotify(element.perceelName);
         inputSurfaceArea.SetTextWithoutNotify(element.surfaceSqrMtr.ToString());
