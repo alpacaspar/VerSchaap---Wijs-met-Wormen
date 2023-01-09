@@ -53,9 +53,9 @@ public class CurrentInfo : MonoBehaviour
         DateTime now = DateTime.Now;
         CultureInfo info = new CultureInfo("nl-NL");
         string monthName = info.DateTimeFormat.GetMonthName(now.Month);
-        string week = info.DateTimeFormat.AbbreviatedDayNames[(int)now.DayOfWeek];
+        string dayOfWeek = info.DateTimeFormat.AbbreviatedDayNames[(int)now.DayOfWeek];
 
-        currentDateTextComponent.text = $"{week} {now.Day} {monthName}";
+        currentDateTextComponent.text = $"{dayOfWeek} {now.Day} {monthName}";
     }
     
     private void SetCurrentTemperature()
@@ -63,7 +63,7 @@ public class CurrentInfo : MonoBehaviour
         if (!temperatureTextComponent) return;
         if (weatherInfo == null) return;
         
-        int temp = Mathf.RoundToInt(weatherInfo.hourly.temperature_2m[GetWeatherInfoIndex()]);
+        int temp = Mathf.RoundToInt(weatherInfo.hourly.temperature_2m[GetCurrentWeatherInfoIndex()]);
         temperatureTextComponent.text = $"{temp}°";
     }
 
@@ -72,19 +72,12 @@ public class CurrentInfo : MonoBehaviour
         if (!weatherIconImageComponent) return;
         if (weatherInfo == null) return;
 
-        weatherIconImageComponent.sprite = weatherIconsObject.WeatherIcons[weatherInfo.hourly.weathercode[GetWeatherInfoIndex()]];
+        weatherIconImageComponent.sprite = weatherIconsObject.WeatherIcons[weatherInfo.hourly.weathercode[GetCurrentWeatherInfoIndex()]];
     }
 
-    private int GetWeatherInfoIndex()
+    private int GetCurrentWeatherInfoIndex()
     {
-        return Array.IndexOf(weatherInfo.hourly.time, ConvertDateTimeToWeatherTime());
-    }
-
-    private string ConvertDateTimeToWeatherTime()
-    {
-        DateTime now = DateTime.Now;
-
-        return $"{now.Year}-{now.Month}-{MakeDateTimeDisplayReady(now.Day)}T{MakeDateTimeDisplayReady(now.Hour)}:00";
+        return DateTime.Now.Hour;
     }
 
     private string MakeDateTimeDisplayReady(int input)
