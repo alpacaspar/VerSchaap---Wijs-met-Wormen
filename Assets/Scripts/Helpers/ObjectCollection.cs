@@ -60,7 +60,7 @@ public class WormObject : ObjectUUID
 public class SheepKoppel : ObjectUUID
 {
     public string koppelName = "koppel";
-    //public List<string> allSheep = new List<string>();
+    public List<string> allSheep = new List<string>();
 }
 
 /* * * *

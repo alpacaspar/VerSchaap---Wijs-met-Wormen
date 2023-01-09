@@ -8,39 +8,44 @@ using System.Linq;
 
 public class SheepDataViewer : MonoBehaviour
 {
-    // The "content" object inside the scroll view
-    public RectTransform sheepUIPanel;
-    public GameObject sheepUIObject;
+    [Header("Prefabs")]
+    public GameObject sheepButtonPrefab;
 
-    public GameObject navPanel;
+    [Header("UI Panels")]
+    public RectTransform sheepButtonContainer;
     public GameObject overviewPanel;
     public GameObject detailsPanel;
+    
 
+    [Header("Sheep variable fields")]
     public TMP_InputField inputTag;
     public TMP_Dropdown inputSex;
-    public TMP_Dropdown inputSheepType;
-    
+    public TMP_Dropdown inputSheepType;   
     public Button inputTSBorn;
     public UICalendarWidget calendarWidget;
     public Window_Graph graph;
+    public Image sheepImg;
 
+    [Header("Element Options")]
     public Button btnCancel;
     public Button btnSave;
     public Button btnAddSheep;
-    
+
+    [HideInInspector]
     public SheepObject selectedSheep;
-    public Button btnSortByTag;
-    public Button btnSortByGender;
     
     // dirty var to fix the calendar
+    [HideInInspector]
     public DateTimeOffset tmpTime = new DateTimeOffset(DateTime.UtcNow);
+    [HideInInspector]
     public bool bAddingSheep = false;
+    [HideInInspector]
     public SheepDataReader sheepDataReader;
-
-    public Image sheepImg;
+    [Header("Other")]
+    public ScrollRect scrollRect;
     public Dictionary<string, Sprite> sheepImages = new Dictionary<string, Sprite>();
 
-    public ScrollRect scrollRect;
+    
 
     public void SortSheepByTag()
     {
@@ -113,9 +118,9 @@ public class SheepDataViewer : MonoBehaviour
 
     private void RemoveAllButtons()
     {
-        for (int i = sheepUIPanel.childCount - 1; i >= 0; i--)
+        for (int i = sheepButtonContainer.childCount - 1; i >= 0; i--)
         {
-            Destroy(sheepUIPanel.GetChild(i).gameObject);
+            Destroy(sheepButtonContainer.GetChild(i).gameObject);
         }
     }
 
@@ -193,7 +198,7 @@ public class SheepDataViewer : MonoBehaviour
     
     public GameObject CreateNewSheepButton(SheepObject s)
     {
-        var sheepPanelGameObject = Instantiate(sheepUIObject, sheepUIPanel);
+        var sheepPanelGameObject = Instantiate(sheepButtonPrefab, sheepButtonContainer);
         sheepPanelGameObject.GetComponentInChildren<SheepButton>().SetInfo(s, this);
         return sheepPanelGameObject;
     }
@@ -201,7 +206,7 @@ public class SheepDataViewer : MonoBehaviour
     public void MoveScrollViewToElement(RectTransform target)
     {
         Canvas.ForceUpdateCanvases();
-        sheepUIPanel.anchoredPosition = (Vector2)scrollRect.transform.InverseTransformPoint(sheepUIPanel.position) - (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
+        sheepButtonContainer.anchoredPosition = (Vector2)scrollRect.transform.InverseTransformPoint(sheepButtonContainer.position) - (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
     }
     
     public void UpdateTSButton(DateTimeOffset time)
@@ -233,23 +238,10 @@ public class SheepDataViewer : MonoBehaviour
             calendarWidget.gameObject.SetActive(!calendarWidget.gameObject.activeSelf);
             calendarWidget.SetDate(tmpTime.ToUnixTimeSeconds());
         });
-
-        /*
-        btnSortByTag.onClick.AddListener(delegate
-        {
-            SortSheepByTag();
-        });
-
-        btnSortByGender.onClick.AddListener(delegate
-        {
-            SortSheepByGender();
-        });
-        */
     }
 
     public void SetPanelVisibilty(bool showDetails)
     {
-        if (navPanel != null) navPanel.SetActive(!showDetails);
         overviewPanel.SetActive(!showDetails);
         detailsPanel.SetActive(showDetails);   
     }

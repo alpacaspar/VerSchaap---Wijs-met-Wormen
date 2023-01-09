@@ -8,25 +8,32 @@ using System.Linq;
 
 public class WeideDataViewer : MonoBehaviour
 {
-    public RectTransform ButtonListContainer;
-    public GameObject UIButtonPrefab;
-
+    [Header("Prefabs")]
+    public GameObject WeideButtonPrefab;
+    
+    [Header("UI Panels")]
+    public RectTransform WeideButtonContainer;
     public GameObject overviewPanel;
     public GameObject detailsPanel;
 
+    [Header("Weide variable fields")]
     public TMP_InputField inputPerceelName;
     public TMP_InputField inputSurfaceArea;
     public TMP_InputField inputSurfaceQuality;
+    public Image sheepImg;
 
+    [Header("Element Options")]
     public Button btnCancel;
     public Button btnSave;
     public Button btnAddElement;
     
+    [HideInInspector]
     public WeideObject selectedElement;
+    [HideInInspector]
     public bool bAddingElement = false;
+    [HideInInspector]
     public SheepDataReader sheepDataReader;
-
-    public Image sheepImg;
+    
     public Dictionary<string, Sprite> sheepImages = new Dictionary<string, Sprite>();
 
     private void LoadSheepImages()
@@ -94,7 +101,7 @@ public class WeideDataViewer : MonoBehaviour
     
     public void CreateNewElementButton(WeideObject s)
     {
-        var sheepPanelGameObject = Instantiate(UIButtonPrefab, ButtonListContainer);
+        var sheepPanelGameObject = Instantiate(WeideButtonPrefab, WeideButtonContainer);
         sheepPanelGameObject.GetComponentInChildren<WeideButton>().SetInfo(s, this);
     }
 

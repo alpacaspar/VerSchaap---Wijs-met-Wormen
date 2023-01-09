@@ -12,8 +12,9 @@ public class DataTester : MonoBehaviour
     void Start()
     {
         // populate file
-        PopulateKoppels(5);
+        InitKoppels(5);
         PopulateSheeps(250);
+        CreateKoppels();
         PopulateWorms(5);
         PopulateSurfaces(20);
     }
@@ -67,7 +68,9 @@ public class DataTester : MonoBehaviour
                 newSheep.weight.Add(weight);
             }
 
-            newSheep.sheepKoppelID = koppels[Random.Range(0, koppels.Count)].UUID;
+            var koppel = koppels[Random.Range(0, koppels.Count)];
+            newSheep.sheepKoppelID = koppel.UUID;
+            koppel.allSheep.Add(newSheep.UUID);
             string[] response = WurmAPI.MethodHandler(MethodType.Post, newSheep);
             Debug.Log(Helpers.CodeToMessage(response));
         }
@@ -120,7 +123,7 @@ public class DataTester : MonoBehaviour
     /// <summary>
     ///     Make sheep groups
     /// </summary>
-    public void PopulateKoppels(int quantity)
+    public void InitKoppels(int quantity)
     {
         for (int i = 0; i < quantity; i++)
         {
@@ -131,6 +134,15 @@ public class DataTester : MonoBehaviour
             newKoppel.UUID = Helpers.GenerateUUID();
             koppels.Add(newKoppel);
 
+            //string[] response = WurmAPI.MethodHandler(MethodType.Post, newKoppel);
+            //Debug.Log(Helpers.CodeToMessage(response));
+        }
+    }
+
+    public void CreateKoppels()
+    {
+        foreach (var newKoppel in koppels)
+        {
             string[] response = WurmAPI.MethodHandler(MethodType.Post, newKoppel);
             Debug.Log(Helpers.CodeToMessage(response));
         }

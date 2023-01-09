@@ -41,9 +41,19 @@ public class SheepDataReader : MonoBehaviour
         weideDataViewer.CreateSheepButtonsFromDB(testDatabase.weides);
     }
 
+    public SheepObject GetSheepObjectByUUID(string uuid)
+    {
+        foreach (var sheep in testDatabase.sheeps)
+        {
+            if (sheep.UUID == uuid) return sheep;
+        }
+
+        return null;
+    }
+
     public void UpdateSheepData(SheepObject sheep)
     {
-        int nChilds = sheepDataViewer.sheepUIPanel.childCount;
+        int nChilds = sheepDataViewer.sheepButtonContainer.childCount;
 
         // editing existing sheep
         if (!sheepDataViewer.bAddingSheep)
@@ -61,7 +71,7 @@ public class SheepDataReader : MonoBehaviour
             // update the visuals representing the data
             for (int i = 0; i < nChilds; i++)
             {
-                var obj = sheepDataViewer.sheepUIPanel.GetChild(i).gameObject.GetComponentInChildren<SheepButton>();
+                var obj = sheepDataViewer.sheepButtonContainer.GetChild(i).gameObject.GetComponentInChildren<SheepButton>();
                 if (obj.sheep.UUID != sheepDataViewer.selectedSheep.UUID) continue;
                 obj.SetInfo(sheep, sheepDataViewer);
                 break;
@@ -82,10 +92,10 @@ public class SheepDataReader : MonoBehaviour
 
     public void UpdateWormData(WormObject worm)
     {
-        int nChilds = wormDataViewer.wormUIPanel.childCount;
+        int nChilds = wormDataViewer.wormButtonContainer.childCount;
 
-        // editing existing sheep
-        if (!wormDataViewer.bAddingSheep)
+        // editing existing element
+        if (!wormDataViewer.bAddingElement)
         {
             // update the actual data
             // magic, ignore casing and check if names are the same
@@ -98,7 +108,7 @@ public class SheepDataReader : MonoBehaviour
             // update the visuals representing the data
             for (int i = 0; i < nChilds; i++)
             {
-                var obj = wormDataViewer.wormUIPanel.GetChild(i).gameObject.GetComponentInChildren<WormButton>();
+                var obj = wormDataViewer.wormButtonContainer.GetChild(i).gameObject.GetComponentInChildren<WormButton>();
                 if (obj.worm.UUID != wormDataViewer.selectedWorm.UUID) continue;
                 obj.SetInfo(worm, wormDataViewer);
                 break;
@@ -129,7 +139,7 @@ public class SheepDataReader : MonoBehaviour
         }
 
         if (index == -1) return;
-        Destroy(sheepDataViewer.sheepUIPanel.GetChild(index).gameObject);
+        Destroy(sheepDataViewer.sheepButtonContainer.GetChild(index).gameObject);
         testDatabase.sheeps.RemoveAt(index);
     }
 
@@ -146,7 +156,7 @@ public class SheepDataReader : MonoBehaviour
         }
 
         if (index == -1) return;
-        Destroy(wormDataViewer.wormUIPanel.GetChild(index).gameObject);
+        Destroy(wormDataViewer.wormButtonContainer.GetChild(index).gameObject);
         testDatabase.worms.RemoveAt(index);
     }
 
@@ -163,7 +173,7 @@ public class SheepDataReader : MonoBehaviour
         }
 
         if (index == -1) return;
-        Destroy(koppelDataViewer.buttonListContainer.GetChild(index).gameObject);
+        Destroy(koppelDataViewer.koppelButtonContainer.GetChild(index).gameObject);
         testDatabase.sheepKoppels.RemoveAt(index);
     }
 
@@ -180,7 +190,7 @@ public class SheepDataReader : MonoBehaviour
         }
 
         if (index == -1) return;
-        Destroy(weideDataViewer.ButtonListContainer.GetChild(index).gameObject);
+        Destroy(weideDataViewer.WeideButtonContainer.GetChild(index).gameObject);
         testDatabase.weides.RemoveAt(index);
     }
 

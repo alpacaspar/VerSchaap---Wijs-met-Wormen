@@ -113,13 +113,14 @@ public class UICalendarWidget : MonoBehaviour
         {
             GameObject dayCell = Instantiate(calendarCellObject, calendarDayPanel);
             Button btnDayCell = dayCell.GetComponent<Button>();
-            int j = i + 1;
+
             btnDayCell.onClick.AddListener(delegate
             {
-                SetDate(j);
+                SetDate(i + 1);
                 sheepDataReader.UpdateTSButton(timeStamp);
                 gameObject.SetActive(false);
             });
+            
             TextMeshProUGUI txt = dayCell.GetComponentInChildren<TextMeshProUGUI>();
             txt.SetText((i + 1).ToString());
         }

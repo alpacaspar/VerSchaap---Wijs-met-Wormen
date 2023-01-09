@@ -8,21 +8,29 @@ using System.Linq;
 
 public class KoppelDataViewer : MonoBehaviour
 {
-    // The "content" object inside the scroll view
-    public RectTransform buttonListContainer;
-    public GameObject UIButtonPrefab;
+    [Header("Prefabs")]
+    public GameObject KoppelButtonPrefab;
+    public GameObject SheepButtonPrefab;
 
+    [Header("UI Panels")]
+    public RectTransform koppelButtonContainer;
+    public RectTransform koppelSheepListButtonContainer;
     public GameObject overviewPanel;
     public GameObject detailsPanel;
 
+    [Header("Element Options")]
     public Button btnCancel;
     public Button btnSave;
     public Button btnAddSheep;
 
+    [HideInInspector]
     public SheepKoppel selectedElement;
+    [HideInInspector]
     public bool bAddingElement = false;
+    [HideInInspector]
     public SheepDataReader dataReader;
 
+    [Header("Other")]
     public ScrollRect scrollRect;
 
     public void GetKoppels()
@@ -85,15 +93,43 @@ public class KoppelDataViewer : MonoBehaviour
 
     public GameObject CreateNewButton(SheepKoppel s)
     {
-        var panelGameObject = Instantiate(UIButtonPrefab, buttonListContainer);
+        var panelGameObject = Instantiate(KoppelButtonPrefab, koppelButtonContainer);
         panelGameObject.GetComponentInChildren<KoppelButton>().SetInfo(s, this);
         return panelGameObject;
+    }
+
+    // delete old sheep buttons
+    public void RemoveExistingSheepButtons()
+    {
+        for (int i = koppelSheepListButtonContainer.childCount - 1; i >= 0; i--)
+        {
+            Destroy(koppelSheepListButtonContainer.GetChild(i).gameObject);
+        }
+    }
+
+    public GameObject CreateNewSheepButtons()
+    {
+        RemoveExistingSheepButtons();
+
+        foreach (var sheepuuid in selectedElement.allSheep)
+        {
+            var foundSheep = dataReader.GetSheepObjectByUUID(sheepuuid);
+
+            // sheep with this uuid was found in the database
+            if (foundSheep != null)
+            {
+                var panelGameObject = Instantiate(SheepButtonPrefab, koppelSheepListButtonContainer);
+                panelGameObject.GetComponentInChildren<SheepButton>().SetInfo(foundSheep, FindObjectOfType<SheepDataViewer>());
+            }
+        }
+        // get sheep bij UUID
+        return null;
     }
 
     public void MoveScrollViewToElement(RectTransform target)
     {
         Canvas.ForceUpdateCanvases();
-        buttonListContainer.anchoredPosition = (Vector2)scrollRect.transform.InverseTransformPoint(buttonListContainer.position) - (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
+        koppelButtonContainer.anchoredPosition = (Vector2)scrollRect.transform.InverseTransformPoint(koppelButtonContainer.position) - (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
     }
 
     public void SetupDetailsPanel()
@@ -111,5 +147,6 @@ public class KoppelDataViewer : MonoBehaviour
     {
         selectedElement = element;
         SetPanelVisibilty(true);
+        CreateNewSheepButtons();
     }
 }

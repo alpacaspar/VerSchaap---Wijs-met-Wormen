@@ -8,31 +8,35 @@ using System.Linq;
 
 public class WormDataViewer : MonoBehaviour
 {
-    public RectTransform wormUIPanel;
-    public GameObject wormUIObject;
-
+    [Header("Prefabs")]
+    public GameObject wormButtonPrefab;
+    
+    [Header("UI Panels")]
+    public RectTransform wormButtonContainer;
     public GameObject overviewPanel;
     public GameObject detailsPanel;
 
+    [Header("Worm variable fields")]
     public TextMeshProUGUI detailsPanelTitle;
+    public TMP_InputField inputWormType;        //WormType, scientific name
+    public TMP_InputField inputNonScienceName;  //Non-science name
+    public TMP_InputField inputDescription;     //Description name
+    public Image wormImg;                       //Worm egg image. Must match the name of inputwormtype
 
-    public TMP_InputField inputUUID; //string UUID
-    public TMP_Dropdown inputWormType; //WormType wormType
-    public TMP_InputField inputNonScienceName; //Non-science name
+    //TODO
     //List<WormMedicines> effectiveMedicines
     //List<WormResistences> resistences
     //List<WormSymptoms> symptoms
     //List<WormFaveConditions> faveConditions
     //List<string> extraRemarks
 
-    public Button btnCancel;
-    public Button btnSave;
-
+    [HideInInspector]
     public WormObject selectedWorm;
-    public bool bAddingSheep = false;
+    [HideInInspector]
+    public bool bAddingElement = false;
+    [HideInInspector]
     public SheepDataReader dataReader;
 
-    public Image wormImg;
     public Dictionary<string, Sprite> wormImages = new Dictionary<string, Sprite>();
 
     private void LoadImages()
@@ -55,34 +59,7 @@ public class WormDataViewer : MonoBehaviour
     private void Start()
     {
         SetupDetailsPanel();
-        SetupButtons();
         LoadImages();
-    }
-
-    private void SetupButtons()
-    {
-        btnCancel.onClick.AddListener(delegate
-        {
-            overviewPanel.SetActive(true);
-            detailsPanel.SetActive(false);
-            bAddingSheep = false;
-        });
-
-        btnSave.onClick.AddListener(delegate
-        {
-            Enum.TryParse<WormType>(inputWormType.GetComponentInChildren<TextMeshProUGUI>().text, out WormType wormType);
-
-            WormObject tmpWorm = new WormObject
-            {
-                UUID = inputUUID.text,
-                wormType = wormType,
-                nonScienceName = inputNonScienceName.text
-            };
-
-            dataReader.UpdateWormData(tmpWorm);
-            overviewPanel.SetActive(true);
-            detailsPanel.SetActive(false);
-        });
     }
 
     public void CreateWormButtonsFromDB(List<WormObject> wormDatabase)
@@ -95,14 +72,16 @@ public class WormDataViewer : MonoBehaviour
 
     public void CreateNewWormButton(WormObject w)
     {
-        var wormPanelGameObject = Instantiate(wormUIObject, wormUIPanel);
+        var wormPanelGameObject = Instantiate(wormButtonPrefab, wormButtonContainer);
         wormPanelGameObject.GetComponentInChildren<WormButton>().SetInfo(w, this);
     }
 
     public void SetupDetailsPanel()
     {
         WormType[] valsWormType = (WormType[])Enum.GetValues(typeof(WormType));
+        /*
         List<TMP_Dropdown.OptionData> options = valsWormType.Select(val => new TMP_Dropdown.OptionData(val.ToString())).ToList();
+        
         inputWormType.AddOptions(options);
         options = new List<TMP_Dropdown.OptionData>();
 
@@ -112,18 +91,25 @@ public class WormDataViewer : MonoBehaviour
         }
 
         inputWormType.onValueChanged.AddListener(delegate { UpdateImage(inputWormType.captionText.text); });
+        */
     }
 
+    /// <summary>
+    /// Called whenever an worm is selected
+    /// </summary>
+    /// <param name="worm"></param>
     public void ShowDetails(WormObject worm)
     {
         selectedWorm = worm;
         overviewPanel.SetActive(false);
         detailsPanel.SetActive(true);
         detailsPanelTitle.text = worm.nonScienceName;
-        inputUUID.SetTextWithoutNotify(worm.UUID);
         inputNonScienceName.SetTextWithoutNotify(worm.nonScienceName);
+        inputWormType.SetTextWithoutNotify(worm.wormType.ToString());
+        inputDescription.SetTextWithoutNotify(worm.extraRemarks.Count > 0 ? worm.extraRemarks[0] : "");
         UpdateImage(selectedWorm.wormType.ToString());
 
+        /*
         // Set the worm type input dropdown to the correct value
         for (int i = 0; i < inputWormType.options.Count; i++)
         {
@@ -131,5 +117,6 @@ public class WormDataViewer : MonoBehaviour
             inputWormType.value = i;
             break;
         }
+        */
     }
 }
