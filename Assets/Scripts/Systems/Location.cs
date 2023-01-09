@@ -26,7 +26,7 @@ public class Location : MonoBehaviour
         string result = www.downloadHandler.text;
 
         string[] a = result.Split(':');
-        string a2 = a[1].Substring(1);
+        string a2 = a[1][1..];
         string[] a3 = a2.Split('<');
         string a4 = a3[0];
 
