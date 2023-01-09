@@ -8,6 +8,12 @@ public class Weather : MonoBehaviour
 {
     // documentation for open-meteo api: https://open-meteo.com/en/docs
 
+    private LocationInfo info;
+    public void Start()
+    {
+        CronScheduler.instance.SetRepeat(this,"UpdateWeather", 3600);
+    }
+    
     private void OnEnable()
     {
         EventSystem<LocationInfo>.AddListener(EventType.locationDataReceived,OnLocationDataReceived);
@@ -20,14 +26,16 @@ public class Weather : MonoBehaviour
 
     private void OnLocationDataReceived(LocationInfo info)
     {
-        UpdateWeather(info);
+        this.info = info;
+        UpdateWeather();
     }
     
     /// <summary>
     /// Update weather information based on the most recently updated location information.
     /// </summary>
-    public void UpdateWeather(LocationInfo info)
+    public void UpdateWeather()
     {
+        if (info == null) return;
         StartCoroutine(GetWeather(info.lat, info.lon, info.timezone));
     }
     
@@ -54,7 +62,7 @@ public class Weather : MonoBehaviour
     }
 }
 
-// Code Conventions according to the Open-Meteo Weather API
+// Code convention follows the standard of https://open-meteo.com/ weather API.
 [Serializable]
 public class WeatherInfo
 {
@@ -69,7 +77,7 @@ public class WeatherInfo
     public Hourly hourly;
 }
 
-// Code Conventions according to the Open-Meteo Weather API
+// Code convention follows the standard of https://open-meteo.com/ weather API.
 [Serializable]
 public class Hourly
 {
@@ -81,7 +89,7 @@ public class Hourly
     public WeatherType[] weathercode;
 }
 
-// Code Conventions according to the Open-Meteo Weather API
+// Code convention follows the standard of https://open-meteo.com/ weather API.
 [Serializable]
 public class HourlyUnits
 {
