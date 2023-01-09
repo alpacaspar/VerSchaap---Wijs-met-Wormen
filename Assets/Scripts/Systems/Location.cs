@@ -60,7 +60,7 @@ public class Location : MonoBehaviour
 
         LocationInfo info = JsonUtility.FromJson<LocationInfo>(www.downloadHandler.text);
         longitude = info.lon;
-        longitude = info.lon;
+        latitude = info.lat;
 
         EventSystem<LocationInfo>.InvokeEvent(EventType.locationDataReceived, info);
     }
