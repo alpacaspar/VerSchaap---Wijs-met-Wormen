@@ -1,10 +1,6 @@
-using JetBrains.Annotations;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Windows.Forms.VisualStyles;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public static class Database
 {
@@ -65,7 +61,7 @@ public static class Database
     /// <returns>
     ///     Http status
     /// </returns>
-    public static string[] ProgressData<IObect>(MethodType type, IObect data)
+    public static string[] ProgressData<IObject>(MethodType type, IObject data)
     {
         if (tempDatabase == null) InitializeDatabase();
 
@@ -207,7 +203,6 @@ public static class Database
                     break;
 
                 case SheepObject newSheepObject:
-                    //newData = AddEntry(newSheepObject, Helpers.SheepToUUID(tempDatabase.sheeps));
                     newData = AddEntry(newSheepObject, Helpers.SheepToUUID(tempDatabase.sheeps), new SheepObject().GetType());
                     break;
 
@@ -322,8 +317,12 @@ public static class Database
                     newData[0] = (int)Status.Success1 + "";
                     break;
                 case "SheepObject":
-                    tempDatabase.sheeps.Add((SheepObject)newObject);
-                    newData[0] = (int)Status.Success1 + "";
+                    SheepObject sheepObject = (SheepObject)newObject;
+                    tempDatabase.sheeps.Add(sheepObject);
+                    string[] fieldCollection = { "Sheep_UUID", "Sheep_Label", "Sheep_Male", "Farmer_UUID" };
+                    string[] dataCollection = { sheepObject.UUID, sheepObject.sheepTag, sheepObject.sex.ToString(), tempDatabase.farmerUUID };
+                    DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Post, "AddSheep");
+                    newData[0] = (int)Status.Success1 + ""; // TODO WAITING ON REQUEST RESPONSE
                     break;
                 case "WormObject":
                     tempDatabase.worms.Add((WormObject)newObject);
@@ -365,46 +364,5 @@ public static class Database
         }
 
         return newData;
-    }
-
-    // TODO implement
-    private static void FireURI(string[] fieldCollection, string[] dataCollection, MethodType type)
-    {
-        // TODO implement http return codes
-
-        if (fieldCollection.Length != dataCollection.Length)
-        {
-            // return that entries are not matching
-        }
-
-        string baseUrl = "https://google.com/";
-        string pageUrl = "index.php";
-        string uri = baseUrl + pageUrl + "?type=" + type.ToString();
-
-        for (int i = 0; i < fieldCollection.Length; i++)
-        {
-            uri += "&" + fieldCollection[i] + "=" + dataCollection[i];
-        }
-
-        // TODO fire uri
-        Debug.Log("Fired: " + uri);
-
-        // TODO implement unity webrequest
-        /*UnityWebRequest unityWebRequest;
-        switch (type)
-        {
-            default:
-            case MethodType.Get:
-                unityWebRequest = UnityWebRequest.Get(uri);
-                break;
-
-            case MethodType.Post:
-                unityWebRequest = UnityWebRequest.Post(uri);
-                break;
-
-            case MethodType.Put:
-                unityWebRequest = UnityWebRequest.Put(uri);
-                break;
-        }*/
     }
 }

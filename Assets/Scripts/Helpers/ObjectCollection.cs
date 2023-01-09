@@ -17,7 +17,7 @@ public class TemporalDatabaseData : IObject
 [Serializable]
 public abstract class ObjectUUID : IObject
 {
-    public string UUID;
+    public string UUID = Helpers.GenerateUUID();
 }
 
 [Serializable]
