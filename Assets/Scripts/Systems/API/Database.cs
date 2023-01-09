@@ -319,7 +319,7 @@ public static class Database
                 case "SheepObject":
                     SheepObject sheepObject = (SheepObject)newObject;
                     tempDatabase.sheeps.Add(sheepObject);
-                    string[] fieldCollection = { "Sheep_UUID", "Sheep_Label", "Sheep_Male", "Farmer_UUID" };
+                    string[] fieldCollection = { "Sheep_UUID", "Sheep_Label", "Sheep_Female", "Farmer_UUID" };
                     string[] dataCollection = { sheepObject.UUID, sheepObject.sheepTag, sheepObject.sex.ToString(), tempDatabase.farmerUUID };
                     DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Post, "AddSheep");
                     newData[0] = (int)Status.Success1 + ""; // TODO WAITING ON REQUEST RESPONSE

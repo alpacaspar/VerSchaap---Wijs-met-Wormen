@@ -11,6 +11,10 @@
 	        echo($row);
 	    }
 	}
+	else
+	{
+		echo("Request not found!");
+	}
 
 	$mysqli->close();
 ?>

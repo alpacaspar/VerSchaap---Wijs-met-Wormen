@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -46,36 +44,30 @@ public class DBST : MonoBehaviour
             // return that entries are not matching in length
         }
 
-        string baseUrl = "https://studenthome.hku.nl/~tjaard.vanverseveld/content/vakken/jaar2/kernmodule4gdev/";
-        //string baseUrl = "https://studenthome.hku.nl/~tjaard.vanverseveld/content/vakken/jaar4/context3/";
+        string baseUrl = "https://studenthome.hku.nl/~tjaard.vanverseveld/content/vakken/jaar4/context3/";
         string pageUrl = ""; // TODO page not found error thingy
         switch (type)
         {
             case MethodType.Get:
-                pageUrl = "VerweidklokGetRequests.php?request=" + request;
+                pageUrl = "VerweidklokGetRequests.php";
                 break;
             case MethodType.Post:
-                pageUrl = "VerweidklokPostRequests.php?request=" + request;
+                pageUrl = "VerweidklokPostRequests.php";
                 break;
         }
-        string uri = baseUrl + pageUrl;
-
-        for (int i = 0; i < fieldCollection.Length; i++)
-        {
-            uri += "&" + fieldCollection[i] + "=" + dataCollection[i];
-        }
-
-        // TODO fire uri
-        Debug.Log("Fired: " + uri);
-
-        // test url:
-        // https://studenthome.hku.nl/~tjaard.vanverseveld/content/vakken/jaar2/kernmodule4gdev/get_scores.php?game_id=1&n_scores=10
 
         switch (type)
         {
             default:
             case MethodType.Get:
-                using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
+                Debug.Log("starting get");
+                string uri = "?request=" + request;
+                for (int i = 0; i < fieldCollection.Length; i++)
+                {
+                    uri += "&" + fieldCollection[i] + "=" + dataCollection[i];
+                }
+
+                using (UnityWebRequest webRequest = UnityWebRequest.Get(baseUrl + pageUrl + uri))
                 {
                     // Request and wait for the desired page.
                     yield return webRequest.SendWebRequest();
@@ -97,12 +89,36 @@ public class DBST : MonoBehaviour
                             break;
                     }
                 }
+                Debug.Log("Fired: " + baseUrl + pageUrl + uri);
 
                 // TODO return response through event system and set caller on "waiting"
                 break;
 
             case MethodType.Post:
-                //unityWebRequest = UnityWebRequest.Post(uri);
+                WWWForm form = new WWWForm();
+                form.AddField("request", "request");
+                for (int i = 0; i < fieldCollection.Length; i++)
+                {
+                    form.AddField(fieldCollection[i], dataCollection[i]);
+                }
+
+                //https://studenthome.hku.nl/~tjaard.vanverseveld/content/vakken/jaar4/context3/VerweidklokPostRequests.php?request=AddSheep&Sheep_UUID=fd660fab-0d4f-48e0-93dd-50e7a8d7c740&Sheep_Label=NL-123456-1-12345&Sheep_Female=Female&Farmer_UUID=48b5722d-0b82-4b88-8aaf-3934f423110d
+
+                using (UnityWebRequest www = UnityWebRequest.Post(baseUrl + pageUrl, form))
+                {
+                    yield return www.SendWebRequest();
+
+                    if (www.result != UnityWebRequest.Result.Success)
+                    {
+                        Debug.Log(www.error);
+                    }
+                    else
+                    {
+                        Debug.Log(www.result);
+                    }
+                }
+
+                // TODO return response through event system and set caller on "waiting"
                 break;
 
             case MethodType.Put:

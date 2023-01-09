@@ -17,7 +17,11 @@
 		}
 		else 
 		{
-		    echo("ERROR_MISSING_CREDENTIALS");
+		    echo("Not all fields set!");
 		}
+	}
+	else
+	{
+		echo("Request not found!");
 	}
 ?>
