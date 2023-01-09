@@ -101,14 +101,12 @@ public class DBST : MonoBehaviour
                 {
                     form.AddField(fieldCollection[i], dataCollection[i]);
                 }
-                Debug.Log(fieldCollection.Length);
                 // TODO form is not added on web request, so debug!
 
                 //https://studenthome.hku.nl/~tjaard.vanverseveld/content/vakken/jaar4/context3/VerweidklokPostRequests.php?request=AddSheep&Sheep_UUID=fd660fab-0d4f-48e0-93dd-50e7a8d7c740&Sheep_Label=NL-123456-1-12345&Sheep_Female=1&Farmer_UUID=48b5722d-0b82-4b88-8aaf-3934f423110d
                 //INSERT INTO `VerweidklokSheepTable` (Sheep_UUID, Sheep_Label, Sheep_Female, Farmer_UUID) VALUES('fd660fab-0d4f-48e0-93dd-50e7a8d7c740','NL-123456-1-12345','1','48b5722d-0b82-4b88-8aaf-3934f423110d');
-                
+
                 UnityWebRequest www = UnityWebRequest.Post(baseUrl + pageUrl, form);
-                Debug.Log(www.uri.AbsoluteUri);
                 yield return www.SendWebRequest();
 
                 if (www.result != UnityWebRequest.Result.Success)
