@@ -20,7 +20,9 @@ public class Location : MonoBehaviour
     private IEnumerator GetIPAddress()
     {
         isRunning = true;
+        
         UnityWebRequest www = UnityWebRequest.Get("http://checkip.dyndns.org");
+        
         yield return www.SendWebRequest();
 
         if (www.result is UnityWebRequest.Result.ConnectionError or UnityWebRequest.Result.ProtocolError)

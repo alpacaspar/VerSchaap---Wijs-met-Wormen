@@ -35,11 +35,10 @@ public class Weather : MonoBehaviour
     /// </summary>
     public void UpdateWeather()
     {
-        if (info == null) return;
-        StartCoroutine(GetWeather(info.timezone, Location.latitude, Location.longitude));
+        StartCoroutine(info != null ? GetWeather(info.timezone, Location.latitude, Location.longitude) : GetWeather("Europe/Amsterdam", Location.latitude, Location.longitude));
     }
     
-    private IEnumerator GetWeather(string timezone, float latitude = 52.1326f, float longitude = 5.2913f)
+    private IEnumerator GetWeather(string timezone = "Europe/Amsterdam", float latitude = 52.1326f, float longitude = 5.2913f)
     {
         string latitudeString = latitude.ToString(CultureInfo.InvariantCulture);
         string longitudeString = longitude.ToString(CultureInfo.InvariantCulture);
@@ -57,7 +56,7 @@ public class Weather : MonoBehaviour
         }
 
         WeatherInfo weatherInfo = JsonUtility.FromJson<WeatherInfo>(www.downloadHandler.text);
-        
+
         EventSystem<WeatherInfo>.InvokeEvent(EventType.performWeatherUpdate, weatherInfo);
     }
 }
