@@ -344,20 +344,6 @@ public static class Database
         string[] newData = new string[] { (int)Status.Error1 + "", "" };
         bool handledData = false;
 
-        /*if (collection.Count > 0)
-        {
-            foreach (ObjectUUID obj in collection)
-            {
-                if (obj.UUID == newObject.UUID)
-                {
-                    handledData = true;
-                    newData[0] = (int)Status.Success1 + "";
-                    newData[1] = JsonUtility.ToJson(obj);
-                    break;
-                }
-            }
-        }*/
-
         switch (type.ToString())
         {
             case "WeideObject":
