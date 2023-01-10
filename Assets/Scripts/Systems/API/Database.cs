@@ -227,15 +227,15 @@ public static class Database
                     break;
 
                 case WeideObject newWeideObject:
-                    newData = GetEntry(newWeideObject, Helpers.WeideToUUID(tempDatabase.weides));
+                    newData = GetEntry(newWeideObject, Helpers.WeideToUUID(tempDatabase.weides), new WeideObject().GetType());
                     break;
 
                 case SheepObject newSheepObject:
-                    newData = GetEntry(newSheepObject, Helpers.SheepToUUID(tempDatabase.sheeps));
+                    newData = GetEntry(newSheepObject, Helpers.SheepToUUID(tempDatabase.sheeps), new SheepObject().GetType());
                     break;
 
                 case WormObject newWormObject:
-                    newData = GetEntry(newWormObject, Helpers.WormToUUID(tempDatabase.worms));
+                    newData = GetEntry(newWormObject, Helpers.WormToUUID(tempDatabase.worms), new WormObject().GetType());
                     break;
             }
         }
@@ -339,12 +339,12 @@ public static class Database
     }
 
     // If entry is found return json string
-    private static string[] GetEntry(ObjectUUID newObject, List<ObjectUUID> collection)
+    private static string[] GetEntry(ObjectUUID newObject, List<ObjectUUID> collection, System.Type type)
     {
         string[] newData = new string[] { (int)Status.Error1 + "", "" };
         bool handledData = false;
 
-        if (collection.Count > 0)
+        /*if (collection.Count > 0)
         {
             foreach (ObjectUUID obj in collection)
             {
@@ -356,6 +356,24 @@ public static class Database
                     break;
                 }
             }
+        }*/
+
+        switch (type.ToString())
+        {
+            case "WeideObject":
+                break;
+            case "SheepObject":
+                SheepObject sheepObject = (SheepObject)newObject;
+                string[] fieldCollection = { "Sheep_UUID", "Farmer_UUID" };
+                string[] dataCollection = { sheepObject.UUID, tempDatabase.farmerUUID };
+                DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Get, "GetSheep");
+                newData[0] = (int)Status.Success1 + ""; // TODO WAITING ON REQUEST RESPONSE
+                handledData = true;
+                break;
+            case "WormObject":
+                break;
+            case "SheepKoppel":
+                break;
         }
 
         if (!handledData)

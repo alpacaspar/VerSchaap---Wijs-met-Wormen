@@ -93,6 +93,7 @@ public class DBST : MonoBehaviour
                 // TODO return response through event system and set caller on "waiting"
                 break;
 
+            case MethodType.Put:
             case MethodType.Post:
                 UnityWebRequest www = UnityWebRequest.Get(baseUrl + pageUrl + uri); // any other form of request causes issues
                 yield return www.SendWebRequest();
@@ -108,10 +109,6 @@ public class DBST : MonoBehaviour
                 Debug.Log("Fired: " + baseUrl + pageUrl + uri);
 
                 // TODO return response through event system and set caller on "waiting"
-                break;
-
-            case MethodType.Put:
-                //unityWebRequest = UnityWebRequest.Put(uri);
                 break;
         }
     }
