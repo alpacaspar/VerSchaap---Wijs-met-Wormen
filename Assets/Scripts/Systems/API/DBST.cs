@@ -103,7 +103,6 @@ public class DBST : MonoBehaviour
                 }*/
                 // TODO form is not added on web request, so debug!
 
-
                 for (int i = 0; i < fieldCollection.Length; i++)
                 {
                     uri += "&" + fieldCollection[i] + "=" + dataCollection[i];
