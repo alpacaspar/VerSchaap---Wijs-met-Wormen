@@ -108,7 +108,9 @@ public class KoppelDataViewer : MonoBehaviour
             if (foundSheep != null)
             {
                 var panelGameObject = Instantiate(SheepButtonPrefab, koppelSheepListButtonContainer);
-                panelGameObject.GetComponentInChildren<SheepButton>().SetInfo(foundSheep, FindObjectOfType<SheepDataViewer>());
+                var sheepButton = panelGameObject.GetComponentInChildren<SheepButton>();
+                sheepButton.buttonMode = SheepButtonMode.ClickToRemoveFromKoppel;
+                sheepButton.SetInfo(foundSheep, FindObjectOfType<SheepDataViewer>());
             }
         }
         // get sheep bij UUID

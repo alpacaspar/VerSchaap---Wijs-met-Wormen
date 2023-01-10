@@ -13,6 +13,7 @@ public class WeideButton : MonoBehaviour
     public Button btnDelete;
     public WeideObject weide;
     public WeideDataViewer dataViewer;
+    public QuickAdviceDisplay adviceDisplay;
 
     // Start is called before the first frame update
     private void Start()
@@ -26,5 +27,6 @@ public class WeideButton : MonoBehaviour
         weide = _weide;
         dataViewer = _dataViewer;
         txtPerceelName.text = weide.perceelName;
+        adviceDisplay.UpdateDotsBasedOnQuality(weide.surfaceQuality);
     }
 }

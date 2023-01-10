@@ -7,10 +7,22 @@ public class QuickAdviceDisplay : MonoBehaviour
     
     private Image[] dots;
     private Image[] Dots => dots ??= GetComponentsInChildren<Image>();
-    
+
+    /// <summary>
+    /// Test function. Uses the surface quality instead of the value from the verweid formula
+    /// </summary>
+    public void UpdateDotsBasedOnQuality(float surfaceQuality)
+    {
+        for (int i = 0; i < Dots.Length; i++)
+        {
+            Dots[i].color = 100.0f / Dots.Length * i > 100 - surfaceQuality ? Color.gray : colorGradient.Evaluate(1 - surfaceQuality / 100f);
+        }
+    }
+
     // TODO: Change "Update" function to event function that fires with every clock update.
     private void Update()
     {
+        return;
         // TODO: calculate "value" variable based on formula.
         float value = 0f;
 
