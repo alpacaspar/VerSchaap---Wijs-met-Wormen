@@ -56,7 +56,7 @@ public class HourlyForecast : MonoBehaviour
         string dateTime = $"{cultureInfo.DateTimeFormat.GetDayName((DayOfWeek)forecastDay)} {time[1]}"; 
         //string dateTime = $"{WeeklyForecast.GetDay((DayOfWeek)forecastDay)} {time[1]}";
         Sprite weatherIcon = weatherIconsObject.WeatherIcons[weatherInfo.hourly.weathercode[index]];
-        UpdateInfo(locationInfo.city, dateTime, weatherInfo.hourly.temperature_2m[index], weatherInfo.hourly.precipitation[index], weatherInfo.hourly.relativehumidity_2m[index], weatherIcon);
+        UpdateInfo(locationInfo == null ? "Nederland" : locationInfo.city, dateTime, weatherInfo.hourly.temperature_2m[index], weatherInfo.hourly.precipitation[index], weatherInfo.hourly.relativehumidity_2m[index], weatherIcon);
     }
 
     private void UpdateInfo(string location, string time, float temp, int precipitation, int humidity, Sprite weatherIcon)
