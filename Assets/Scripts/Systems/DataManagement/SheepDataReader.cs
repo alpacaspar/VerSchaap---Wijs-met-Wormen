@@ -51,11 +51,21 @@ public class SheepDataReader : MonoBehaviour
         return null;
     }
 
-    public SheepKoppel GetKoppelByUUID(string uuid)
+    public string GetKoppelUUIDByName(string name)
     {
         foreach (var koppel in testDatabase.sheepKoppels)
         {
-            if (koppel.UUID == uuid) return koppel;
+            if (koppel.koppelName == name) return koppel.UUID;
+        }
+
+        return null;
+    }
+
+    public string GetKoppelNameByUUID(string UUID)
+    {
+        foreach (var koppel in testDatabase.sheepKoppels)
+        {
+            if (koppel.UUID == UUID) return koppel.koppelName;
         }
 
         return null;
@@ -76,6 +86,29 @@ public class SheepDataReader : MonoBehaviour
                 shp.sex = sheep.sex;
                 shp.sheepType = sheep.sheepType;
                 shp.tsBorn = sheep.tsBorn;
+
+                var oldKoppelID = shp.sheepKoppelID;
+                var newKoppelID = sheep.sheepKoppelID;
+                // TODO check if it is a valid koppelid
+
+                if (oldKoppelID != newKoppelID)
+                {
+                    // Remove the sheep from the old koppel
+                    foreach (var kop in testDatabase.sheepKoppels.Where(kop => string.Equals(kop.UUID, oldKoppelID, StringComparison.CurrentCultureIgnoreCase)))
+                    {
+                        kop.allSheep.Remove(sheep.UUID);
+                    }
+
+                    // Add the sheep to the new koppel
+                    foreach (var kop in testDatabase.sheepKoppels.Where(kop => string.Equals(kop.UUID, newKoppelID, StringComparison.CurrentCultureIgnoreCase)))
+                    {
+                        kop.allSheep.Add(shp.UUID);
+                    }
+                }
+
+                shp.sheepKoppelID = newKoppelID;
+
+                // remove sheep from old koppel and update it
             }
 
             // update the visuals representing the data

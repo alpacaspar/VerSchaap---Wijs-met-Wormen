@@ -46,8 +46,6 @@ public class SheepDataViewer : MonoBehaviour
     public ScrollRect scrollRect;
     public Dictionary<string, Sprite> sheepImages = new Dictionary<string, Sprite>();
 
-    
-
     public void SortSheepByTag()
     {
         List<string> tmpList = new List<string>();
@@ -173,6 +171,7 @@ public class SheepDataViewer : MonoBehaviour
         {
             Enum.TryParse<Sex>(inputSex.GetComponentInChildren<TextMeshProUGUI>().text, out Sex sex);
             Enum.TryParse<SheepType>(inputSheepType.GetComponentInChildren<TextMeshProUGUI>().text, out SheepType sheepType);
+            var koppelID = sheepDataReader.GetKoppelUUIDByName(inputKoppel.GetComponentInChildren<TextMeshProUGUI>().text);
 
             SheepObject tmpSheep = new SheepObject
             {
@@ -181,7 +180,8 @@ public class SheepDataViewer : MonoBehaviour
                 sex = sex,
                 sheepType = sheepType,
                 tsBorn = calendarWidget.timeStamp.ToUnixTimeSeconds(),
-                weight = graph.sheepWeights
+                weight = graph.sheepWeights,
+                sheepKoppelID = koppelID
             };
             
             sheepDataReader.UpdateSheepData(tmpSheep);
@@ -254,7 +254,7 @@ public class SheepDataViewer : MonoBehaviour
 
         foreach (var val in sheepDataReader.testDatabase.sheepKoppels)
         {
-            options.Add(new TMP_Dropdown.OptionData(val.UUID));
+            options.Add(new TMP_Dropdown.OptionData(val.koppelName));
         }
 
         inputKoppel.AddOptions(options);
@@ -289,7 +289,7 @@ public class SheepDataViewer : MonoBehaviour
         for (int i = 0; i < inputKoppel.options.Count; i++)
         {
             // TODO convert from uuid to readible koppel name
-            if (!string.Equals(inputKoppel.options[i].text, sheep.sheepKoppelID.ToString(), StringComparison.CurrentCultureIgnoreCase)) continue;
+            if (!string.Equals(inputKoppel.options[i].text, sheepDataReader.GetKoppelNameByUUID(sheep.sheepKoppelID), StringComparison.CurrentCultureIgnoreCase)) continue;
             inputKoppel.value = i;
             break;
         }

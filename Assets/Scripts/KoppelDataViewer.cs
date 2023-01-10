@@ -18,6 +18,9 @@ public class KoppelDataViewer : MonoBehaviour
     public GameObject overviewPanel;
     public GameObject detailsPanel;
 
+    [Header("Koppel variable fields")]
+    public TMP_InputField inputName;
+
     [Header("Element Options")]
     public Button btnCancel;
     public Button btnSave;
@@ -132,6 +135,7 @@ public class KoppelDataViewer : MonoBehaviour
     public void ShowDetails(SheepKoppel element)
     {
         selectedElement = element;
+        inputName.SetTextWithoutNotify(selectedElement.koppelName);
         SetPanelVisibilty(true);
         CreateNewSheepButtons();
     }
