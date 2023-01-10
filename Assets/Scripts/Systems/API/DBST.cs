@@ -46,6 +46,7 @@ public class DBST : MonoBehaviour
 
         string baseUrl = "https://studenthome.hku.nl/~tjaard.vanverseveld/content/vakken/jaar4/context3/";
         string pageUrl = ""; // TODO page not found error thingy
+        string uri = "?request=" + request;
         switch (type)
         {
             case MethodType.Get:
@@ -61,7 +62,6 @@ public class DBST : MonoBehaviour
             default:
             case MethodType.Get:
                 Debug.Log("starting get");
-                string uri = "?request=" + request;
                 for (int i = 0; i < fieldCollection.Length; i++)
                 {
                     uri += "&" + fieldCollection[i] + "=" + dataCollection[i];
@@ -95,19 +95,27 @@ public class DBST : MonoBehaviour
                 break;
 
             case MethodType.Post:
-                WWWForm form = new WWWForm();
+                /*WWWForm form = new WWWForm();
                 form.AddField("request", "request");
                 for (int i = 0; i < fieldCollection.Length; i++)
                 {
                     form.AddField(fieldCollection[i], dataCollection[i]);
-                }
+                }*/
                 // TODO form is not added on web request, so debug!
+
+
+                for (int i = 0; i < fieldCollection.Length; i++)
+                {
+                    uri += "&" + fieldCollection[i] + "=" + dataCollection[i];
+                }
 
                 //https://studenthome.hku.nl/~tjaard.vanverseveld/content/vakken/jaar4/context3/VerweidklokPostRequests.php?request=AddSheep&Sheep_UUID=fd660fab-0d4f-48e0-93dd-50e7a8d7c740&Sheep_Label=NL-123456-1-12345&Sheep_Female=1&Farmer_UUID=48b5722d-0b82-4b88-8aaf-3934f423110d
                 //INSERT INTO `VerweidklokSheepTable` (Sheep_UUID, Sheep_Label, Sheep_Female, Farmer_UUID) VALUES('fd660fab-0d4f-48e0-93dd-50e7a8d7c740','NL-123456-1-12345','1','48b5722d-0b82-4b88-8aaf-3934f423110d');
 
-                UnityWebRequest www = UnityWebRequest.Post(baseUrl + pageUrl, form);
+                UnityWebRequest www = UnityWebRequest.Post(baseUrl + pageUrl, uri);
                 yield return www.SendWebRequest();
+
+                Debug.Log(baseUrl + pageUrl + uri);
 
                 if (www.result != UnityWebRequest.Result.Success)
                 {

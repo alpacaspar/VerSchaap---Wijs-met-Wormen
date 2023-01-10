@@ -115,8 +115,8 @@ public enum SheepType
 
 public enum Sex
 {
-    Female,             // Ooi
     Male,               // Ram
+    Female,             // Ooi
 }
 
 public enum Disease

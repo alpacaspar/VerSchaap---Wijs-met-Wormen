@@ -13,7 +13,7 @@
 	}
 	else
 	{
-		echo("Request not found!");
+		echo("Request not found! Request: ".$_POST['request']);
 	}
 
 	$mysqli->close();
