@@ -10,7 +10,7 @@
 
 		    while($row = mysqli_fetch_assoc($result))
 		    {
-		        echo($row[0]);
+		        print_r($row);
 		    }
 
 			$mysqli->close();
