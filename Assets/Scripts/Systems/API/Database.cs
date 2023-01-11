@@ -114,22 +114,26 @@ public static class Database
                         {
                             if (obj.UUID == newSheepObject.UUID)
                             {
-                                // add new weight
+                                // add new weight -- ALL WEIGHT DATA MUST BE NEW DATA
                                 for (int i = 0; i < newSheepObject.weight.Count; i++)
                                 {
                                     obj.weight.Add(newSheepObject.weight[i]);
+                                    // TODO query per weight
                                 }
-                                // add new diseases collection
+                                // add new diseases collection -- ALL DISEASES MUST BE NEW DISEASES
                                 for (int i = 0; i < newSheepObject.diseases.Count; i++)
                                 {
                                     obj.diseases.Add(newSheepObject.diseases[i]);
+                                    // TODO query per disease
                                 }
 
                                 obj.tsBorn = (newSheepObject.tsBorn != obj.tsBorn && newSheepObject.tsBorn != 0) ? newSheepObject.tsBorn : obj.tsBorn;
                                 obj.extraRemarks = (newSheepObject.extraRemarks != obj.extraRemarks) ? newSheepObject.extraRemarks : obj.extraRemarks;
 
                                 handledData = true;
-                                newData[0] = (int)Status.Success2 + "";
+                                newData = UpdateEntry(obj, Helpers.SheepToUUID(tempDatabase.sheeps), new WeideObject().GetType());
+
+                                newData[0] = (int)Status.Success2 + ""; // TODO set status waiting
                             }
                         }
                     }
@@ -310,7 +314,7 @@ public static class Database
 
         if (!handledData)
         {
-            switch(type.ToString())
+            switch (type.ToString())
             {
                 case "WeideObject":
                     tempDatabase.weides.Add((WeideObject)newObject);
@@ -331,6 +335,48 @@ public static class Database
                 case "SheepKoppel":
                     tempDatabase.sheepKoppels.Add((SheepKoppel)newObject);
                     newData[0] = (int)Status.Success1 + "";
+                    break;
+            }
+        }
+
+        return newData;
+    }
+
+    private static string[] UpdateEntry(ObjectUUID newObject, List<ObjectUUID> collection, System.Type type)
+    {
+        string[] newData = new string[] { (int)Status.Error1 + "", "" };
+        bool handledData = false;
+
+        if (collection.Count > 0)
+        {
+            foreach (ObjectUUID obj in collection)
+            {
+                if (obj.UUID == newObject.UUID)
+                {
+                    handledData = true;
+                    newData[0] = (int)Status.Failure3 + "";
+                    break;
+                }
+            }
+        }
+
+        if (handledData)
+        {
+            switch (type.ToString())
+            {
+                case "WeideObject":
+                    break;
+                case "SheepObject":
+                    SheepObject sheepObject = (SheepObject)newObject;
+                    tempDatabase.sheeps.Add(sheepObject);
+                    string[] fieldCollection = { "Sheep_UUID", "Sheep_Label", "Sheep_Female", "Farmer_UUID" };
+                    string[] dataCollection = { sheepObject.UUID, sheepObject.sheepTag, "" + (int)sheepObject.sex, tempDatabase.farmerUUID };
+                    DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Post, "UpdateSheep");
+                    newData[0] = (int)Status.Success1 + ""; // TODO WAITING ON REQUEST RESPONSE
+                    break;
+                case "WormObject":
+                    break;
+                case "SheepKoppel":
                     break;
             }
         }

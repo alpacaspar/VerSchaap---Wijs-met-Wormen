@@ -11,7 +11,7 @@ public class WebTester : MonoBehaviour
         newSheep.sheepTag = "NL-123456-1-12345";
         newSheep.UUID = "4dea7913-f4d7-42b3-be55-47f97b8576b2";
         newSheep.sex = Sex.Female;
-        string[] result = Database.ProgressData(MethodType.Get, newSheep);
+        string[] result = Database.ProgressData(MethodType.Put, newSheep);
         Debug.Log(Helpers.CodeToMessage(result));
     }
 

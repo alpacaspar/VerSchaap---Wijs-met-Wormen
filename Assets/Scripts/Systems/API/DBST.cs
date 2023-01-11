@@ -60,6 +60,9 @@ public class DBST : MonoBehaviour
             case MethodType.Post:
                 pageUrl = "VerweidklokPostRequests.php";
                 break;
+            case MethodType.Put:
+                pageUrl = "VerweidklokPutRequests.php";
+                break;
         }
 
         switch (type)
