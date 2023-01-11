@@ -17,7 +17,11 @@ public class KoppelButton : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        button.onClick.AddListener(delegate { dataViewer.ShowDetails(element); });
+        button.onClick.AddListener(delegate
+        {
+            dataViewer.bAddingElement = false;
+            dataViewer.ShowDetails(element);
+        });
         btnDelete.onClick.AddListener(delegate { dataViewer.dataReader.DeleteKoppel(element); });
     }
 
@@ -26,7 +30,5 @@ public class KoppelButton : MonoBehaviour
         element = _element;
         dataViewer = _dataViewer;
         txtKoppelName.text = element.koppelName;
-        //WormNonScienceNameText.text = element.nonScienceName;
-        //WormTypeText.text = worm.wormType.ToString();
     }
 }

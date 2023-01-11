@@ -9,7 +9,8 @@ public enum SheepButtonMode
 {
     Nothing,
     ClickToEditOrRemove,
-    ClickToRemoveFromKoppel
+    ClickToRemoveFromKoppel,
+    ClickToAddToKoppel
 }
 
 public class SheepButton : MonoBehaviour
@@ -37,8 +38,62 @@ public class SheepButton : MonoBehaviour
                 btnDelete.onClick.AddListener(delegate { dataViewer.sheepDataReader.DeleteSheep(sheep); });
                 break;
             case SheepButtonMode.ClickToRemoveFromKoppel:
-                break;
+                btnDelete.onClick.AddListener(delegate
+                {
+                    string koppelUUID = "";
 
+                    // Clear koppelID of the sheep
+                    foreach (var tmpSheep in dataViewer.sheepDataReader.testDatabase.sheeps)
+                    {
+                        if (tmpSheep.UUID == sheep.UUID)
+                        {
+                            koppelUUID = tmpSheep.sheepKoppelID;
+                            tmpSheep.sheepKoppelID = "";
+                            break;
+                        }
+                    }
+
+                    // Remove the sheep from the koppel
+                    foreach (var tmpKoppel in dataViewer.sheepDataReader.testDatabase.sheepKoppels)
+                    {
+                        if (tmpKoppel.UUID == koppelUUID)
+                        {
+                            tmpKoppel.allSheep.Remove(sheep.UUID);
+                            dataViewer.sheepDataReader.koppelDataViewer.ShowDetails(tmpKoppel);
+                            break;
+                        }
+                    }
+                });
+                break;
+            case SheepButtonMode.ClickToAddToKoppel:
+                btnDelete.gameObject.SetActive(false);
+                button.onClick.AddListener(delegate
+                {
+                    // Set koppelID for the sheep
+                    foreach (var tmpSheep in dataViewer.sheepDataReader.testDatabase.sheeps)
+                    {
+                        if (tmpSheep.UUID == sheep.UUID)
+                        {
+                            tmpSheep.sheepKoppelID = dataViewer.sheepDataReader.koppelDataViewer.selectedElement.UUID;
+                            break;
+                        }
+                    }
+
+                    // Add the sheep to the koppel
+                    foreach (var tmpKoppel in dataViewer.sheepDataReader.testDatabase.sheepKoppels)
+                    {
+                        if (tmpKoppel.UUID == sheep.sheepKoppelID)
+                        {
+                            tmpKoppel.allSheep.Add(sheep.UUID);
+                            dataViewer.sheepDataReader.koppelDataViewer.ShowDetails(tmpKoppel);
+                            dataViewer.sheepDataReader.koppelDataViewer.addSheepPanel.gameObject.SetActive(false);
+                            dataViewer.sheepDataReader.koppelDataViewer.sheepListPanel.SetActive(true);
+                            break;
+                        }
+                    }   
+                });
+                
+                break;
         }
     }
 

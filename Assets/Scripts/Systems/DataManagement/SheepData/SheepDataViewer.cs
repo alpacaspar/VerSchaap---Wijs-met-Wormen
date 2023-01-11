@@ -70,51 +70,6 @@ public class SheepDataViewer : MonoBehaviour
         }
     }
 
-    public void SortSheepByGender()
-    {
-        List<SheepObject> tmpList = new List<SheepObject>();
-        foreach (var s in sheepDataReader.testDatabase.sheeps)
-        {
-            tmpList.Add(s);
-        }
-
-        tmpList.Sort(delegate (SheepObject x, SheepObject y)
-        {
-            if (x.sex > y.sex) return 1;
-            else return -1;
-            /*
-            if (x.sex == null && y.sex == null) return 0;
-            else if (x.PartName == null) return -1;
-            else if (y.PartName == null) return 1;
-            else return x.PartName.CompareTo(y.PartName);
-            */
-        });
-
-        RemoveAllButtons();
-
-        foreach (var ss in tmpList)
-        {
-            CreateNewSheepButton(ss);
-        }
-
-        /*
-        tmpList.Sort();
-        RemoveAllButtons();
-
-        foreach (var ss in tmpList)
-        {
-            foreach (var sheep in sheepDataReader.testDatabase.sheeps)
-            {
-                if (sheep.sheepTag == ss)
-                {
-                    CreateNewSheepButton(sheep);
-                    break;
-                }
-            }
-        }
-        */
-    }
-
     private void RemoveAllButtons()
     {
         for (int i = sheepButtonContainer.childCount - 1; i >= 0; i--)
@@ -200,7 +155,9 @@ public class SheepDataViewer : MonoBehaviour
     public GameObject CreateNewSheepButton(SheepObject s)
     {
         var sheepPanelGameObject = Instantiate(sheepButtonPrefab, sheepButtonContainer);
-        sheepPanelGameObject.GetComponentInChildren<SheepButton>().SetInfo(s, this);
+        var but = sheepPanelGameObject.GetComponentInChildren<SheepButton>();
+        but.SetInfo(s, this);
+        but.buttonMode = SheepButtonMode.ClickToEditOrRemove;
         return sheepPanelGameObject;
     }
 
