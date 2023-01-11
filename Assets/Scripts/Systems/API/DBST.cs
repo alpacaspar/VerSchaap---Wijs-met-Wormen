@@ -88,6 +88,8 @@ public class DBST : MonoBehaviour
                             break;
                         case UnityWebRequest.Result.Success:
                             Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
+                            // TODO receives an array but not the content somehow??
+                            // webrequest or downloadhandler does typecast to string on the received array somehow somewhere
                             break;
                     }
                 }
