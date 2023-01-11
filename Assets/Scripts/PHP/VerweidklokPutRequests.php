@@ -6,6 +6,9 @@
 	    $result = $mysqli->query("UPDATE `VerweidklokSheepTable` SET Sheep_Label = '".$_GET["Sheep_Label"]."', Sheep_Female = '".$_GET["Sheep_Female"]."'"
 			." WHERE Sheep_UUID = ('".$_GET["Sheep_UUID"]."' AND Farmer UUID = '".$_GET["Farmer_UUID"]."');");
 
+		echo("UPDATE `VerweidklokSheepTable` SET Sheep_Label = '".$_GET["Sheep_Label"]."', Sheep_Female = '".$_GET["Sheep_Female"]."'"
+			." WHERE Sheep_UUID = ('".$_GET["Sheep_UUID"]."' AND Farmer UUID = '".$_GET["Farmer_UUID"]."');");
+
 	    while($row = mysqli_fetch_assoc($result))
 	    {
 	        echo($row);
