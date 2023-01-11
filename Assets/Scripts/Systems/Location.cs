@@ -76,7 +76,7 @@ public class Location : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("Warning: Could not parse longitude, using default value instead.");
+            Debug.Log("Could not parse longitude, using default value instead.");
             value = 5.2913f;
         }
 
@@ -92,7 +92,7 @@ public class Location : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("Warning: Could not parse latitude, using default value instead.");
+            Debug.Log("Could not parse latitude, using default value instead.");
             value = 52.1326f;
         }
         Location.latitude = Mathf.Clamp(value, -90f, 90f);

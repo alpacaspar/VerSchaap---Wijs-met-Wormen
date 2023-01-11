@@ -50,14 +50,14 @@ public enum GrassType
 }
 
 public enum SheepType
-{
-    ArdenseVoskop,
+{                               //afkortingen die in stallijsten worden gebruikt. Zijn erg lastig te vinden
+    ArdenseVoskop,              
     BarbadosBlackBelly,
     BelgischMelkschaap,
     Bergschaap,
     BlackWelshMountainsheep,
     BlauweTexelaar,
-    BleuDuMaine,
+    BleuDuMaine,                //BM
     BorderLeicester,
     BruinHaarschaap,
     Cambridge,
@@ -65,11 +65,11 @@ public enum SheepType
     Cheviot,
     ClunForest,
     CoburgerFuchs,
-    DuitsWitkopschaap,
-    Flevolander,
-    FriesMelkschaap,
+    DuitsWitkopschaap,          //DW
+    Flevolander,                //FL
+    FriesMelkschaap,            //FZ (net als zeeuws melkschaap)
     GotlandPels,
-    HampshireDown,
+    HampshireDown,              //HD
     Hebridian,
     Herdwick,
     Jacobschaap,
@@ -79,20 +79,20 @@ public enum SheepType
     KerryHill,
     LeicesterLongwool,
     Maasduinenschaap,
-    Merino,
+    Merino,                     //ME
     Moeflon,
-    NederlandsBonteSchaap,
+    NederlandsBonteSchaap,      //BS
     NolanaSchaap,
-    Noordhollander,
+    Noordhollander,             //NH
     NorfolkHorn,
     Ouessant,
     OxfordDown,
     PersianBlackhead,
-    PollDorset,
+    PollDorset,                 //PD
     PommersLandschaap,
     RackaSchaap,
-    Romanov,
-    RougeDeLOuest,
+    Romanov,                    //RO
+    RougeDeLOuest,              //RL
     Ryeland,
     ScottishBlackface,
     Shetland,
@@ -101,16 +101,17 @@ public enum SheepType
     Soayschaap,
     Solognote,
     Southdown,
-    Suffolk,
-    Swifter,
-    Texelaar,
+    Suffolk,                    //SU
+    Swifter,                    //SW
+    Texelaar,                   //TE
     WalliserSchwarznase,
     WelshHillSpeckledFace,
     WensleydaleLongwool,
     WiltshireHorn,
-    ZeeuwsMelkschaap,
-    Zwartblesschaap,
-    Other,
+    ZeeuwsMelkschaap,           //FZ (net als fries melkschaap)
+    Zwartblesschaap,            //ZB
+    Kruising,                   //KS
+    Overig,                     //OV
 }
 
 public enum Sex
