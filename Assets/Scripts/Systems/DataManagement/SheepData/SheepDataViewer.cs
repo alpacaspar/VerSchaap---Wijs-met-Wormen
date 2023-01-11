@@ -16,7 +16,6 @@ public class SheepDataViewer : MonoBehaviour
     public GameObject overviewPanel;
     public GameObject detailsPanel;
     
-
     [Header("Sheep variable fields")]
     public TMP_InputField inputTag;
     public TMP_Dropdown inputSex;
@@ -46,26 +45,17 @@ public class SheepDataViewer : MonoBehaviour
     public ScrollRect scrollRect;
     public Dictionary<string, Sprite> sheepImages = new Dictionary<string, Sprite>();
 
-    public void SortSheepByTag()
+    public void RemoveSheepButton(SheepObject sheep)
     {
-        List<string> tmpList = new List<string>();
-        foreach (var s in sheepDataReader.testDatabase.sheeps)
+        for (int i = 0; i < sheepButtonContainer.childCount; i++)
         {
-            tmpList.Add(s.sheepTag);
-        }
-
-        tmpList.Sort();
-        RemoveAllButtons();
-
-        foreach (var ss in tmpList)
-        {
-            foreach (var sheep in sheepDataReader.testDatabase.sheeps)
+            var butObj = sheepButtonContainer.GetChild(i).gameObject;
+            var but = butObj.GetComponentInChildren<SheepButton>();
+            
+            if (but.sheep.UUID == sheep.UUID)
             {
-                if (sheep.sheepTag == ss)
-                {
-                    CreateNewSheepButton(sheep);
-                    break;
-                }
+                Destroy(butObj);
+                break;
             }
         }
     }

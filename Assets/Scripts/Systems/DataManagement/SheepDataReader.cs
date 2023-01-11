@@ -13,9 +13,6 @@ public class SheepDataReader : MonoBehaviour
     public KoppelDataViewer koppelDataViewer;
     public TemporalDatabaseData testDatabase;
 
-    // dummy var to `write from the editor
-    public bool writeToFile;
-
     public void OpenFileExplorer()
     {
         var paths = SFB.StandaloneFileBrowser.OpenFilePanel("Open File", "", "", false);
@@ -170,90 +167,50 @@ public class SheepDataReader : MonoBehaviour
         weideDataViewer.bAddingElement = false;
     }
 
-    public void DeleteSheep(SheepObject sheep)
+    private bool DeleteElement<T>(T element, List<T> list) where T : ObjectUUID
     {
         int index = -1;
-        
-        for (int i = 0; i < testDatabase.sheeps.Count; i++)
+
+        for (int i = 0; i < list.Count; i++)
         {
-            var shp = testDatabase.sheeps[i];
-            if (shp.UUID.Trim() != sheep.UUID.Trim()) continue;
+            var tmp = list[i];
+            if (tmp.UUID.Trim() != element.UUID.Trim()) continue;
             index = i;
             break;
         }
 
-        if (index == -1) return;
-        Destroy(sheepDataViewer.sheepButtonContainer.GetChild(index).gameObject);
-        testDatabase.sheeps.RemoveAt(index);
+        if (index == -1) return false;
+        list.RemoveAt(index);
+        return true;
     }
 
-    public void DeleteWorm(WormObject worm)
+    public void DeleteSheep(SheepObject sheep)
     {
-        int index = -1;
-
-        for (int i = 0; i < testDatabase.worms.Count; i++)
+        if (DeleteElement(sheep, testDatabase.sheeps))
         {
-            var wrm = testDatabase.worms[i];
-            if (wrm.UUID.Trim() != worm.UUID.Trim()) continue;
-            index = i;
-            break;
+            sheepDataViewer.RemoveSheepButton(sheep);
         }
-
-        if (index == -1) return;
-        Destroy(wormDataViewer.wormButtonContainer.GetChild(index).gameObject);
-        testDatabase.worms.RemoveAt(index);
     }
 
     public void DeleteKoppel(SheepKoppel koppel)
     {
-        int index = -1;
-
-        for (int i = 0; i < testDatabase.sheepKoppels.Count; i++)
+        if (DeleteElement(koppel, testDatabase.sheepKoppels))
         {
-            var wrm = testDatabase.sheepKoppels[i];
-            if (wrm.UUID.Trim() != koppel.UUID.Trim()) continue;
-            index = i;
-            break;
-        }
-
-        if (index == -1) return;
-
-        foreach (var sheep in testDatabase.sheeps)
-        {
-            if (sheep.sheepKoppelID == koppel.UUID)
+            // Set koppelID to "" for all sheeps using this koppel
+            foreach (var sheep in testDatabase.sheeps.Where(sheep => string.Equals(sheep.sheepKoppelID, koppel.UUID, StringComparison.CurrentCultureIgnoreCase)))
             {
                 sheep.sheepKoppelID = "";
             }
-        }
 
-        Destroy(koppelDataViewer.koppelButtonContainer.GetChild(index).gameObject);
-        testDatabase.sheepKoppels.RemoveAt(index);
+            koppelDataViewer.RemoveKoppelButton(koppel);
+        }
     }
 
     public void DeleteWeide(WeideObject weide)
     {
-        int index = -1;
-
-        for (int i = 0; i < testDatabase.weides.Count; i++)
+        if (DeleteElement(weide, testDatabase.weides))
         {
-            var wd = testDatabase.weides[i];
-            if (wd.UUID.Trim() != weide.UUID.Trim()) continue;
-            index = i;
-            break;
-        }
-
-        if (index == -1) return;
-        Destroy(weideDataViewer.WeideButtonContainer.GetChild(index).gameObject);
-        testDatabase.weides.RemoveAt(index);
-    }
-
-    private void Update()
-    {
-        if (writeToFile)
-        {
-            writeToFile = false;
-            var sheepDB = testDatabase.sheeps.ToArray();
-            WurmFileHandler.WriteDataToCsvFile("TESTSHEEPDATABASE", sheepDB, false);
+            weideDataViewer.RemoveWeideButton(weide);
         }
     }
 

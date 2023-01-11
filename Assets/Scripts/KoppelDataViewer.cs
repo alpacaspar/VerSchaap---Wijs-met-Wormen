@@ -113,6 +113,21 @@ public class KoppelDataViewer : MonoBehaviour
         });
     }
 
+    public void RemoveKoppelButton(SheepKoppel koppel)
+    {
+        for (int i = 0; i < koppelButtonContainer.childCount; i++)
+        {
+            var butObj = koppelButtonContainer.GetChild(i).gameObject;
+            var but = butObj.GetComponentInChildren<KoppelButton>();
+
+            if (but.element.UUID == koppel.UUID)
+            {
+                Destroy(butObj);
+                break;
+            }
+        }
+    }
+
     public void CreateButtonsFromDB(List<SheepKoppel> elementList)
     {
         RemoveAllChildren(koppelButtonContainer);

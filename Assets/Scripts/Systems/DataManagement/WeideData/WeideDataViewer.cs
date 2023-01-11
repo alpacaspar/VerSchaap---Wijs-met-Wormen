@@ -61,6 +61,21 @@ public class WeideDataViewer : MonoBehaviour
         LoadSheepImages();
     }
 
+    public void RemoveWeideButton(WeideObject weide)
+    {
+        for (int i = 0; i < WeideButtonContainer.childCount; i++)
+        {
+            var butObj = WeideButtonContainer.GetChild(i).gameObject;
+            var but = butObj.GetComponentInChildren<WeideButton>();
+
+            if (but.weide.UUID == weide.UUID)
+            {
+                Destroy(butObj);
+                break;
+            }
+        }
+    }
+
     private void SetupButtons()
     {
         btnCancel.onClick.AddListener(delegate
