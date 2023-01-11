@@ -108,7 +108,7 @@ public static class Database
                 case SheepObject newSheepObject:
                     handledData = false;
 
-                    if (tempDatabase.weides.Count > 0)
+                    if (tempDatabase.sheeps.Count > 0)
                     {
                         foreach (SheepObject obj in tempDatabase.sheeps)
                         {
@@ -131,7 +131,7 @@ public static class Database
                                 obj.extraRemarks = (newSheepObject.extraRemarks != obj.extraRemarks) ? newSheepObject.extraRemarks : obj.extraRemarks;
 
                                 handledData = true;
-                                newData = UpdateEntry(obj, Helpers.SheepToUUID(tempDatabase.sheeps), new WeideObject().GetType());
+                                newData = UpdateEntry(obj, Helpers.SheepToUUID(tempDatabase.sheeps), new SheepObject().GetType());
 
                                 newData[0] = (int)Status.Success2 + ""; // TODO set status waiting
                             }
@@ -148,7 +148,7 @@ public static class Database
                 case WormObject newWormObject:
                     handledData = false;
 
-                    if (tempDatabase.weides.Count > 0)
+                    if (tempDatabase.worms.Count > 0)
                     {
                         foreach (WormObject obj in tempDatabase.worms)
                         {
@@ -367,11 +367,11 @@ public static class Database
                 case "WeideObject":
                     break;
                 case "SheepObject":
+
                     SheepObject sheepObject = (SheepObject)newObject;
-                    tempDatabase.sheeps.Add(sheepObject);
                     string[] fieldCollection = { "Sheep_UUID", "Sheep_Label", "Sheep_Female", "Farmer_UUID" };
                     string[] dataCollection = { sheepObject.UUID, sheepObject.sheepTag, "" + (int)sheepObject.sex, tempDatabase.farmerUUID };
-                    DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Post, "UpdateSheep");
+                    DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Put, "UpdateSheep");
                     newData[0] = (int)Status.Success1 + ""; // TODO WAITING ON REQUEST RESPONSE
                     break;
                 case "WormObject":

@@ -17,6 +17,10 @@ public class KoppelDataViewer : MonoBehaviour
     public RectTransform koppelSheepListButtonContainer;
     public GameObject overviewPanel;
     public GameObject detailsPanel;
+    public TextMeshProUGUI detailPanelTitle;
+    public GameObject sheepListPanel;
+    public GameObject addSheepPanel;
+    public RectTransform addSheepContainer;
 
     [Header("Koppel variable fields")]
     public TMP_InputField inputName;
@@ -25,6 +29,8 @@ public class KoppelDataViewer : MonoBehaviour
     public Button btnCancel;
     public Button btnSave;
     public Button btnAddSheep;
+    public Button btnAddKoppel;
+    public Button btnShowAllSheep;
 
     [HideInInspector]
     public SheepKoppel selectedElement;
@@ -44,36 +50,73 @@ public class KoppelDataViewer : MonoBehaviour
 
     private void SetupButtons()
     {
-        /*
-        btnCancel.onClick.AddListener(delegate
+        btnShowAllSheep.onClick.AddListener(delegate
         {
-            SetPanelVisibilty(false);
-            bAddingElement = false;
+            detailsPanel.gameObject.SetActive(false);
+            dataReader.sheepDataViewer.overviewPanel.SetActive(true);
         });
 
-        btnAddSheep.onClick.AddListener(delegate
+        // Button for adding new koppel
+        btnAddKoppel.onClick.AddListener(delegate
         {
             bAddingElement = true;
             selectedElement = new SheepKoppel
             {
-
+                koppelName = "Nieuwe koppel",
+                UUID = Helpers.GenerateUUID()
             };
 
+            dataReader.testDatabase.sheepKoppels.Add(selectedElement);
+            CreateButtonsFromDB(dataReader.testDatabase.sheepKoppels);
             ShowDetails(selectedElement);
         });
 
-        btnSave.onClick.AddListener(delegate
+        // Button for adding sheep to koppel
+        btnAddSheep.onClick.AddListener(delegate
         {
-            
-            sheepDataReader.UpdateSheepData(tmpSheep);
-            
-            SetPanelVisibilty(false);
+            bool panelActive = !addSheepPanel.activeSelf;
+
+            sheepListPanel.SetActive(!panelActive);
+            addSheepPanel.SetActive(panelActive);
+
+            if (panelActive)
+            {
+                RemoveAllChildren(addSheepContainer);
+
+                foreach (var sheep in dataReader.testDatabase.sheeps)
+                {
+                    if (sheep.sheepKoppelID == "")
+                    {
+                        var panelGameObject = Instantiate(SheepButtonPrefab, addSheepContainer);
+                        var sheepButton = panelGameObject.GetComponentInChildren<SheepButton>();
+                        sheepButton.buttonMode = SheepButtonMode.ClickToAddToKoppel;
+                        sheepButton.SetInfo(sheep, FindObjectOfType<SheepDataViewer>());
+                    }
+                }
+            }
         });
-        */
+
+        // Koppel name input field
+        inputName.onEndEdit.AddListener(delegate
+        {
+            selectedElement.koppelName = inputName.text;
+
+            for (int i = 0; i < koppelButtonContainer.childCount; i++)
+            {
+                KoppelButton but = koppelButtonContainer.GetChild(i).GetComponentInChildren<KoppelButton>();
+                if (but.element.UUID == selectedElement.UUID)
+                {
+                    but.SetInfo(selectedElement, this);
+                    break;
+                }
+            }
+        });
     }
 
     public void CreateButtonsFromDB(List<SheepKoppel> elementList)
     {
+        RemoveAllChildren(koppelButtonContainer);
+
         foreach (SheepKoppel s in elementList)
         {
             CreateNewButton(s);
@@ -87,18 +130,17 @@ public class KoppelDataViewer : MonoBehaviour
         return panelGameObject;
     }
 
-    // delete old sheep buttons
-    public void RemoveExistingSheepButtons()
+    public void RemoveAllChildren(RectTransform obj)
     {
-        for (int i = koppelSheepListButtonContainer.childCount - 1; i >= 0; i--)
+        for (int i = obj.childCount - 1; i >= 0; i--)
         {
-            Destroy(koppelSheepListButtonContainer.GetChild(i).gameObject);
+            Destroy(obj.GetChild(i).gameObject);
         }
     }
 
     public GameObject CreateNewSheepButtons()
     {
-        RemoveExistingSheepButtons();
+        RemoveAllChildren(koppelSheepListButtonContainer);
 
         foreach (var sheepuuid in selectedElement.allSheep)
         {
@@ -139,6 +181,7 @@ public class KoppelDataViewer : MonoBehaviour
         selectedElement = element;
         inputName.SetTextWithoutNotify(selectedElement.koppelName);
         SetPanelVisibilty(true);
+        detailPanelTitle.text = bAddingElement ? "Koppel toevoegen" : "Koppel bewerken";
         CreateNewSheepButtons();
     }
 }

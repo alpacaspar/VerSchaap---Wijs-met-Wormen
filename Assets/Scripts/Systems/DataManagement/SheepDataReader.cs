@@ -7,10 +7,10 @@ using UnityEngine;
 public class SheepDataReader : MonoBehaviour
 {
     public TextAsset sheepDataFile;
-    private SheepDataViewer sheepDataViewer;
-    private WormDataViewer wormDataViewer;
-    private WeideDataViewer weideDataViewer;
-    private KoppelDataViewer koppelDataViewer;
+    public SheepDataViewer sheepDataViewer;
+    public WormDataViewer wormDataViewer;
+    public WeideDataViewer weideDataViewer;
+    public KoppelDataViewer koppelDataViewer;
     public TemporalDatabaseData testDatabase;
 
     // dummy var to `write from the editor
@@ -165,51 +165,10 @@ public class SheepDataReader : MonoBehaviour
         {
             testDatabase.weides.Add(weide);
             weideDataViewer.CreateNewWeideButton(weide);
-            //testDatabase.sheeps.Add(sheep);
-            //var obj = sheepDataViewer.CreateNewSheepButton(sheep);
-            //sheepDataViewer.MoveScrollViewToElement(obj.GetComponent<RectTransform>());
         }
 
         weideDataViewer.bAddingElement = false;
     }
-
-    /*
-    public void UpdateWormData(WormObject worm)
-    {
-        int nChilds = wormDataViewer.wormButtonContainer.childCount;
-
-        // editing existing element
-        if (!wormDataViewer.bAddingElement)
-        {
-            // update the actual data
-            // magic, ignore casing and check if names are the same
-            foreach (var wrm in testDatabase.worms.Where(wrm => string.Equals(wrm.UUID, wormDataViewer.selectedWorm.UUID, StringComparison.CurrentCultureIgnoreCase)))
-            {
-                wrm.UUID = worm.UUID;
-                wrm.wormType = worm.wormType;
-            }
-
-            // update the visuals representing the data
-            for (int i = 0; i < nChilds; i++)
-            {
-                var obj = wormDataViewer.wormButtonContainer.GetChild(i).gameObject.GetComponentInChildren<WormButton>();
-                if (obj.worm.UUID != wormDataViewer.selectedWorm.UUID) continue;
-                obj.SetInfo(worm, wormDataViewer);
-                break;
-            }
-        }
-
-        // Adding a new worm
-        // TODO check if UUID doesnt already exist
-        else
-        {
-            testDatabase.worms.Add(worm);
-            wormDataViewer.CreateNewWormButton(worm);
-        }
-
-        sheepDataViewer.bAddingSheep = false;
-    }
-    */
 
     public void DeleteSheep(SheepObject sheep)
     {
@@ -258,6 +217,15 @@ public class SheepDataReader : MonoBehaviour
         }
 
         if (index == -1) return;
+
+        foreach (var sheep in testDatabase.sheeps)
+        {
+            if (sheep.sheepKoppelID == koppel.UUID)
+            {
+                sheep.sheepKoppelID = "";
+            }
+        }
+
         Destroy(koppelDataViewer.koppelButtonContainer.GetChild(index).gameObject);
         testDatabase.sheepKoppels.RemoveAt(index);
     }
