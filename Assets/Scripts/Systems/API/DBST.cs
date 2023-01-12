@@ -94,9 +94,8 @@ public class DBST : MonoBehaviour
                             switch(request)
                             {
                                 case nameof(GetRequest.GetSheep):
-                                    // TODO PHP has to be updated to properly test this
-                                    //SheepObject returnObj = JsonUtility.FromJson<SheepObject>(data);
-                                    //Debug.Log(returnObj.sheepTag);
+                                    SheepObject returnObj = JsonUtility.FromJson<SheepObject>(data);
+                                    Debug.Log(returnObj.sheepTag);
                                     break;
                             }
                             // TODO parse data to object and return the bad boy
