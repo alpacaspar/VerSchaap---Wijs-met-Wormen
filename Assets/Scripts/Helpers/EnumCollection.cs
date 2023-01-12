@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 public enum EventType
 {
@@ -15,6 +15,11 @@ public enum MethodType
     Post,               // create new entry
     Put,                // update entry
     Remove,             // remove entry
+}
+
+public enum GetRequest
+{
+    GetSheep,
 }
 
 public enum Status

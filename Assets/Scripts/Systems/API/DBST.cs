@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -90,13 +91,12 @@ public class DBST : MonoBehaviour
                             string data = webRequest.downloadHandler.text;
                             //Debug.Log(pages[page]; // URI
                             //Debug.Log("\nReceived: " + webRequest.downloadHandler.text); // Answer
-                            IObject returnObj = null;
-                            // TODO cases to enum
                             switch(request)
                             {
-                                case "GetSheep":
-                                    returnObj = JsonUtility.FromJson<SheepObject>(data);
-                                    //Debug.Log(returnObj.sheepTag());
+                                case nameof(GetRequest.GetSheep):
+                                    // TODO PHP has to be updated to properly test this
+                                    //SheepObject returnObj = JsonUtility.FromJson<SheepObject>(data);
+                                    //Debug.Log(returnObj.sheepTag);
                                     break;
                             }
                             // TODO parse data to object and return the bad boy

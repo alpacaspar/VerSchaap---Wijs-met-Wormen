@@ -8,10 +8,12 @@
 		    $result = $mysqli->query("SELECT * FROM `VerweidklokSheepTable` WHERE Sheep_UUID = " 
 		    	."'".$_GET["Sheep_UUID"]."' AND Farmer_UUID = '".$_GET["Farmer_UUID"]."';");
 
+	    	$dataArray = array();
 		    while($row = mysqli_fetch_assoc($result))
 		    {
-		    	echo print_r($row);
+		    	$dataArray[] = $row;
 		    }
+		    echo json_encode($dataArray);
 
 			$mysqli->close();
 		}
