@@ -3,14 +3,13 @@ using UnityEngine.UI;
 
 public class AdviceDisplay : MonoBehaviour
 {
-    public float lat;
-    public float lon;
-    public WeatherInfo info;
-    
+    [SerializeField] private Gradient fillGradient;
     public Image fillImageComponent;
 
     private float fill;
     private bool updated;
+    
+    private WeatherInfo info;
 
     private void Start()
     {
@@ -35,10 +34,11 @@ public class AdviceDisplay : MonoBehaviour
 
     private void Update()
     {
-        if (!updated)
-        {
-            fillImageComponent.fillAmount = fill;
-            updated = true;
-        }
+        if (updated) return;
+        
+        fillImageComponent.fillAmount = fill;
+        fillImageComponent.color = fillGradient.Evaluate(fill);
+            
+        updated = true;
     }
 }
