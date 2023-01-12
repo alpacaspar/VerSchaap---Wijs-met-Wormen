@@ -87,9 +87,19 @@ public class DBST : MonoBehaviour
                             Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
                             break;
                         case UnityWebRequest.Result.Success:
-                            Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
-                            // TODO receives an array but not the content somehow??
-                            // webrequest or downloadhandler does typecast to string on the received array somehow somewhere
+                            string data = webRequest.downloadHandler.text;
+                            //Debug.Log(pages[page]; // URI
+                            //Debug.Log("\nReceived: " + webRequest.downloadHandler.text); // Answer
+                            IObject returnObj = null;
+                            // TODO cases to enum
+                            switch(request)
+                            {
+                                case "GetSheep":
+                                    returnObj = JsonUtility.FromJson<SheepObject>(data);
+                                    //Debug.Log(returnObj.sheepTag());
+                                    break;
+                            }
+                            // TODO parse data to object and return the bad boy
                             break;
                     }
                 }
