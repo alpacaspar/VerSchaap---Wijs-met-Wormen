@@ -23,12 +23,21 @@
 		}
 		else $missingFields = true;
 	}
+	elseif ($_GET['request'] == 'GetWorm')
+	{
+		if (isset($_GET["Worm_UUID"]))
+		{
+		    $result = $mysqli->query("SELECT * FROM `VerweidklokWormCollection` WHERE Lot_UUID = " 
+		    	."'".$_GET["Lot_UUID"]."';");
+		}
+		else $missingFields = true;
+	}
 	elseif ($_GET['request'] == 'GetPair')
 	{
-		if (isset($_GET["Pair_DB_ID"]) and isset($_GET["Farmer_UUID"]))
+		if (isset($_GET["Pair_UUID"]) and isset($_GET["Farmer_UUID"]))
 		{
 		    $result = $mysqli->query("SELECT * FROM `VerweidklokPairCollection` WHERE Pair_DB_ID = " 
-		    	."'".$_GET["Pair_DB_ID"]."' AND Farmer_UUID = '".$_GET["Farmer_UUID"]."';");
+		    	."'".$_GET["Pair_UUID"]."' AND Farmer_UUID = '".$_GET["Farmer_UUID"]."';");
 		}
 		else $missingFields = true;
 	}
