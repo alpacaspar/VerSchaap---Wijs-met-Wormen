@@ -18,7 +18,12 @@ public class WeideButton : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        button.onClick.AddListener(delegate { dataViewer.ShowDetails(weide); });
+        button.onClick.AddListener(delegate
+        {
+            dataViewer.panelMode = DetailsPanelMode.EditingElement;
+            dataViewer.ShowDetails(weide); 
+        });
+
         btnDelete.onClick.AddListener(delegate { dataViewer.sheepDataReader.DeleteWeide(weide); });
     }
 

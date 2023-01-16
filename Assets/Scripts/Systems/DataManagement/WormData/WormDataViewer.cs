@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using System;
 using System.Linq;
 
-public class WormDataViewer : MonoBehaviour
+public class WormDataViewer : DataViewer
 {
     [Header("Prefabs")]
     public GameObject wormButtonPrefab;
@@ -39,6 +39,19 @@ public class WormDataViewer : MonoBehaviour
 
     public Dictionary<string, Sprite> wormImages = new Dictionary<string, Sprite>();
 
+    public override GameObject CreateNewButton(ObjectUUID objToAdd)
+    {
+        WormObject worm = objToAdd as WormObject;
+        var buttonGameObject = Instantiate(wormButtonPrefab, wormButtonContainer);
+        buttonGameObject.GetComponentInChildren<WormButton>().SetInfo(worm, this);
+        return buttonGameObject;
+    }
+
+    public override void RemoveButton(ObjectUUID objToRemove)
+    {
+        base.RemoveButton(objToRemove);
+    }
+
     private void LoadImages()
     {
         var textures = Resources.LoadAll("WormImages/Eggs", typeof(Sprite));
@@ -66,14 +79,8 @@ public class WormDataViewer : MonoBehaviour
     {
         foreach (WormObject w in wormDatabase)
         {
-            CreateNewWormButton(w);
+            CreateNewButton(w);
         }
-    }
-
-    public void CreateNewWormButton(WormObject w)
-    {
-        var wormPanelGameObject = Instantiate(wormButtonPrefab, wormButtonContainer);
-        wormPanelGameObject.GetComponentInChildren<WormButton>().SetInfo(w, this);
     }
 
     public void SetupDetailsPanel()
