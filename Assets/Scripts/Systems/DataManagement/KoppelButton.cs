@@ -19,7 +19,7 @@ public class KoppelButton : MonoBehaviour
     {
         button.onClick.AddListener(delegate
         {
-            dataViewer.bAddingElement = false;
+            dataViewer.panelMode = DetailsPanelMode.EditingElement;
             dataViewer.ShowDetails(element);
         });
         btnDelete.onClick.AddListener(delegate { dataViewer.dataReader.DeleteKoppel(element); });

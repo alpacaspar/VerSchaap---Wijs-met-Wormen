@@ -37,8 +37,6 @@ public class SheepDataViewer : DataViewer
     // dirty var to fix the calendar
     [HideInInspector]
     public DateTimeOffset tmpTime = new DateTimeOffset(DateTime.UtcNow);
-    //[HideInInspector]
-    //public bool bAddingSheep = false;
     [HideInInspector]
     public SheepDataReader sheepDataReader;
     [Header("Other")]
