@@ -8,6 +8,8 @@ public static class Database
 
     private static string filePath = Application.persistentDataPath + "/database.xml";
 
+    public static List<string> requests = new List<string>();
+
     /// <summary>
     ///     Load database
     /// </summary>
@@ -236,6 +238,8 @@ public static class Database
 
                 case SheepObject newSheepObject:
                     newData = GetEntry(newSheepObject, Helpers.SheepToUUID(tempDatabase.sheeps), new SheepObject().GetType());
+                    Debug.Log("Requested: " + newData[1]);
+                    requests.Add(newData[1]);
                     break;
 
                 case WormObject newWormObject:
@@ -325,8 +329,9 @@ public static class Database
                     tempDatabase.sheeps.Add(sheepObject);
                     string[] fieldCollection = { "Sheep_UUID", "Sheep_Label", "Sheep_Female", "Farmer_UUID" };
                     string[] dataCollection = { sheepObject.UUID, sheepObject.sheepTag, "" + (int)sheepObject.sex, tempDatabase.farmerUUID };
-                    DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Post, "AddSheep");
-                    newData[0] = (int)Status.Success1 + ""; // TODO WAITING ON REQUEST RESPONSE
+                    newData[0] = (int)Status.Success5 + "";
+                    newData[1] = Helpers.GenerateUUID();
+                    DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Post, "AddSheep", newData[1]);
                     break;
                 case "WormObject":
                     tempDatabase.worms.Add((WormObject)newObject);
@@ -371,8 +376,9 @@ public static class Database
                     SheepObject sheepObject = (SheepObject)newObject;
                     string[] fieldCollection = { "Sheep_UUID", "Sheep_Label", "Sheep_Female", "Farmer_UUID" };
                     string[] dataCollection = { sheepObject.UUID, sheepObject.sheepTag, "" + (int)sheepObject.sex, tempDatabase.farmerUUID };
-                    DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Put, "UpdateSheep");
-                    newData[0] = (int)Status.Success1 + ""; // TODO WAITING ON REQUEST RESPONSE
+                    newData[0] = (int)Status.Success5 + "";
+                    newData[1] = Helpers.GenerateUUID();
+                    DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Put, "UpdateSheep", newData[1]);
                     break;
                 case "WormObject":
                     break;
@@ -384,7 +390,6 @@ public static class Database
         return newData;
     }
 
-    // If entry is found return json string
     private static string[] GetEntry(ObjectUUID newObject, List<ObjectUUID> collection, System.Type type)
     {
         string[] newData = new string[] { (int)Status.Error1 + "", "" };
@@ -398,8 +403,9 @@ public static class Database
                 SheepObject sheepObject = (SheepObject)newObject;
                 string[] fieldCollection = { "Sheep_UUID", "Farmer_UUID" };
                 string[] dataCollection = { sheepObject.UUID, tempDatabase.farmerUUID };
-                DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Get, "GetSheep");
-                newData[0] = (int)Status.Success1 + ""; // TODO WAITING ON REQUEST RESPONSE
+                newData[0] = (int)Status.Success5 + "";
+                newData[1] = Helpers.GenerateUUID();
+                DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Get, "GetSheep", newData[1]);
                 handledData = true;
                 break;
             case "WormObject":

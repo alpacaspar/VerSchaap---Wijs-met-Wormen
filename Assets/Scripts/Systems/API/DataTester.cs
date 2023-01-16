@@ -72,7 +72,7 @@ public class DataTester : MonoBehaviour
             newSheep.sheepKoppelID = koppel.UUID;
             koppel.allSheep.Add(newSheep.UUID);
             string[] response = WurmAPI.MethodHandler(MethodType.Post, newSheep);
-            Debug.Log(Helpers.CodeToMessage(response));
+            Debug.Log(Helpers.CodeToMessage(response[0]));
         }
     }
 
@@ -95,7 +95,7 @@ public class DataTester : MonoBehaviour
             newWorm.nonScienceName = nonScienceName;
 
             string[] response = WurmAPI.MethodHandler(MethodType.Post, newWorm);
-            Debug.Log(Helpers.CodeToMessage(response));
+            Debug.Log(Helpers.CodeToMessage(response[0]));
         }
     }
 
@@ -116,7 +116,7 @@ public class DataTester : MonoBehaviour
             newWeide.surfaceQuality = Random.Range(10, 95);
 
             string[] response = WurmAPI.MethodHandler(MethodType.Post, newWeide);
-            Debug.Log(Helpers.CodeToMessage(response));
+            Debug.Log(Helpers.CodeToMessage(response[0]));
         }
     }
 
@@ -144,7 +144,7 @@ public class DataTester : MonoBehaviour
         foreach (var newKoppel in koppels)
         {
             string[] response = WurmAPI.MethodHandler(MethodType.Post, newKoppel);
-            Debug.Log(Helpers.CodeToMessage(response));
+            Debug.Log(Helpers.CodeToMessage(response[0]));
         }
     }
 

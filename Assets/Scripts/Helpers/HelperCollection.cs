@@ -9,8 +9,9 @@ public static class Helpers
     public static Dictionary<Status, string> HttpMessage = new Dictionary<Status, string>() {
         {Status.Success0, "Ok - content"},
         {Status.Success1, "Created"},
-        {Status.Success2, "Accepted / Updated"}, 
-        {Status.Success4, "OK - no content"},    
+        {Status.Success2, "Accepted / Updated"},
+        {Status.Success4, "OK - no content"},
+        {Status.Success5, "OK - waiting"},
         {Status.Failure0, "Bad Request"},    
         {Status.Failure1, "Unauthorized"},   
         {Status.Failure3, "Forbidden"},    
@@ -137,8 +138,8 @@ public static class Helpers
     /// <returns>
     ///     Returns human readable code
     /// </returns>
-    public static string CodeToMessage(string[] response)
+    public static string CodeToMessage(string response)
     {
-        return (response[0] + ": " + HttpMessage[(Status)int.Parse(response[0])]);
+        return (response + ": " + HttpMessage[(Status)int.Parse(response)]);
     }
 }

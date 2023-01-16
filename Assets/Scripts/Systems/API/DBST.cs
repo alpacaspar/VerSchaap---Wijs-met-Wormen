@@ -1,10 +1,13 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class DBST : MonoBehaviour
 {
+    public Dictionary<string, string> dataPackages = new Dictionary<string, string>();
+
     public static DBST Instance { get; private set; }
     private void Awake()
     {
@@ -30,16 +33,14 @@ public class DBST : MonoBehaviour
     ///     The request that will be handled through php so that the right query is invoked
     /// </param>
     /// <returns></returns>
-    public void FireURI(string[] fieldCollection, string[] dataCollection, MethodType type, string request)
+    public void FireURI(string[] fieldCollection, string[] dataCollection, MethodType type, string request, string methodUUID)
     {
-        StartCoroutine(FireURIRoutine(fieldCollection, dataCollection, type, request));
+        StartCoroutine(FireURIRoutine(fieldCollection, dataCollection, type, request, methodUUID));
     }
 
-    private IEnumerator FireURIRoutine(string[] fieldCollection, string[] dataCollection, MethodType type, string request)
+    // TODO error handling for missing fields etc
+    private IEnumerator FireURIRoutine(string[] fieldCollection, string[] dataCollection, MethodType type, string request, string methodUUID)
     {
-        // TODO implement http return codes
-        Status response = Status.Failure0;
-
         if (fieldCollection.Length != dataCollection.Length)
         {
             // return that entries are not matching in length
@@ -88,21 +89,19 @@ public class DBST : MonoBehaviour
                             Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
                             break;
                         case UnityWebRequest.Result.Success:
-                            string data = webRequest.downloadHandler.text;
                             //Debug.Log(pages[page]; // URI
-                            //Debug.Log("\nReceived: " + webRequest.downloadHandler.text); // Answer
-                            switch(request)
+                            string data = webRequest.downloadHandler.text;
+                            switch (request)
                             {
                                 case nameof(GetRequest.GetSheep):
-                                    SheepObject returnObj = JsonUtility.FromJson<SheepObject>(data);
-                                    Debug.Log(returnObj.sheepTag);
+                                    dataPackages.Add(methodUUID, data);
+                                    EventSystem<string>.InvokeEvent(EventType.checkDatabaseResponse, methodUUID);
                                     break;
                             }
-                            // TODO parse data to object and return the bad boy
                             break;
                     }
                 }
-                Debug.Log("Fired: " + baseUrl + pageUrl + uri);
+                //Debug.Log("Fired: " + baseUrl + pageUrl + uri);
 
                 // TODO return response through event system and set caller on "waiting"
                 break;

@@ -7,6 +7,7 @@ public enum EventType
     performWeatherUpdate,
     onAdviceValueCalculated,
     performAdviceUpdate,
+    checkDatabaseResponse,
 }
 
 public enum MethodType
@@ -20,6 +21,62 @@ public enum MethodType
 public enum GetRequest
 {
     GetSheep,
+    GetLot,
+    GetPair,
+    GetSheepWeight,
+    GetSheepBreed,
+    GetSheepFamily,
+    GetSheepInfection,
+    GetSheepPair,
+    GetSheepMedication,
+    GetWormResistence,
+    GetWormWeakness,
+    GetLotState,
+    GetLotPlant,
+    GetLotLivestock,
+}
+
+public enum PutRequest
+{
+    UpdateSheep,
+    UpdateLot,
+    UpdatePair,
+    UpdateSheepWeight,
+    UpdateSheepBreed,
+    UpdateSheepFamily,
+    UpdateSheepInfection,
+    UpdateSheepPair,
+    UpdateSheepMedication,
+    UpdateWormResistence,
+    UpdateWormWeakness,
+    UpdateLotPlant,
+    UpdateLotLivestock,
+}
+
+public enum PostRequest
+{
+    AddSheep,
+    AddLot,
+    AddPair,
+    AddSheepWeight,
+    AddSheepBreed,
+    AddSheepFamily,
+    AddSheepInfection,
+    AddSheepPair,
+    AddSheepMedication,
+    AddWormResistence,
+    AddWormWeakness,
+    AddLotState,
+    AddLotPlant,
+    AddLotLivestock,
+    AddNewBreed,
+    AddNewFamilyType,
+    AddNewInfection,
+    AddNewMedicine,
+    AddNewLotState,
+    AddNewPlant,
+    AddNewLivestock,
+    AddNewWorm,
 }
 
 public enum Status
@@ -29,6 +86,7 @@ public enum Status
     Success1 = 201,     // Created
     Success2 = 202,     // Accepted / Updated
     Success4 = 204,     // OK - no content
+    Success5 = 205,     // OK - waiting
     // failure codes
     Failure0 = 400,     // Bad Request
     Failure1 = 401,     // Unauthorized

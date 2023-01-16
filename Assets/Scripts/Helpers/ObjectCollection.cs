@@ -45,6 +45,24 @@ public class SheepObject : ObjectUUID
 }
 
 [Serializable]
+public class SheepCollectionJson
+{
+    public SheepJSON[] Sheeps;
+}
+
+[Serializable]
+public class SheepJSON
+{
+    public string Sheep_DB_ID;
+    public string Sheep_UUID;
+    public string Sheep_Label;
+    public string Sheep_Female;
+    public string Farmer_UUID;
+    public string Last_Modified;
+    public string Is_Deleted;
+}
+
+[Serializable]
 public class WormObject : ObjectUUID
 {
     public WormType wormType = 0;
