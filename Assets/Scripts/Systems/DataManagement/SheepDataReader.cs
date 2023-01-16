@@ -25,26 +25,55 @@ public class SheepDataReader : MonoBehaviour
         weideDataViewer = GetComponent<WeideDataViewer>();
         koppelDataViewer = GetComponent<KoppelDataViewer>();
 
-        //testDatabase = WurmAPI.GetDatabase();
-        LoadSheepData(sheepDataFile);
-
         koppelDataViewer.dataReader = this;
-        koppelDataViewer.CreateButtonsFromDB(testDatabase.sheepKoppels);
         wormDataViewer.dataReader = this;
-        wormDataViewer.CreateWormButtonsFromDB(testDatabase.worms);
         sheepDataViewer.sheepDataReader = this;
-        sheepDataViewer.CreateSheepButtonsFromDB(testDatabase.sheeps);
         weideDataViewer.sheepDataReader = this;
+        
+        LoadSheepData(sheepDataFile);
+        OnDatabaseLoaded();
+    }
+
+    /// <summary>
+    /// Creates the buttons for all elements in the database when it has finished loading
+    /// </summary>
+    public void OnDatabaseLoaded()
+    {
+        koppelDataViewer.CreateButtonsFromDB(testDatabase.sheepKoppels);
+        wormDataViewer.CreateWormButtonsFromDB(testDatabase.worms);
+        sheepDataViewer.CreateSheepButtonsFromDB(testDatabase.sheeps);
         weideDataViewer.CreateSheepButtonsFromDB(testDatabase.weides);
+    }
+
+    private T GetElementByUUID<T>(string uuid, List<T> list) where T : ObjectUUID
+    {
+        foreach (var element in list)
+        {
+            if (element.UUID == uuid) return element;
+        }
+
+        return null;
     }
 
     public SheepObject GetSheepObjectByUUID(string uuid)
     {
-        foreach (var sheep in testDatabase.sheeps)
-        {
-            if (sheep.UUID == uuid) return sheep;
-        }
+        return GetElementByUUID(uuid, testDatabase.sheeps);
+    }
 
+    public SheepKoppel GetSheepKoppelByUUID(string uuid)
+    {
+        return GetElementByUUID(uuid, testDatabase.sheepKoppels);
+    }
+
+    public WeideObject GetWeideObjectByUUID(string uuid)
+    {
+        return GetElementByUUID(uuid, testDatabase.weides);
+    }
+
+    public string GetKoppelNameByUUID(string uuid)
+    {
+        SheepKoppel kop = GetSheepKoppelByUUID(uuid);
+        if (kop != null) return kop.koppelName;
         return null;
     }
 
@@ -58,26 +87,18 @@ public class SheepDataReader : MonoBehaviour
         return null;
     }
 
-    public string GetKoppelNameByUUID(string UUID)
-    {
-        foreach (var koppel in testDatabase.sheepKoppels)
-        {
-            if (koppel.UUID == UUID) return koppel.koppelName;
-        }
-
-        return null;
-    }
-
     public void UpdateSheepData(SheepObject sheep)
     {
         int nChilds = sheepDataViewer.sheepButtonContainer.childCount;
 
         // editing existing sheep
-        if (!sheepDataViewer.bAddingSheep)
+        if (sheepDataViewer.panelMode == DetailsPanelMode.EditingElement)
+        //if (!sheepDataViewer.bAddingSheep)
         {
             // update the actual data
-            // magic, ignore casing and check if names are the same
-            foreach (var shp in testDatabase.sheeps.Where(shp => string.Equals(shp.UUID, sheepDataViewer.selectedSheep.UUID, StringComparison.CurrentCultureIgnoreCase)))
+            var shp = GetSheepObjectByUUID(sheepDataViewer.selectedSheep.UUID);
+
+            if (shp != null)
             {
                 shp.sheepTag = sheep.sheepTag;
                 shp.sex = sheep.sex;
@@ -91,21 +112,15 @@ public class SheepDataReader : MonoBehaviour
                 if (oldKoppelID != newKoppelID)
                 {
                     // Remove the sheep from the old koppel
-                    foreach (var kop in testDatabase.sheepKoppels.Where(kop => string.Equals(kop.UUID, oldKoppelID, StringComparison.CurrentCultureIgnoreCase)))
-                    {
-                        kop.allSheep.Remove(sheep.UUID);
-                    }
+                    SheepKoppel oldKop = GetSheepKoppelByUUID(oldKoppelID);
+                    oldKop?.allSheep.Remove(sheep.UUID);
 
                     // Add the sheep to the new koppel
-                    foreach (var kop in testDatabase.sheepKoppels.Where(kop => string.Equals(kop.UUID, newKoppelID, StringComparison.CurrentCultureIgnoreCase)))
-                    {
-                        kop.allSheep.Add(shp.UUID);
-                    }
+                    SheepKoppel newKop = GetSheepKoppelByUUID(newKoppelID);
+                    newKop?.allSheep.Add(shp.UUID);
                 }
 
                 shp.sheepKoppelID = newKoppelID;
-
-                // remove sheep from old koppel and update it
             }
 
             // update the visuals representing the data
@@ -123,23 +138,26 @@ public class SheepDataReader : MonoBehaviour
         else
         {
             testDatabase.sheeps.Add(sheep);
-            var obj = sheepDataViewer.CreateNewSheepButton(sheep);
+            var obj = sheepDataViewer.CreateNewButton(sheep);
             sheepDataViewer.MoveScrollViewToElement(obj.GetComponent<RectTransform>());
         }
 
-        sheepDataViewer.bAddingSheep = false;
+        sheepDataViewer.panelMode = DetailsPanelMode.None;
+        //sheepDataViewer.bAddingSheep = false;
     }
 
     public void UpdateWeideData(WeideObject weide)
     {
         int nChilds = sheepDataViewer.sheepButtonContainer.childCount;
 
-        // editing existing sheep
-        if (!weideDataViewer.bAddingElement)
+        // editing existing weide
+        if (weideDataViewer.panelMode == DetailsPanelMode.EditingElement)
+        //if (!weideDataViewer.bAddingElement)
         {
             // update the actual data
-            // magic, ignore casing and check if names are the same
-            foreach (var wds in testDatabase.weides.Where(wds => string.Equals(wds.UUID, weideDataViewer.selectedElement.UUID, StringComparison.CurrentCultureIgnoreCase)))
+            WeideObject wds = GetWeideObjectByUUID(weideDataViewer.selectedElement.UUID);
+            
+            if (wds != null)
             {
                 wds.perceelName = weide.perceelName;
                 wds.surfaceQuality = weide.surfaceQuality;
@@ -156,18 +174,19 @@ public class SheepDataReader : MonoBehaviour
             }
         }
 
-        // Adding a new sheep
+        // Adding a new weide
         // TODO check if UUID doesnt already exist
         else
         {
             testDatabase.weides.Add(weide);
-            weideDataViewer.CreateNewWeideButton(weide);
+            weideDataViewer.CreateNewButton(weide);
         }
 
-        weideDataViewer.bAddingElement = false;
+        weideDataViewer.panelMode = DetailsPanelMode.None;
+        //weideDataViewer.bAddingElement = false;
     }
 
-    private bool DeleteElement<T>(T element, List<T> list) where T : ObjectUUID
+    private bool DeleteElement<T>(T element, List<T> list, DataViewer dataViewer = null) where T : ObjectUUID
     {
         int index = -1;
 
@@ -181,37 +200,32 @@ public class SheepDataReader : MonoBehaviour
 
         if (index == -1) return false;
         list.RemoveAt(index);
+
+        // Make the dataviewer remove the button associated with the object
+        if (dataViewer != null) dataViewer.RemoveButton(element);
         return true;
     }
 
     public void DeleteSheep(SheepObject sheep)
     {
-        if (DeleteElement(sheep, testDatabase.sheeps))
-        {
-            sheepDataViewer.RemoveSheepButton(sheep);
-        }
+        DeleteElement(sheep, testDatabase.sheeps, sheepDataViewer);
     }
 
     public void DeleteKoppel(SheepKoppel koppel)
     {
-        if (DeleteElement(koppel, testDatabase.sheepKoppels))
+        if (DeleteElement(koppel, testDatabase.sheepKoppels, koppelDataViewer))
         {
             // Set koppelID to "" for all sheeps using this koppel
             foreach (var sheep in testDatabase.sheeps.Where(sheep => string.Equals(sheep.sheepKoppelID, koppel.UUID, StringComparison.CurrentCultureIgnoreCase)))
             {
                 sheep.sheepKoppelID = "";
             }
-
-            koppelDataViewer.RemoveKoppelButton(koppel);
         }
     }
 
     public void DeleteWeide(WeideObject weide)
     {
-        if (DeleteElement(weide, testDatabase.weides))
-        {
-            weideDataViewer.RemoveWeideButton(weide);
-        }
+        DeleteElement(weide, testDatabase.weides, weideDataViewer);
     }
 
     /// <summary>
