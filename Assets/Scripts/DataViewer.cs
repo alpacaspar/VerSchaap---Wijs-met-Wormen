@@ -13,6 +13,7 @@ public enum DetailsPanelMode
 public class DataViewer : MonoBehaviour
 {
     public TextMeshProUGUI detailPanelTitle;
+    [HideInInspector]
     public DetailsPanelMode panelMode = DetailsPanelMode.None;
 
     public virtual GameObject CreateNewButton(ObjectUUID objToAdd)

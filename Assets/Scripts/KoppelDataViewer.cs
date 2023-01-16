@@ -33,8 +33,8 @@ public class KoppelDataViewer : DataViewer
 
     [HideInInspector]
     public SheepKoppel selectedElement;
-    [HideInInspector]
-    public bool bAddingElement = false;
+    //[HideInInspector]
+    //public bool bAddingElement = false;
     [HideInInspector]
     public SheepDataReader dataReader;
 
@@ -84,7 +84,8 @@ public class KoppelDataViewer : DataViewer
         // Button for adding new koppel
         btnAddKoppel.onClick.AddListener(delegate
         {
-            bAddingElement = true;
+            panelMode = DetailsPanelMode.CreatingElement;
+            //bAddingElement = true;
             selectedElement = new SheepKoppel
             {
                 koppelName = "Nieuwe koppel",
@@ -199,7 +200,7 @@ public class KoppelDataViewer : DataViewer
         selectedElement = element;
         inputName.SetTextWithoutNotify(selectedElement.koppelName);
         SetPanelVisibilty(true);
-        SetDetailsPanelTitle(bAddingElement ? "Koppel toevoegen" : "Koppel bewerken");
+        SetDetailsPanelTitle("Koppel");
         CreateNewSheepButtons();
     }
 }

@@ -29,8 +29,6 @@ public class WeideDataViewer : DataViewer
     
     [HideInInspector]
     public WeideObject selectedElement;
-    //[HideInInspector]
-    //public bool bAddingElement = false;
     [HideInInspector]
     public SheepDataReader sheepDataReader;
     
