@@ -91,13 +91,8 @@ public class DBST : MonoBehaviour
                         case UnityWebRequest.Result.Success:
                             //Debug.Log(pages[page]; // URI
                             string data = webRequest.downloadHandler.text;
-                            switch (request)
-                            {
-                                case nameof(GetRequest.GetSheep):
-                                    dataPackages.Add(methodUUID, data);
-                                    EventSystem<string>.InvokeEvent(EventType.checkDatabaseResponse, methodUUID);
-                                    break;
-                            }
+                            dataPackages.Add(methodUUID, data);
+                            EventSystem<string>.InvokeEvent(EventType.checkDatabaseResponse, methodUUID);
                             break;
                     }
                 }
