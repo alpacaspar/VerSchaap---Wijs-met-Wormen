@@ -26,6 +26,8 @@ public class WeideObject : ObjectUUID
     public string perceelName = "Perceel";
     public int surfaceSqrMtr = 0;
     public float surfaceQuality = 0;
+    public long lastMowedTs = 0;
+    public string state = "";
     public List<GrassType[]> grassTypes = new List<GrassType[]>();
     public List<SheepType[]> currentSheeps = new List<SheepType[]>();
     public List<string> extraRemarks = new List<string>();
@@ -45,28 +47,13 @@ public class SheepObject : ObjectUUID
 }
 
 [Serializable]
-public class SheepCollectionJson
-{
-    public SheepJSON[] Sheeps;
-}
-
-[Serializable]
-public class SheepJSON
-{
-    public string Sheep_DB_ID;
-    public string Sheep_UUID;
-    public string Sheep_Label;
-    public string Sheep_Female;
-    public string Farmer_UUID;
-    public string Last_Modified;
-    public string Is_Deleted;
-}
-
-[Serializable]
 public class WormObject : ObjectUUID
 {
     public WormType wormType = 0;
     public string nonScienceName = "worm";
+    public string scientificName = "";
+    public float EPGDanger = 0;
+    public string eggDescription = "";
     public List<WormMedicines> effectiveMedicines = new List<WormMedicines>();  // list is not sorted on timestamps!
     public List<WormResistences> resistences = new List<WormResistences>();       // list is not sorted on timestamps!
     public List<WormSymptoms> symptoms = new List<WormSymptoms>();             // list is not sorted on timestamps!
@@ -78,6 +65,9 @@ public class WormObject : ObjectUUID
 public class SheepKoppel : ObjectUUID
 {
     public string koppelName = "koppel";
+    public long tsFormed = 0;
+    public long tsRemoved = 0;
+    public long lastModified = 0;
     public List<string> allSheep = new List<string>();
 }
 

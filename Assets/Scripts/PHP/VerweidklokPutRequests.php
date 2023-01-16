@@ -23,7 +23,7 @@
 		}
 		else $missingFields = true;
 	}
-	elseif ($_GET["request"] == 'UpdatePair')
+	elseif ($_GET["request"] == 'UpdateSheepPair')
 	{
 		if (isset($_GET["Pair_DB_ID"]) and isset($_GET["Farmer_UUID"]))
 		{
@@ -46,7 +46,7 @@
 		if (isset($_GET["Breed_DB_ID"]))
 		{
 		    $result = $mysqli->query("UPDATE `VerweidklokBreedTable` SET Sheep_ID = '".$_GET["Sheep_ID"]."', Breed_ID = '".$_GET["Breed_ID"]."'"
-				." WHERE Breed_DB_ID = '".$_GET["Breed_DB_ID"."';");
+				." WHERE Breed_DB_ID = '".$_GET["Breed_DB_ID"]."';");
 		}
 		else $missingFields = true;
 	}
@@ -59,7 +59,7 @@
 		}
 		else $missingFields = true;
 	}
-	elseif ($_GET["request"] == 'UpdateSheepPair')
+	elseif ($_GET["request"] == 'UpdatePair')
 	{
 		if (isset($_GET["Sheep_Pair_DB_ID"]) and isset($_GET["Farmer_UUID"]))
 		{
@@ -83,6 +83,15 @@
 		{
 		    $result = $mysqli->query("UPDATE `VerweidklokSheepMedicine` SET Medicine_ID = '".$_GET["Medicine_ID"]."', Inject_Timestamp = '".$_GET["Inject_Timestamp"]."', Dosage = '".$_GET["Dosage"]."'"
 				." WHERE Sheep_ID = '".$_GET["Sheep_ID"]."' AND Farmer_UUID = '".$_GET["Farmer_UUID"]."';");
+		}
+		else $missingFields = true;
+	}
+	elseif ($_GET["request"] == 'UpdateWorm')
+	{
+		if (isset($_GET["Worm_UUID"]))
+		{
+		    $result = $mysqli->query("UPDATE `VerweidklokWormCollection` SET Worm_Latin_Name = '".$_GET["Worm_Latin_Name"]."', Worm_Normal_Name = '".$_GET["Worm_Normal_Name"]."', Worm_EPG_Danger = '".$_GET["Worm_EPG_Danger"]."', Worm_Egg_Description = '".$_GET["Worm_Egg_Description"]."'"
+				." WHERE Worm_UUID = '".$_GET["Worm_UUID"]."';");
 		}
 		else $missingFields = true;
 	}
