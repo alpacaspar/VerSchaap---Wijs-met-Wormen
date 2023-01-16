@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 706714310096898130}
   m_Layer: 5
   m_Name: Background
-  m_TagString: Untagged
+  m_TagString: contextBackground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 8797000783374671950}
   m_Layer: 5
   m_Name: Weather Image
-  m_TagString: Untagged
+  m_TagString: Icon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

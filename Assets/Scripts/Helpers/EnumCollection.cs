@@ -8,6 +8,7 @@ public enum EventType
     onAdviceValueCalculated,
     performAdviceUpdate,
     checkDatabaseResponse,
+    onSceneReady,
 }
 
 public enum MethodType
