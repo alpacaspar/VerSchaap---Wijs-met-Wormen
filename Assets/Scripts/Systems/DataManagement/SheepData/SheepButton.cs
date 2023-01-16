@@ -13,89 +13,108 @@ public enum SheepButtonMode
     ClickToAddToKoppel
 }
 
-public class SheepButton : MonoBehaviour
+public class SheepButton : ObjectUUIDButton
 {
     public TextMeshProUGUI txtSheepTag;
     public TextMeshProUGUI txtSheepGender;
 
-    public Button button;
-    public Button btnDelete;
     public SheepObject sheep;
     public SheepDataViewer dataViewer;
 
     public SheepButtonMode buttonMode = SheepButtonMode.Nothing;
 
-    // Start is called before the first frame update
-    private void Start()
+    public override void OnButtonClicked()
     {
         switch (buttonMode)
         {
             default:
-                btnDelete.gameObject.SetActive(false);
                 break;
+            // Button is inside sheep menu
             case SheepButtonMode.ClickToEditOrRemove:
                 dataViewer.panelMode = DetailsPanelMode.EditingElement;
-                button.onClick.AddListener(delegate { dataViewer.ShowDetails(sheep); });
-                btnDelete.onClick.AddListener(delegate { dataViewer.sheepDataReader.DeleteSheep(sheep); });
+                dataViewer.ShowDetails(sheep);
                 break;
+            // Button is inside koppel details menu
             case SheepButtonMode.ClickToRemoveFromKoppel:
                 dataViewer.panelMode = DetailsPanelMode.EditingElement;
-                button.onClick.AddListener(delegate { dataViewer.ShowDetails(sheep); });
-                btnDelete.onClick.AddListener(delegate
+                dataViewer.ShowDetails(sheep);
+                break;
+            // Button is inside add to koppel menu
+            case SheepButtonMode.ClickToAddToKoppel:
+                // Set koppelID for the sheep
+                foreach (var tmpSheep in dataViewer.sheepDataReader.testDatabase.sheeps)
                 {
-                    string koppelUUID = "";
-
-                    // Clear koppelID of the sheep
-                    foreach (var tmpSheep in dataViewer.sheepDataReader.testDatabase.sheeps)
+                    if (tmpSheep.UUID == sheep.UUID)
                     {
-                        if (tmpSheep.UUID == sheep.UUID)
-                        {
-                            koppelUUID = tmpSheep.sheepKoppelID;
-                            tmpSheep.sheepKoppelID = "";
-                            break;
-                        }
+                        tmpSheep.sheepKoppelID = dataViewer.sheepDataReader.koppelDataViewer.selectedElement.UUID;
+                        break;
                     }
+                }
 
-                    // Remove the sheep from the koppel
-                    foreach (var tmpKoppel in dataViewer.sheepDataReader.testDatabase.sheepKoppels)
+                // Add the sheep to the koppel
+                foreach (var tmpKoppel in dataViewer.sheepDataReader.testDatabase.sheepKoppels)
+                {
+                    if (tmpKoppel.UUID == sheep.sheepKoppelID)
                     {
-                        if (tmpKoppel.UUID == koppelUUID)
-                        {
-                            tmpKoppel.allSheep.Remove(sheep.UUID);
-                            dataViewer.sheepDataReader.koppelDataViewer.ShowDetails(tmpKoppel);
-                            break;
-                        }
+                        tmpKoppel.allSheep.Add(sheep.UUID);
+                        dataViewer.sheepDataReader.koppelDataViewer.ShowDetails(tmpKoppel);
+                        dataViewer.sheepDataReader.koppelDataViewer.addSheepPanel.gameObject.SetActive(false);
+                        dataViewer.sheepDataReader.koppelDataViewer.sheepListPanel.SetActive(true);
+                        break;
                     }
-                });
+                }
+                break;
+        }
+    }
+
+    public override void OnDeleteButtonClicked()
+    {
+        switch (buttonMode)
+        {
+            default:
+                break;
+            case SheepButtonMode.ClickToEditOrRemove:
+                dataViewer.sheepDataReader.DeleteSheep(sheep);
+                break;
+            case SheepButtonMode.ClickToRemoveFromKoppel:
+                string koppelUUID = "";
+
+                // Clear koppelID of the sheep
+                foreach (var tmpSheep in dataViewer.sheepDataReader.testDatabase.sheeps)
+                {
+                    if (tmpSheep.UUID == sheep.UUID)
+                    {
+                        koppelUUID = tmpSheep.sheepKoppelID;
+                        tmpSheep.sheepKoppelID = "";
+                        break;
+                    }
+                }
+
+                // Remove the sheep from the koppel
+                foreach (var tmpKoppel in dataViewer.sheepDataReader.testDatabase.sheepKoppels)
+                {
+                    if (tmpKoppel.UUID == koppelUUID)
+                    {
+                        tmpKoppel.allSheep.Remove(sheep.UUID);
+                        dataViewer.sheepDataReader.koppelDataViewer.ShowDetails(tmpKoppel);
+                        break;
+                    }
+                }
+                break;
+        }
+    }
+
+    // Start is called before the first frame update
+    public override void OnStart()
+    {
+        base.OnStart();
+        switch (buttonMode)
+        {
+            case SheepButtonMode.Nothing:
+                btnDelete.gameObject.SetActive(false);
                 break;
             case SheepButtonMode.ClickToAddToKoppel:
                 btnDelete.gameObject.SetActive(false);
-                button.onClick.AddListener(delegate
-                {
-                    // Set koppelID for the sheep
-                    foreach (var tmpSheep in dataViewer.sheepDataReader.testDatabase.sheeps)
-                    {
-                        if (tmpSheep.UUID == sheep.UUID)
-                        {
-                            tmpSheep.sheepKoppelID = dataViewer.sheepDataReader.koppelDataViewer.selectedElement.UUID;
-                            break;
-                        }
-                    }
-
-                    // Add the sheep to the koppel
-                    foreach (var tmpKoppel in dataViewer.sheepDataReader.testDatabase.sheepKoppels)
-                    {
-                        if (tmpKoppel.UUID == sheep.sheepKoppelID)
-                        {
-                            tmpKoppel.allSheep.Add(sheep.UUID);
-                            dataViewer.sheepDataReader.koppelDataViewer.ShowDetails(tmpKoppel);
-                            dataViewer.sheepDataReader.koppelDataViewer.addSheepPanel.gameObject.SetActive(false);
-                            dataViewer.sheepDataReader.koppelDataViewer.sheepListPanel.SetActive(true);
-                            break;
-                        }
-                    }   
-                });
-                
                 break;
         }
     }

@@ -5,26 +5,23 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
-public class WeideButton : MonoBehaviour
+public class WeideButton : ObjectUUIDButton
 {
     public TextMeshProUGUI txtPerceelName;
 
-    public Button button;
-    public Button btnDelete;
     public WeideObject weide;
     public WeideDataViewer dataViewer;
     public QuickAdviceDisplay adviceDisplay;
 
-    // Start is called before the first frame update
-    private void Start()
+    public override void OnButtonClicked()
     {
-        button.onClick.AddListener(delegate
-        {
-            dataViewer.panelMode = DetailsPanelMode.EditingElement;
-            dataViewer.ShowDetails(weide); 
-        });
+        dataViewer.panelMode = DetailsPanelMode.EditingElement;
+        dataViewer.ShowDetails(weide);
+    }
 
-        btnDelete.onClick.AddListener(delegate { dataViewer.sheepDataReader.DeleteWeide(weide); });
+    public override void OnDeleteButtonClicked()
+    {
+        dataViewer.sheepDataReader.DeleteWeide(weide);
     }
 
     public void SetInfo(WeideObject _weide, WeideDataViewer _dataViewer)
