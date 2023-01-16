@@ -301,6 +301,8 @@ public static class Database
     private static string[] AddEntry(ObjectUUID newObject, List<ObjectUUID> collection, System.Type type)
     {
         string[] newData = new string[] { (int)Status.Error1 + "", "" };
+        string[] fieldCollection;
+        string[] dataCollection;
         bool handledData = false;
 
         if (collection.Count > 0)
@@ -321,25 +323,40 @@ public static class Database
             switch (type.ToString())
             {
                 case "WeideObject":
-                    tempDatabase.weides.Add((WeideObject)newObject);
-                    newData[0] = (int)Status.Success1 + "";
+                    WeideObject weideObject = (WeideObject)newObject;
+                    tempDatabase.weides.Add(weideObject); 
+                    fieldCollection = new string[] { "Lot_UUID", "Lot_Name", "Lot_Surface", "Lot_Quality", "Lot_Mowed_TS", "Lot_State_ID", "Farmer_UUID", "Last_Modified" };
+                    dataCollection = new string[] { weideObject.UUID, weideObject.perceelName, "" + weideObject.surfaceSqrMtr, "" + weideObject.surfaceQuality, "" + weideObject.lastMowedTs, "" + weideObject.surfaceSqrMtr, "" + weideObject.state, tempDatabase.farmerUUID };
+                    newData[0] = (int)Status.Success5 + "";
+                    newData[1] = Helpers.GenerateUUID();
+                    DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Post, "AddLot", newData[1]);
                     break;
                 case "SheepObject":
                     SheepObject sheepObject = (SheepObject)newObject;
                     tempDatabase.sheeps.Add(sheepObject);
-                    string[] fieldCollection = { "Sheep_UUID", "Sheep_Label", "Sheep_Female", "Farmer_UUID" };
-                    string[] dataCollection = { sheepObject.UUID, sheepObject.sheepTag, "" + (int)sheepObject.sex, tempDatabase.farmerUUID };
+                    fieldCollection = new string[] { "Sheep_UUID", "Sheep_Label", "Sheep_Female", "Farmer_UUID" };
+                    dataCollection = new string[] { sheepObject.UUID, sheepObject.sheepTag, "" + (int)sheepObject.sex, tempDatabase.farmerUUID };
                     newData[0] = (int)Status.Success5 + "";
                     newData[1] = Helpers.GenerateUUID();
                     DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Post, "AddSheep", newData[1]);
                     break;
                 case "WormObject":
-                    tempDatabase.worms.Add((WormObject)newObject);
-                    newData[0] = (int)Status.Success1 + "";
+                    WormObject wormObject = (WormObject)newObject;
+                    tempDatabase.worms.Add(wormObject);
+                    fieldCollection = new string[] { "Worm_UUID", "Worm_Latin_Name", "Worm_Normal_Name", "Worm_EPG_Danger", "Worm_Egg_Description" };
+                    dataCollection = new string[] { wormObject.UUID, wormObject.scientificName, wormObject.nonScienceName, wormObject.EPGDanger + "", wormObject.eggDescription };
+                    newData[0] = (int)Status.Success5 + "";
+                    newData[1] = Helpers.GenerateUUID();
+                    DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Post, "AddNewWorm", newData[1]);
                     break;
                 case "SheepKoppel":
-                    tempDatabase.sheepKoppels.Add((SheepKoppel)newObject);
-                    newData[0] = (int)Status.Success1 + "";
+                    SheepKoppel pairObject = (SheepKoppel)newObject;
+                    tempDatabase.sheepKoppels.Add(pairObject);
+                    fieldCollection = new string[] { "Pair_Name", "Pair_UUID", "Farmer_UUID" };
+                    dataCollection = new string[] { pairObject.koppelName, pairObject.UUID, tempDatabase.farmerUUID };
+                    newData[0] = (int)Status.Success5 + "";
+                    newData[1] = Helpers.GenerateUUID();
+                    DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Post, "AddPair", newData[1]);
                     break;
             }
         }
@@ -350,6 +367,8 @@ public static class Database
     private static string[] UpdateEntry(ObjectUUID newObject, List<ObjectUUID> collection, System.Type type)
     {
         string[] newData = new string[] { (int)Status.Error1 + "", "" };
+        string[] fieldCollection;
+        string[] dataCollection;
         bool handledData = false;
 
         if (collection.Count > 0)
@@ -370,19 +389,36 @@ public static class Database
             switch (type.ToString())
             {
                 case "WeideObject":
+                    WeideObject weideObject = (WeideObject)newObject;
+                    fieldCollection = new[] { "Lot_UUID", "Lot_Name", "Lot_Surface", "Lot_Quality", "Lot_Mowed_TS", "Lot_State_ID", "Farmer_UUID" };
+                    dataCollection = new[] { weideObject.UUID, weideObject.perceelName, weideObject.surfaceSqrMtr + "", weideObject.surfaceQuality + "", weideObject.lastMowedTs + "", weideObject.state, tempDatabase.farmerUUID };
+                    newData[0] = (int)Status.Success5 + "";
+                    newData[1] = Helpers.GenerateUUID();
+                    DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Put, "UpdateLot", newData[1]);
                     break;
                 case "SheepObject":
-
                     SheepObject sheepObject = (SheepObject)newObject;
-                    string[] fieldCollection = { "Sheep_UUID", "Sheep_Label", "Sheep_Female", "Farmer_UUID" };
-                    string[] dataCollection = { sheepObject.UUID, sheepObject.sheepTag, "" + (int)sheepObject.sex, tempDatabase.farmerUUID };
+                    fieldCollection = new[] { "Sheep_UUID", "Sheep_Label", "Sheep_Female", "Farmer_UUID" };
+                    dataCollection = new[] { sheepObject.UUID, sheepObject.sheepTag, "" + (int)sheepObject.sex, tempDatabase.farmerUUID };
                     newData[0] = (int)Status.Success5 + "";
                     newData[1] = Helpers.GenerateUUID();
                     DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Put, "UpdateSheep", newData[1]);
                     break;
                 case "WormObject":
+                    WormObject wormObject = (WormObject)newObject;
+                    fieldCollection = new[] { "Worm_UUID", "Worm_Latin_Name", "Worm_Normal_Name", "Worm_EPG_Danger", "Worm_Egg_Description" };
+                    dataCollection = new[] { wormObject.UUID, wormObject.scientificName, wormObject.nonScienceName + "", wormObject.EPGDanger + "", wormObject.eggDescription + "" };
+                    newData[0] = (int)Status.Success5 + "";
+                    newData[1] = Helpers.GenerateUUID();
+                    DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Put, "UpdateWorm", newData[1]);
                     break;
                 case "SheepKoppel":
+                    SheepKoppel sheepPairObject = (SheepKoppel)newObject;
+                    fieldCollection = new[] { "Pair_UUID", "Pair_Name", "TS_Formed", "TS_Removed", "Farmer_UUID", "Last_Modified" };
+                    dataCollection = new[] { sheepPairObject.UUID, sheepPairObject.koppelName, sheepPairObject.tsFormed + "", sheepPairObject.tsRemoved + "", tempDatabase.farmerUUID, sheepPairObject.lastModified + "" };
+                    newData[0] = (int)Status.Success5 + "";
+                    newData[1] = Helpers.GenerateUUID();
+                    DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Put, "UpdateSheepPair", newData[1]);
                     break;
             }
         }
@@ -405,7 +441,7 @@ public static class Database
                 dataCollection = new string[] { weideObject.UUID, tempDatabase.farmerUUID };
                 newData[0] = (int)Status.Success5 + "";
                 newData[1] = Helpers.GenerateUUID();
-                DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Get, "GetLot", newData[1]);
+                DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Get, GetRequest.GetLot.ToString(), newData[1]);
                 handledData = true;
                 break;
             case "SheepObject":
@@ -414,7 +450,7 @@ public static class Database
                 dataCollection = new string[] { sheepObject.UUID, tempDatabase.farmerUUID };
                 newData[0] = (int)Status.Success5 + "";
                 newData[1] = Helpers.GenerateUUID();
-                DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Get, "GetSheep", newData[1]);
+                DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Get, GetRequest.GetSheep.ToString(), newData[1]);
                 handledData = true;
                 break;
             case "WormObject":
@@ -423,7 +459,7 @@ public static class Database
                 dataCollection = new string[] { wormObject.UUID };
                 newData[0] = (int)Status.Success5 + "";
                 newData[1] = Helpers.GenerateUUID();
-                DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Get, "GetWorm", newData[1]);
+                DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Get, GetRequest.GetWorm.ToString(), newData[1]);
                 handledData = true;
                 break;
             case "SheepKoppel":
@@ -432,7 +468,7 @@ public static class Database
                 dataCollection = new string[] { koppelObject.UUID };
                 newData[0] = (int)Status.Success5 + "";
                 newData[1] = Helpers.GenerateUUID();
-                DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Get, "GetPair", newData[1]);
+                DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Get, GetRequest.GetPair.ToString(), newData[1]);
                 handledData = true;
                 break;
         }

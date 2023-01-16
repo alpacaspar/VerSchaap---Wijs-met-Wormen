@@ -34,10 +34,13 @@ public class SheepButton : MonoBehaviour
                 btnDelete.gameObject.SetActive(false);
                 break;
             case SheepButtonMode.ClickToEditOrRemove:
+                dataViewer.panelMode = DetailsPanelMode.EditingElement;
                 button.onClick.AddListener(delegate { dataViewer.ShowDetails(sheep); });
                 btnDelete.onClick.AddListener(delegate { dataViewer.sheepDataReader.DeleteSheep(sheep); });
                 break;
             case SheepButtonMode.ClickToRemoveFromKoppel:
+                dataViewer.panelMode = DetailsPanelMode.EditingElement;
+                button.onClick.AddListener(delegate { dataViewer.ShowDetails(sheep); });
                 btnDelete.onClick.AddListener(delegate
                 {
                     string koppelUUID = "";

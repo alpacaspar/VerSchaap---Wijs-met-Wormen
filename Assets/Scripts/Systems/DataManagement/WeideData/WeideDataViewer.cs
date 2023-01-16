@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using System;
 using System.Linq;
 
-public class WeideDataViewer : MonoBehaviour
+public class WeideDataViewer : DataViewer
 {
     [Header("Prefabs")]
     public GameObject WeideButtonPrefab;
@@ -15,7 +15,6 @@ public class WeideDataViewer : MonoBehaviour
     public RectTransform WeideButtonContainer;
     public GameObject overviewPanel;
     public GameObject detailsPanel;
-    public TextMeshProUGUI detailPanelTitle;
 
     [Header("Weide variable fields")]
     public TMP_InputField inputPerceelName;
@@ -31,11 +30,35 @@ public class WeideDataViewer : MonoBehaviour
     [HideInInspector]
     public WeideObject selectedElement;
     [HideInInspector]
-    public bool bAddingElement = false;
-    [HideInInspector]
     public SheepDataReader sheepDataReader;
     
     public Dictionary<string, Sprite> sheepImages = new Dictionary<string, Sprite>();
+
+    public override GameObject CreateNewButton(ObjectUUID objToAdd)
+    {
+        WeideObject weide = objToAdd as WeideObject;
+        var buttonGameObject = Instantiate(WeideButtonPrefab, WeideButtonContainer);
+        buttonGameObject.GetComponentInChildren<WeideButton>().SetInfo(weide, this);
+        return buttonGameObject;
+    }
+
+    public override void RemoveButton(ObjectUUID objToRemove)
+    {
+        WeideObject weide = objToRemove as WeideObject;
+        if (weide == null) return;
+
+        for (int i = 0; i < WeideButtonContainer.childCount; i++)
+        {
+            var butObj = WeideButtonContainer.GetChild(i).gameObject;
+            var but = butObj.GetComponentInChildren<WeideButton>();
+
+            if (but.weide.UUID == weide.UUID)
+            {
+                Destroy(butObj);
+                break;
+            }
+        }
+    }
 
     private void LoadSheepImages()
     {
@@ -61,32 +84,19 @@ public class WeideDataViewer : MonoBehaviour
         LoadSheepImages();
     }
 
-    public void RemoveWeideButton(WeideObject weide)
-    {
-        for (int i = 0; i < WeideButtonContainer.childCount; i++)
-        {
-            var butObj = WeideButtonContainer.GetChild(i).gameObject;
-            var but = butObj.GetComponentInChildren<WeideButton>();
-
-            if (but.weide.UUID == weide.UUID)
-            {
-                Destroy(butObj);
-                break;
-            }
-        }
-    }
-
     private void SetupButtons()
     {
         btnCancel.onClick.AddListener(delegate
         {
             SetPanelVisibilty(false);
-            bAddingElement = false;
+            panelMode = DetailsPanelMode.None;
+            //bAddingElement = false;
         });
 
         btnAddElement.onClick.AddListener(delegate
         {
-            bAddingElement = true;
+            panelMode = DetailsPanelMode.CreatingElement;
+            //bAddingElement = true;
             selectedElement = new WeideObject
             {
                 UUID = Helpers.GenerateUUID()
@@ -118,14 +128,8 @@ public class WeideDataViewer : MonoBehaviour
     {
         foreach (WeideObject s in database)
         {
-            CreateNewWeideButton(s);
+            CreateNewButton(s);
         }
-    }
-    
-    public void CreateNewWeideButton(WeideObject s)
-    {
-        var sheepPanelGameObject = Instantiate(WeideButtonPrefab, WeideButtonContainer);
-        sheepPanelGameObject.GetComponentInChildren<WeideButton>().SetInfo(s, this);
     }
 
     public void SetupDetailsPanel()
@@ -142,7 +146,7 @@ public class WeideDataViewer : MonoBehaviour
     public void ShowDetails(WeideObject element)
     {
         selectedElement = element;
-        detailPanelTitle.text = bAddingElement ? "Perceel toevoegen" : "Perceel bewerken";
+        SetDetailsPanelTitle("Perceel");
         SetPanelVisibilty(true);
         inputPerceelName.SetTextWithoutNotify(element.perceelName);
         inputSurfaceArea.SetTextWithoutNotify(element.surfaceSqrMtr.ToString());

@@ -30,6 +30,7 @@ public enum GetRequest
     GetSheepInfection,
     GetSheepPair,
     GetSheepMedication,
+    GetWorm,
     GetWormResistence,
     GetWormWeakness,
     GetLotState,

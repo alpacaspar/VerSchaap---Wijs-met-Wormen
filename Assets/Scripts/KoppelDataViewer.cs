@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using System;
 using System.Linq;
 
-public class KoppelDataViewer : MonoBehaviour
+public class KoppelDataViewer : DataViewer
 {
     [Header("Prefabs")]
     public GameObject KoppelButtonPrefab;
@@ -17,7 +17,6 @@ public class KoppelDataViewer : MonoBehaviour
     public RectTransform koppelSheepListButtonContainer;
     public GameObject overviewPanel;
     public GameObject detailsPanel;
-    public TextMeshProUGUI detailPanelTitle;
     public GameObject sheepListPanel;
     public GameObject addSheepPanel;
     public RectTransform addSheepContainer;
@@ -34,13 +33,39 @@ public class KoppelDataViewer : MonoBehaviour
 
     [HideInInspector]
     public SheepKoppel selectedElement;
-    [HideInInspector]
-    public bool bAddingElement = false;
+    //[HideInInspector]
+    //public bool bAddingElement = false;
     [HideInInspector]
     public SheepDataReader dataReader;
 
     [Header("Other")]
     public ScrollRect scrollRect;
+
+    public override GameObject CreateNewButton(ObjectUUID objToAdd)
+    {
+        SheepKoppel koppel = objToAdd as SheepKoppel;
+        var buttonGameObject = Instantiate(KoppelButtonPrefab, koppelButtonContainer);
+        buttonGameObject.GetComponentInChildren<KoppelButton>().SetInfo(koppel, this);
+        return buttonGameObject;
+    }
+
+    public override void RemoveButton(ObjectUUID objToRemove)
+    {
+        SheepKoppel koppel = objToRemove as SheepKoppel;
+        if (koppel == null) return;
+
+        for (int i = 0; i < koppelButtonContainer.childCount; i++)
+        {
+            var butObj = koppelButtonContainer.GetChild(i).gameObject;
+            var but = butObj.GetComponentInChildren<KoppelButton>();
+
+            if (but.element.UUID == koppel.UUID)
+            {
+                Destroy(butObj);
+                break;
+            }
+        }
+    }
 
     private void Start()
     {
@@ -59,7 +84,8 @@ public class KoppelDataViewer : MonoBehaviour
         // Button for adding new koppel
         btnAddKoppel.onClick.AddListener(delegate
         {
-            bAddingElement = true;
+            panelMode = DetailsPanelMode.CreatingElement;
+            //bAddingElement = true;
             selectedElement = new SheepKoppel
             {
                 koppelName = "Nieuwe koppel",
@@ -113,21 +139,6 @@ public class KoppelDataViewer : MonoBehaviour
         });
     }
 
-    public void RemoveKoppelButton(SheepKoppel koppel)
-    {
-        for (int i = 0; i < koppelButtonContainer.childCount; i++)
-        {
-            var butObj = koppelButtonContainer.GetChild(i).gameObject;
-            var but = butObj.GetComponentInChildren<KoppelButton>();
-
-            if (but.element.UUID == koppel.UUID)
-            {
-                Destroy(butObj);
-                break;
-            }
-        }
-    }
-
     public void CreateButtonsFromDB(List<SheepKoppel> elementList)
     {
         RemoveAllChildren(koppelButtonContainer);
@@ -136,13 +147,6 @@ public class KoppelDataViewer : MonoBehaviour
         {
             CreateNewButton(s);
         }
-    }
-
-    public GameObject CreateNewButton(SheepKoppel s)
-    {
-        var panelGameObject = Instantiate(KoppelButtonPrefab, koppelButtonContainer);
-        panelGameObject.GetComponentInChildren<KoppelButton>().SetInfo(s, this);
-        return panelGameObject;
     }
 
     public void RemoveAllChildren(RectTransform obj)
@@ -196,7 +200,7 @@ public class KoppelDataViewer : MonoBehaviour
         selectedElement = element;
         inputName.SetTextWithoutNotify(selectedElement.koppelName);
         SetPanelVisibilty(true);
-        detailPanelTitle.text = bAddingElement ? "Koppel toevoegen" : "Koppel bewerken";
+        SetDetailsPanelTitle("Koppel");
         CreateNewSheepButtons();
     }
 }

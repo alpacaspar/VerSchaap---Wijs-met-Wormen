@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using System;
 using System.Linq;
 
-public class SheepDataViewer : MonoBehaviour
+public class SheepDataViewer : DataViewer
 {
     [Header("Prefabs")]
     public GameObject sheepButtonPrefab;
@@ -38,20 +38,31 @@ public class SheepDataViewer : MonoBehaviour
     [HideInInspector]
     public DateTimeOffset tmpTime = new DateTimeOffset(DateTime.UtcNow);
     [HideInInspector]
-    public bool bAddingSheep = false;
-    [HideInInspector]
     public SheepDataReader sheepDataReader;
     [Header("Other")]
     public ScrollRect scrollRect;
     public Dictionary<string, Sprite> sheepImages = new Dictionary<string, Sprite>();
 
-    public void RemoveSheepButton(SheepObject sheep)
+    public override GameObject CreateNewButton(ObjectUUID objToAdd)
     {
+        SheepObject s = objToAdd as SheepObject;
+        var buttonGameObject = Instantiate(sheepButtonPrefab, sheepButtonContainer);
+        var but = buttonGameObject.GetComponentInChildren<SheepButton>();
+        but.SetInfo(s, this);
+        but.buttonMode = SheepButtonMode.ClickToEditOrRemove;
+        return buttonGameObject;
+    }
+
+    public override void RemoveButton(ObjectUUID objToRemove)
+    {
+        SheepObject sheep = objToRemove as SheepObject;
+        if (sheep == null) return;
+
         for (int i = 0; i < sheepButtonContainer.childCount; i++)
         {
             var butObj = sheepButtonContainer.GetChild(i).gameObject;
             var but = butObj.GetComponentInChildren<SheepButton>();
-            
+
             if (but.sheep.UUID == sheep.UUID)
             {
                 Destroy(butObj);
@@ -98,12 +109,14 @@ public class SheepDataViewer : MonoBehaviour
         btnCancel.onClick.AddListener(delegate
         {
             SetPanelVisibilty(false);
-            bAddingSheep = false;
+            panelMode = DetailsPanelMode.None;
+            //bAddingSheep = false;
         });
 
         btnAddSheep.onClick.AddListener(delegate
         {
-            bAddingSheep = true;
+            panelMode = DetailsPanelMode.CreatingElement;
+            //bAddingSheep = true;
             selectedSheep = new SheepObject
             {
                 tsBorn = tmpTime.ToUnixTimeSeconds()
@@ -138,17 +151,8 @@ public class SheepDataViewer : MonoBehaviour
     {
         foreach (SheepObject s in sheepDatabase)
         {
-            CreateNewSheepButton(s);
+            CreateNewButton(s);
         }
-    }
-    
-    public GameObject CreateNewSheepButton(SheepObject s)
-    {
-        var sheepPanelGameObject = Instantiate(sheepButtonPrefab, sheepButtonContainer);
-        var but = sheepPanelGameObject.GetComponentInChildren<SheepButton>();
-        but.SetInfo(s, this);
-        but.buttonMode = SheepButtonMode.ClickToEditOrRemove;
-        return sheepPanelGameObject;
     }
 
     public void MoveScrollViewToElement(RectTransform target)
@@ -210,6 +214,7 @@ public class SheepDataViewer : MonoBehaviour
     public void ShowDetails(SheepObject sheep)
     {
         selectedSheep = sheep;
+        SetDetailsPanelTitle("Schaap");
         SetPanelVisibilty(true);
         UpdateKoppelDropDown();
         UpdateSheepImage(selectedSheep.sheepType.ToString());

@@ -37833,6 +37833,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88f37ceff77e3ed47b819276fff4ce46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detailPanelTitle: {fileID: 8540852}
+  panelMode: 0
   sheepButtonPrefab: {fileID: 1338592553821737466, guid: bfad6b3542fac3244a2205f461653689, type: 3}
   sheepButtonContainer: {fileID: 1242318815}
   overviewPanel: {fileID: 1970489404}
@@ -37858,7 +37860,6 @@ MonoBehaviour:
     sheepType: 0
     extraRemarks: []
     sheepKoppelID: 
-  bAddingSheep: 0
   sheepDataReader: {fileID: 1972799791}
   scrollRect: {fileID: 832735549}
 --- !u!114 &1972799794
@@ -37873,6 +37874,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04b7c654da4a5942abd2ad9a4a810b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detailPanelTitle: {fileID: 0}
+  panelMode: 0
   wormButtonPrefab: {fileID: 1338592553821737466, guid: 5fe9def483dee584bbec2720d9303ce8, type: 3}
   wormButtonContainer: {fileID: 121631515}
   overviewPanel: {fileID: 1517312425}
@@ -37905,11 +37908,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 274e329fd61707d4fae92e37487297c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detailPanelTitle: {fileID: 435340315}
+  panelMode: 0
   WeideButtonPrefab: {fileID: 1338592553821737466, guid: b7f6449ddd85382458be7ab051df6bcc, type: 3}
   WeideButtonContainer: {fileID: 1266709881}
   overviewPanel: {fileID: 1099108}
   detailsPanel: {fileID: 562911335}
-  detailPanelTitle: {fileID: 435340315}
   inputPerceelName: {fileID: 1665516681}
   inputSurfaceArea: {fileID: 924234988}
   inputSurfaceQuality: {fileID: 235678609}
@@ -37923,7 +37927,6 @@ MonoBehaviour:
     surfaceSqrMtr: 0
     surfaceQuality: 0
     extraRemarks: []
-  bAddingElement: 0
   sheepDataReader: {fileID: 0}
 --- !u!114 &1972799796
 MonoBehaviour:
@@ -37937,13 +37940,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 807b1d6c778d99741bc208e084e5fd7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detailPanelTitle: {fileID: 1140305758}
+  panelMode: 0
   KoppelButtonPrefab: {fileID: 1338592553821737466, guid: b49729a64456e4b41aa36a9acd6af6b9, type: 3}
   SheepButtonPrefab: {fileID: 1338592553821737466, guid: bfad6b3542fac3244a2205f461653689, type: 3}
   koppelButtonContainer: {fileID: 780313596}
   koppelSheepListButtonContainer: {fileID: 1395824449}
   overviewPanel: {fileID: 282958238}
   detailsPanel: {fileID: 1228907463}
-  detailPanelTitle: {fileID: 1140305758}
   sheepListPanel: {fileID: 1295798036}
   addSheepPanel: {fileID: 1567977751}
   addSheepContainer: {fileID: 38254283}
