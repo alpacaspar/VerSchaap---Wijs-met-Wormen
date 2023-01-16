@@ -27,8 +27,8 @@
 	{
 		if (isset($_GET["Pair_Name"]) and isset($_GET["Farmer_UUID"]))
 		{
-		    $result = $mysqli->query("INSERT INTO `VerweidklokPairCollection` (Pair_Name, Farmer_UUID)"
-				." VALUES ('".$_GET["Pair_Name"]."','".$_GET["Farmer_UUID"]."');");
+		    $result = $mysqli->query("INSERT INTO `VerweidklokPairCollection` (Pair_Name, Farmer_UUID, Pair_UUID)"
+				." VALUES ('".$_GET["Pair_Name"]."','".$_GET["Farmer_UUID"]."','".$_GET["Pair_UUID"]."');");
 		}
 		else $missingFields = true;
 	}
