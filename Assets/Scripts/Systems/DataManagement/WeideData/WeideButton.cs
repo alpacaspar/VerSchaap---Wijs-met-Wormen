@@ -21,7 +21,8 @@ public class WeideButton : ObjectUUIDButton
 
     public override void OnDeleteButtonClicked()
     {
-        dataViewer.sheepDataReader.DeleteWeide(weide);
+        dataViewer.sheepDataReader.DeleteButtonClicked(weide);
+        //dataViewer.sheepDataReader.DeleteWeide(weide);
     }
 
     public void SetInfo(WeideObject _weide, WeideDataViewer _dataViewer)

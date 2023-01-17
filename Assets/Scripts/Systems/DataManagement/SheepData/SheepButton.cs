@@ -74,7 +74,8 @@ public class SheepButton : ObjectUUIDButton
             default:
                 break;
             case SheepButtonMode.ClickToEditOrRemove:
-                dataViewer.sheepDataReader.DeleteSheep(sheep);
+                dataViewer.sheepDataReader.DeleteButtonClicked(sheep);
+                //dataViewer.sheepDataReader.DeleteSheep(sheep);
                 break;
             case SheepButtonMode.ClickToRemoveFromKoppel:
                 string koppelUUID = "";

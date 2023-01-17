@@ -22,7 +22,12 @@ public class KoppelButton : MonoBehaviour
             dataViewer.panelMode = DetailsPanelMode.EditingElement;
             dataViewer.ShowDetails(element);
         });
-        btnDelete.onClick.AddListener(delegate { dataViewer.dataReader.DeleteKoppel(element); });
+
+        btnDelete.onClick.AddListener(delegate
+        {
+            dataViewer.dataReader.DeleteButtonClicked(element);
+            //dataViewer.dataReader.DeleteKoppel(element); 
+        });
     }
 
     public void SetInfo(SheepKoppel _element, KoppelDataViewer _dataViewer)

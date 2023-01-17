@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SheepDataReader : MonoBehaviour
 {
@@ -13,6 +14,13 @@ public class SheepDataReader : MonoBehaviour
     public KoppelDataViewer koppelDataViewer;
     public TemporalDatabaseData testDatabase;
 
+    public GameObject pnlDelete;
+    public Button btnDeleteConfirm;
+    public Button btnDeleteCancel;
+
+    public bool bConfirmToDelete;
+    public Toggle bDeleteToggle;
+
     public void OpenFileExplorer()
     {
         var paths = SFB.StandaloneFileBrowser.OpenFilePanel("Open File", "", "", false);
@@ -20,6 +28,8 @@ public class SheepDataReader : MonoBehaviour
 
     private void Start()
     {
+        btnDeleteCancel.onClick.AddListener(delegate { pnlDelete.SetActive(false); });
+
         sheepDataViewer = GetComponent<SheepDataViewer>();
         wormDataViewer = GetComponent<WormDataViewer>();
         weideDataViewer = GetComponent<WeideDataViewer>();
@@ -219,6 +229,49 @@ public class SheepDataReader : MonoBehaviour
             foreach (var sheep in testDatabase.sheeps.Where(sheep => string.Equals(sheep.sheepKoppelID, koppel.UUID, StringComparison.CurrentCultureIgnoreCase)))
             {
                 sheep.sheepKoppelID = "";
+            }
+        }
+    }
+
+    public void DeleteButtonClicked(ObjectUUID obj)
+    {
+        bConfirmToDelete = bDeleteToggle.isOn;
+
+        if (bConfirmToDelete)
+        {
+            pnlDelete.SetActive(true);
+            btnDeleteConfirm.onClick.RemoveAllListeners();
+
+            switch (obj)
+            {
+                case SheepObject sheepObject:
+                    btnDeleteConfirm.onClick.AddListener(delegate { DeleteSheep(obj as SheepObject); });
+                    break;
+                case WeideObject weideObject:
+                    btnDeleteConfirm.onClick.AddListener(delegate { DeleteWeide(obj as WeideObject); });
+                    break;
+                case SheepKoppel sheepKoppel:
+                    btnDeleteConfirm.onClick.AddListener(delegate { DeleteKoppel(obj as SheepKoppel); });
+                    break;
+
+            }
+
+            btnDeleteConfirm.onClick.AddListener(delegate { pnlDelete.SetActive(false); });
+        }
+
+        else
+        {
+            switch (obj)
+            {
+                case SheepObject sheepObject:
+                    DeleteSheep(obj as SheepObject);
+                    break;
+                case WeideObject weideObject:
+                    DeleteWeide(obj as WeideObject);
+                    break;
+                case SheepKoppel sheepKoppel:
+                    DeleteKoppel(obj as SheepKoppel);
+                    break;
             }
         }
     }
