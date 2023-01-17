@@ -334,8 +334,8 @@ public static class Database
                 case "SheepObject":
                     SheepObject sheepObject = (SheepObject)newObject;
                     tempDatabase.sheeps.Add(sheepObject);
-                    fieldCollection = new string[] { "Sheep_UUID", "Sheep_Label", "Sheep_Female", "Farmer_UUID" };
-                    dataCollection = new string[] { sheepObject.UUID, sheepObject.sheepTag, "" + (int)sheepObject.sex, tempDatabase.farmerUUID };
+                    fieldCollection = new string[] { "Sheep_UUID", "Sheep_Label", "Sheep_Female", "Timestamp_Born", "Farmer_UUID" };
+                    dataCollection = new string[] { sheepObject.UUID, sheepObject.sheepTag, "" + (int)sheepObject.sex, "" + sheepObject.tsBorn, tempDatabase.farmerUUID };
                     newData[0] = (int)Status.Success5 + "";
                     newData[1] = Helpers.GenerateUUID();
                     DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Post, "AddSheep", newData[1]);
@@ -398,8 +398,8 @@ public static class Database
                     break;
                 case "SheepObject":
                     SheepObject sheepObject = (SheepObject)newObject;
-                    fieldCollection = new[] { "Sheep_UUID", "Sheep_Label", "Sheep_Female", "Farmer_UUID" };
-                    dataCollection = new[] { sheepObject.UUID, sheepObject.sheepTag, "" + (int)sheepObject.sex, tempDatabase.farmerUUID };
+                    fieldCollection = new[] { "Sheep_UUID", "Sheep_Label", "Sheep_Female", "Timestamp_Born", "Farmer_UUID" };
+                    dataCollection = new[] { sheepObject.UUID, sheepObject.sheepTag, "" + (int)sheepObject.sex, "" + sheepObject.tsBorn, tempDatabase.farmerUUID };
                     newData[0] = (int)Status.Success5 + "";
                     newData[1] = Helpers.GenerateUUID();
                     DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Put, "UpdateSheep", newData[1]);

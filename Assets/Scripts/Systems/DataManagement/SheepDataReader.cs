@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SheepDataReader : MonoBehaviour
 {
@@ -21,14 +22,144 @@ public class SheepDataReader : MonoBehaviour
     public bool bConfirmToDelete;
     public Toggle bDeleteToggle;
 
+    public TMP_InputField FarmerUUIDInputField;
+
+    public List<string> receivedAnswers = new List<string>();
+
     public void OpenFileExplorer()
     {
         var paths = SFB.StandaloneFileBrowser.OpenFilePanel("Open File", "", "", false);
     }
 
+    private void OnEnable()
+    {
+        EventSystem<string>.AddListener(EventType.checkDatabaseResponse, CheckResponse);
+    }
+
+    private void OnDisable()
+    {
+        EventSystem<string>.RemoveListener(EventType.checkDatabaseResponse, CheckResponse);
+    }
+
+    public void CheckResponse(string methodUUID)
+    {
+        if (Database.requests.Contains(methodUUID) && DBST.Instance.dataPackages.ContainsKey(methodUUID))
+        {
+            Debug.Log("Received UUID: " + methodUUID);
+            Database.requests.Remove(methodUUID);
+            receivedAnswers.Add(methodUUID);
+        }
+        else
+        {
+            Debug.LogError("Method UUID not found: " + methodUUID);
+        }
+    }
+
+    IEnumerator SndTestMethod()
+    {
+        int i = 0;
+        foreach (var s in testDatabase.sheeps)
+        {
+            i++;
+            string[] result = Database.ProgressData(MethodType.Put, s);
+            Debug.Log(Helpers.CodeToMessage(result[0]));
+            yield return new WaitForEndOfFrame();
+
+            while (!receivedAnswers.Contains(result[1]))
+            {
+                yield return new WaitForSeconds(1);
+            }
+
+            Debug.Log(DBST.Instance.dataPackages[result[1]]);
+            SheepCollectionJson sheepObj = JsonUtility.FromJson<SheepCollectionJson>("{\"Sheeps\":" + DBST.Instance.dataPackages[result[1]] + "}");
+            DBST.Instance.dataPackages.Remove(result[1]);
+            receivedAnswers.Remove(result[1]);
+            if (i > 10) break;
+        }
+
+        Debug.Log("SndTestMethod END");
+
+        /*
+        SheepObject newSheep = new SheepObject();
+        newSheep.UUID = "4dea7913-f4d7-42b3-be55-47f97b8576b2";
+        Debug.Log("Asking for sheep label");
+        string[] result = Database.ProgressData(MethodType.Get, newSheep);
+        Debug.Log(Helpers.CodeToMessage(result[0]));
+        yield return new WaitForEndOfFrame();
+
+        while (!receivedAnswers.Contains(result[1]))
+        {
+            yield return new WaitForSeconds(1);
+        }
+
+        Debug.Log(DBST.Instance.dataPackages[result[1]]);
+        SheepCollectionJson sheepObj = JsonUtility.FromJson<SheepCollectionJson>("{\"Sheeps\":" + DBST.Instance.dataPackages[result[1]] + "}");
+        DBST.Instance.dataPackages.Remove(result[1]);
+        receivedAnswers.Remove(result[1]);
+
+        // TODO check if result found
+        SheepJSON sheep = sheepObj.Sheeps[0];
+        foreach (SheepObject shp in testDatabase.sheeps)
+        {
+            if (shp.UUID == sheep.Sheep_UUID)
+            {
+                if (shp.lastModified < long.Parse(sheep.Last_Modified))
+                {
+                    shp.sheepTag = sheep.Sheep_Label;
+                    shp.lastModified = long.Parse(sheep.Last_Modified);
+                    shp.isDeleted = int.Parse(sheep.Is_Deleted);
+                    shp.tsBorn = long.Parse(sheep.Timestamp_Born);
+                }
+            }
+        }
+
+        Debug.Log("Label recevied: " + sheepObj.Sheeps[0].Sheep_Label);
+        */
+    }
+
+    IEnumerator TestMethod()
+    {
+        SheepObject newSheep = new SheepObject();
+        newSheep.UUID = "4dea7913-f4d7-42b3-be55-47f97b8576b2";
+        Debug.Log("Asking for sheep label");
+        string[] result = Database.ProgressData(MethodType.Get, newSheep);
+        Debug.Log(Helpers.CodeToMessage(result[0]));
+        yield return new WaitForEndOfFrame();
+
+        while (!receivedAnswers.Contains(result[1]))
+        {
+            yield return new WaitForSeconds(1);
+        }
+
+        Debug.Log(DBST.Instance.dataPackages[result[1]]);
+        SheepCollectionJson sheepObj = JsonUtility.FromJson<SheepCollectionJson>("{\"Sheeps\":" + DBST.Instance.dataPackages[result[1]] + "}");
+        DBST.Instance.dataPackages.Remove(result[1]);
+        receivedAnswers.Remove(result[1]);
+
+        // TODO check if result found
+        SheepJSON sheep = sheepObj.Sheeps[0];
+        foreach (SheepObject shp in testDatabase.sheeps)
+        {
+            if (shp.UUID == sheep.Sheep_UUID)
+            {
+                if (shp.lastModified < long.Parse(sheep.Last_Modified))
+                {
+                    shp.sheepTag = sheep.Sheep_Label;
+                    shp.lastModified = long.Parse(sheep.Last_Modified);
+                    shp.isDeleted = int.Parse(sheep.Is_Deleted);
+                    shp.tsBorn = long.Parse(sheep.Timestamp_Born);
+                }
+            }
+        }
+
+        Debug.Log("Label recevied: " + sheepObj.Sheeps[0].Sheep_Label);
+    }
+
     private void Start()
     {
         btnDeleteCancel.onClick.AddListener(delegate { pnlDelete.SetActive(false); });
+
+        FarmerUUIDInputField.SetTextWithoutNotify("4dea7913-f4d7-42b3-be55-47f97b8576b2");
 
         sheepDataViewer = GetComponent<SheepDataViewer>();
         wormDataViewer = GetComponent<WormDataViewer>();
@@ -40,8 +171,11 @@ public class SheepDataReader : MonoBehaviour
         sheepDataViewer.sheepDataReader = this;
         weideDataViewer.sheepDataReader = this;
         
+
+
         LoadSheepData(sheepDataFile);
-        OnDatabaseLoaded();
+        StartCoroutine(SndTestMethod());
+        //OnDatabaseLoaded();
     }
 
     /// <summary>
@@ -103,7 +237,6 @@ public class SheepDataReader : MonoBehaviour
 
         // editing existing sheep
         if (sheepDataViewer.panelMode == DetailsPanelMode.EditingElement)
-        //if (!sheepDataViewer.bAddingSheep)
         {
             // update the actual data
             var shp = GetSheepObjectByUUID(sheepDataViewer.selectedSheep.UUID);
@@ -153,7 +286,6 @@ public class SheepDataReader : MonoBehaviour
         }
 
         sheepDataViewer.panelMode = DetailsPanelMode.None;
-        //sheepDataViewer.bAddingSheep = false;
     }
 
     public void UpdateWeideData(WeideObject weide)
@@ -162,7 +294,6 @@ public class SheepDataReader : MonoBehaviour
 
         // editing existing weide
         if (weideDataViewer.panelMode == DetailsPanelMode.EditingElement)
-        //if (!weideDataViewer.bAddingElement)
         {
             // update the actual data
             WeideObject wds = GetWeideObjectByUUID(weideDataViewer.selectedElement.UUID);
@@ -193,7 +324,6 @@ public class SheepDataReader : MonoBehaviour
         }
 
         weideDataViewer.panelMode = DetailsPanelMode.None;
-        //weideDataViewer.bAddingElement = false;
     }
 
     private bool DeleteElement<T>(T element, List<T> list, DataViewer dataViewer = null) where T : ObjectUUID
@@ -257,7 +387,6 @@ public class SheepDataReader : MonoBehaviour
                 case SheepKoppel sheepKoppel:
                     btnDeleteConfirm.onClick.AddListener(sheepKoppelDeleteEvent);
                     break;
-
             }
 
             btnDeleteConfirm.onClick.AddListener(delegate { pnlDelete.SetActive(false); });

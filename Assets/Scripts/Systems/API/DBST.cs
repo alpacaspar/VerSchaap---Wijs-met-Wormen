@@ -67,6 +67,8 @@ public class DBST : MonoBehaviour
                 break;
         }
 
+        Debug.Log(baseUrl + pageUrl + uri);
+
         switch (type)
         {
             default:

@@ -9,7 +9,7 @@
 	{
 		if (isset($_GET["Sheep_UUID"]) and isset($_GET["Farmer_UUID"]))
 		{
-		    $result = $mysqli->query("UPDATE `VerweidklokSheepTable` SET Sheep_Label = '".$_GET["Sheep_Label"]."', Sheep_Female = '".$_GET["Sheep_Female"]."'"
+		    $result = $mysqli->query("UPDATE `VerweidklokSheepTable` SET Sheep_Label = '".$_GET["Sheep_Label"]."', Sheep_Female = '".$_GET["Sheep_Female"]."', Timestamp_Born = '".$_GET["Timestamp_Born"]."'"
 				." WHERE Sheep_UUID = '".$_GET["Sheep_UUID"]."' AND Farmer_UUID = '".$_GET["Farmer_UUID"]."';");
 		}
 		else $missingFields = true;

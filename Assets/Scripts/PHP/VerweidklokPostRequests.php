@@ -9,8 +9,8 @@
 	{
 		if (isset($_GET["Sheep_UUID"]) and isset($_GET["Farmer_UUID"]))
 		{
-		    $result = $mysqli->query("INSERT INTO `VerweidklokSheepTable` (Sheep_UUID, Sheep_Label, Sheep_Female, Farmer_UUID)"
-				." VALUES ('".$_GET["Sheep_UUID"]."','".$_GET["Sheep_Label"]."','".$_GET["Sheep_Female"]."','".$_GET["Farmer_UUID"]."');");
+		    $result = $mysqli->query("INSERT INTO `VerweidklokSheepTable` (Sheep_UUID, Sheep_Label, Sheep_Female, Timestamp_Born, Farmer_UUID)"
+				." VALUES ('".$_GET["Sheep_UUID"]."','".$_GET["Sheep_Label"]."','".$_GET["Sheep_Female"]."','".$_GET["Timestamp_Born"]."','".$_GET["Farmer_UUID"]."');");
 		}
 		else $missingFields = true;
 	}

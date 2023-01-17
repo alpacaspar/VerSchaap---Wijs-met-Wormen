@@ -44,6 +44,8 @@ public class SheepObject : ObjectUUID
     public SheepType sheepType = 0;
     public List<string> extraRemarks = new List<string>();
     public string sheepKoppelID = "";
+    public long lastModified = 0;
+    public int isDeleted = 0;
 }
 
 [Serializable]

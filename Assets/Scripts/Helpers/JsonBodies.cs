@@ -34,6 +34,7 @@ public class SheepJSON
     public string Sheep_UUID;
     public string Sheep_Label;
     public string Sheep_Female;
+    public string Timestamp_Born;
     public string Farmer_UUID;
     public string Last_Modified;
     public string Is_Deleted;
