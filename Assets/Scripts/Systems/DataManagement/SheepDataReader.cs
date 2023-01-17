@@ -237,6 +237,10 @@ public class SheepDataReader : MonoBehaviour
     {
         bConfirmToDelete = bDeleteToggle.isOn;
 
+        UnityEngine.Events.UnityAction sheepDeleteEvent = delegate { DeleteSheep(obj as SheepObject); };
+        UnityEngine.Events.UnityAction weideDeleteEvent = delegate { DeleteWeide(obj as WeideObject); };
+        UnityEngine.Events.UnityAction sheepKoppelDeleteEvent = delegate { DeleteKoppel(obj as SheepKoppel); };
+
         if (bConfirmToDelete)
         {
             pnlDelete.SetActive(true);
@@ -245,13 +249,13 @@ public class SheepDataReader : MonoBehaviour
             switch (obj)
             {
                 case SheepObject sheepObject:
-                    btnDeleteConfirm.onClick.AddListener(delegate { DeleteSheep(obj as SheepObject); });
+                    btnDeleteConfirm.onClick.AddListener(sheepDeleteEvent);
                     break;
                 case WeideObject weideObject:
-                    btnDeleteConfirm.onClick.AddListener(delegate { DeleteWeide(obj as WeideObject); });
+                    btnDeleteConfirm.onClick.AddListener(weideDeleteEvent);
                     break;
                 case SheepKoppel sheepKoppel:
-                    btnDeleteConfirm.onClick.AddListener(delegate { DeleteKoppel(obj as SheepKoppel); });
+                    btnDeleteConfirm.onClick.AddListener(sheepKoppelDeleteEvent);
                     break;
 
             }
@@ -264,13 +268,13 @@ public class SheepDataReader : MonoBehaviour
             switch (obj)
             {
                 case SheepObject sheepObject:
-                    DeleteSheep(obj as SheepObject);
+                    sheepDeleteEvent.Invoke();
                     break;
                 case WeideObject weideObject:
-                    DeleteWeide(obj as WeideObject);
+                    weideDeleteEvent.Invoke();
                     break;
                 case SheepKoppel sheepKoppel:
-                    DeleteKoppel(obj as SheepKoppel);
+                    sheepKoppelDeleteEvent.Invoke();
                     break;
             }
         }
