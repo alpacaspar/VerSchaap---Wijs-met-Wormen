@@ -9,6 +9,7 @@ public enum EventType
     performAdviceUpdate,
     checkDatabaseResponse,
     onSceneReady,
+    onAlarmRang,
 }
 
 public enum MethodType
