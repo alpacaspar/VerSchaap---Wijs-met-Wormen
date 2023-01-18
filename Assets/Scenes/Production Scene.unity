@@ -11242,7 +11242,7 @@ GameObject:
   - component: {fileID: 560393535}
   - component: {fileID: 560393536}
   m_Layer: 5
-  m_Name: SheepList
+  m_Name: LotList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40177,10 +40177,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detailPanelTitle: {fileID: 435340315}
-  buttonContainer: {fileID: 0}
+  buttonContainer: {fileID: 1266709881}
   panelMode: 0
-  LotButtonPrefab: {fileID: 0}
-  LotButtonContainer: {fileID: 0}
+  LotButtonPrefab: {fileID: 1338592553821737466, guid: b7f6449ddd85382458be7ab051df6bcc, type: 3}
+  LotButtonContainer: {fileID: 1266709881}
   overviewPanel: {fileID: 1099108}
   detailsPanel: {fileID: 562911335}
   inputPerceelName: {fileID: 1665516681}
@@ -40198,6 +40198,8 @@ MonoBehaviour:
     lastMowedTs: 0
     state: 
     extraRemarks: []
+    lastModified: 0
+    isDeleted: 0
   sheepDataReader: {fileID: 0}
 --- !u!114 &1972799796
 MonoBehaviour:

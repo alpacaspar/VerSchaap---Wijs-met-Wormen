@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
-public class PairButton : MonoBehaviour
+public class PairCollectionButton : MonoBehaviour
 {
     public TextMeshProUGUI txtPairName;
 

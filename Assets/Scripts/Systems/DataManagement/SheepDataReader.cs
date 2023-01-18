@@ -13,7 +13,6 @@ public class SheepDataReader : MonoBehaviour
     public WormDataViewer wormDataViewer;
     public LotDataViewer LotDataViewer;
     public PairCollectionDataViewer PairCollectionDataViewer;
-    //public TemporalDatabaseData Database.GetDatabase();
 
     public GameObject pnlDelete;
     public Button btnDeleteConfirm;
@@ -55,18 +54,9 @@ public class SheepDataReader : MonoBehaviour
         }
     }
 
-    #region Sheeps
-    private IEnumerator PostSheeps()
+    private IEnumerator PostElement(ObjectUUID obj)
     {
-        foreach (var sheep in Database.GetDatabase().sheeps)
-        {
-            yield return StartCoroutine(PostSheep(sheep));
-        }
-    }
-
-    private IEnumerator PostSheep(SheepObject sheep)
-    {
-        string[] result = Database.ProgressData(MethodType.Post, sheep);
+        string[] result = Database.ProgressData(MethodType.Post, obj);
 
         Debug.Log("result length = " + result.Length);
 
@@ -77,32 +67,49 @@ public class SheepDataReader : MonoBehaviour
 
         Debug.Log(Helpers.CodeToMessage(result[0]));
         yield return new WaitForEndOfFrame();
+    }
+
+    private IEnumerator PutElement(ObjectUUID obj)
+    {
+        string[] result = Database.ProgressData(MethodType.Put, obj);
+
+        Debug.Log("result length = " + result.Length);
+
+        for (int i = 0; i < result.Length; i++)
+        {
+            Debug.Log("resultpart " + i + ": " + result[i]);
+        }
+
+        Debug.Log(Helpers.CodeToMessage(result[0]));
+        yield return new WaitForEndOfFrame();
+    }
+
+    private IEnumerator PostCollection<T>(List<T> collection) where T : ObjectUUID
+    {
+        foreach (var obj in collection)
+        {
+            yield return StartCoroutine(PostElement(obj));
+        }
+    }
+
+    #region Sheeps
+    private IEnumerator PostSheeps()
+    {
+        yield return PostCollection(Database.GetDatabase().sheeps);
+        /*
+        foreach (var sheep in Database.GetDatabase().sheeps)
+        {
+            yield return StartCoroutine(PostElement(sheep));
+        }
+        */
     }
 
     private IEnumerator PutSheeps()
     {
         foreach (var sheep in Database.GetDatabase().sheeps)
         {
-            yield return StartCoroutine(PutSheep(sheep));
+            yield return StartCoroutine(PutElement(sheep));
         }
-    }
-
-    private IEnumerator PutSheep(SheepObject sheep)
-    {
-        //sheep.sheepTag = "NL-" + UnityEngine.Random.Range(100000, 500000) + "-" + UnityEngine.Random.Range(1, 9) + "-" + UnityEngine.Random.Range(10000, 90000);
-        //sheep.tsBorn = UnityEngine.Random.Range(1604051182, 1672051182);
-        //TODO check which is newer
-        string[] result = Database.ProgressData(MethodType.Put, sheep);
-
-        Debug.Log("result length = " + result.Length);
-
-        for (int i = 0; i < result.Length; i++)
-        {
-            Debug.Log("resultpart " + i + ": " + result[i]);
-        }
-
-        Debug.Log(Helpers.CodeToMessage(result[0]));
-        yield return new WaitForEndOfFrame();
     }
 
     private IEnumerator GetSheeps()
@@ -146,7 +153,7 @@ public class SheepDataReader : MonoBehaviour
         else
         {
             //update cloud sheep
-            StartCoroutine(PutSheep(sheep));
+            StartCoroutine(PutElement(sheep));
         }
     }
 
@@ -158,47 +165,16 @@ public class SheepDataReader : MonoBehaviour
     {
         foreach (var lot in Database.GetDatabase().Lots)
         {
-            yield return StartCoroutine(PostLot(lot));
+            yield return StartCoroutine(PostElement(lot));
         }
-    }
-
-    private IEnumerator PostLot(LotObject lot)
-    {
-        string[] result = Database.ProgressData(MethodType.Post, lot);
-
-        Debug.Log("result length = " + result.Length);
-
-        for (int i = 0; i < result.Length; i++)
-        {
-            Debug.Log("resultpart " + i + ": " + result[i]);
-        }
-
-        Debug.Log(Helpers.CodeToMessage(result[0]));
-        yield return new WaitForEndOfFrame();
     }
 
     private IEnumerator PutLots()
     {
         foreach (var lot in Database.GetDatabase().Lots)
         {
-            yield return StartCoroutine(PutLot(lot));
+            yield return StartCoroutine(PutElement(lot));
         }
-    }
-
-    private IEnumerator PutLot(LotObject lot)
-    {
-        //TODO check which is newer
-        string[] result = Database.ProgressData(MethodType.Put, lot);
-
-        Debug.Log("result length = " + result.Length);
-
-        for (int i = 0; i < result.Length; i++)
-        {
-            Debug.Log("resultpart " + i + ": " + result[i]);
-        }
-
-        Debug.Log(Helpers.CodeToMessage(result[0]));
-        yield return new WaitForEndOfFrame();
     }
 
     private IEnumerator GetLots()
@@ -244,7 +220,7 @@ public class SheepDataReader : MonoBehaviour
         else
         {
             //update cloud lot
-            StartCoroutine(PutLot(lot));
+            StartCoroutine(PutElement(lot));
         }
     }
 
@@ -343,7 +319,7 @@ public class SheepDataReader : MonoBehaviour
         // editing existing sheep
         if (sheepDataViewer.panelMode == DetailsPanelMode.EditingElement)
         {
-            yield return StartCoroutine(PutSheep(sheep));
+            yield return StartCoroutine(PutElement(sheep));
 
             /*
             // update the actual data
@@ -399,7 +375,7 @@ public class SheepDataReader : MonoBehaviour
             }
 
             //TODO get request to check if already exists
-            yield return PostSheep(sheep);
+            yield return PostElement(sheep);
             //Database.GetDatabase().sheeps.Add(sheep);
             var obj = sheepDataViewer.CreateNewButton(sheep);
             sheepDataViewer.MoveScrollViewToElement(obj.GetComponent<RectTransform>());

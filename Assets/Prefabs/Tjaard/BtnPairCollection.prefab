@@ -215,12 +215,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97f90eedf633c834d9140ea6bc9fd9c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  txtKoppelName: {fileID: 2832064773506261584}
+  txtPairName: {fileID: 2832064773506261584}
   button: {fileID: 2832064773502889358}
   btnDelete: {fileID: 7430259849556857893}
   element:
     UUID: 
-    koppelName: koppel
+    pairCollectionName: koppel
+    tsFormed: 0
+    tsRemoved: 0
+    lastModified: 0
     allSheep: []
   dataViewer: {fileID: 0}
 --- !u!114 &4514704409011349218

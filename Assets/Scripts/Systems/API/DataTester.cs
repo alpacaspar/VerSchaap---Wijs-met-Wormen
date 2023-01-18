@@ -13,9 +13,9 @@ public class DataTester : MonoBehaviour
     {
         // populate file
         InitKoppels(5);
-        PopulateSheeps(250);
+        //PopulateSheeps(250);
         CreateKoppels();
-        PopulateWorms(5);
+        //PopulateWorms(5);
         PopulateSurfaces(20);
     }
 

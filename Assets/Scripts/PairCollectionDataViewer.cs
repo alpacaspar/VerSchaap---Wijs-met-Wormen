@@ -45,7 +45,7 @@ public class PairCollectionDataViewer : DataViewer
     {
         PairCollection Pair = objToAdd as PairCollection;
         var buttonGameObject = Instantiate(PairButtonPrefab, PairButtonContainer);
-        buttonGameObject.GetComponentInChildren<PairButton>().SetInfo(Pair, this);
+        buttonGameObject.GetComponentInChildren<PairCollectionButton>().SetInfo(Pair, this);
         return buttonGameObject;
     }
 
@@ -57,7 +57,7 @@ public class PairCollectionDataViewer : DataViewer
         for (int i = 0; i < PairButtonContainer.childCount; i++)
         {
             var butObj = PairButtonContainer.GetChild(i).gameObject;
-            var but = butObj.GetComponentInChildren<PairButton>();
+            var but = butObj.GetComponentInChildren<PairCollectionButton>();
 
             if (but.element.UUID == Pair.UUID)
             {
@@ -129,7 +129,7 @@ public class PairCollectionDataViewer : DataViewer
 
             for (int i = 0; i < PairButtonContainer.childCount; i++)
             {
-                PairButton but = PairButtonContainer.GetChild(i).GetComponentInChildren<PairButton>();
+                PairCollectionButton but = PairButtonContainer.GetChild(i).GetComponentInChildren<PairCollectionButton>();
                 if (but.element.UUID == selectedElement.UUID)
                 {
                     but.SetInfo(selectedElement, this);
