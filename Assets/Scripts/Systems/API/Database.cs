@@ -129,6 +129,7 @@ public static class Database
                                     // TODO query per disease
                                 }
 
+                                obj.sheepTag = (newSheepObject.sheepTag != obj.sheepTag && newSheepObject.sheepTag != "") ? newSheepObject.sheepTag : obj.sheepTag;
                                 obj.tsBorn = (newSheepObject.tsBorn != obj.tsBorn && newSheepObject.tsBorn != 0) ? newSheepObject.tsBorn : obj.tsBorn;
                                 obj.extraRemarks = (newSheepObject.extraRemarks != obj.extraRemarks) ? newSheepObject.extraRemarks : obj.extraRemarks;
 

@@ -31,6 +31,8 @@ public class LotObject : ObjectUUID
     public List<GrassType[]> grassTypes = new List<GrassType[]>();
     public List<SheepType[]> currentSheeps = new List<SheepType[]>();
     public List<string> extraRemarks = new List<string>();
+    public long lastModified = 0;
+    public int isDeleted = 0;
 }
 
 [Serializable]

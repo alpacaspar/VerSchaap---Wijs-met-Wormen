@@ -1,13 +1,13 @@
 using System;
 
 [Serializable]
-public class WeideCollectionJson
+public class LotCollectionJson
 {
-    public WeideJSON[] Weides;
+    public LotJSON[] Lots;
 }
 
 [Serializable]
-public class WeideJSON
+public class LotJSON
 {
     public string Lot_DB_ID;
     public string Lot_UUID;

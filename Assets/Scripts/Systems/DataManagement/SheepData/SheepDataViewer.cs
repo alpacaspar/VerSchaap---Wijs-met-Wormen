@@ -135,7 +135,7 @@ public class SheepDataViewer : DataViewer
                 pairCollectionID = koppelID
             };
             
-            sheepDataReader.UpdateSheepData(tmpSheep);
+            StartCoroutine(sheepDataReader.UpdateSheepData(tmpSheep));
             SetPanelVisibilty(false);
         });
     }

@@ -55,6 +55,7 @@ public class SheepDataReader : MonoBehaviour
         }
     }
 
+    #region Sheeps
     private IEnumerator PostSheeps()
     {
         foreach (var sheep in Database.GetDatabase().sheeps)
@@ -104,6 +105,55 @@ public class SheepDataReader : MonoBehaviour
         yield return new WaitForEndOfFrame();
     }
 
+    private IEnumerator GetSheeps()
+    {
+        foreach (var sheep in Database.GetDatabase().sheeps)
+        {
+            yield return StartCoroutine(GetSheep(sheep));
+        }
+    }
+
+    private IEnumerator GetSheep(SheepObject sheep)
+    {
+        Debug.Log("Asking for sheep");
+        string[] result = Database.ProgressData(MethodType.Get, sheep);
+        Debug.Log(Helpers.CodeToMessage(result[0]));
+        yield return new WaitForEndOfFrame();
+
+        while (!receivedAnswers.Contains(result[1]))
+        {
+            yield return new WaitForSeconds(1);
+        }
+
+        SheepCollectionJson sheepObj = JsonUtility.FromJson<SheepCollectionJson>("{\"Sheeps\":" + DBST.Instance.dataPackages[result[1]] + "}");
+        DBST.Instance.dataPackages.Remove(result[1]);
+        receivedAnswers.Remove(result[1]);
+
+        if (sheep.lastModified < long.Parse(sheepObj.Sheeps[0].Last_Modified))
+        {
+            //update local sheep
+            foreach (var sheepChanged in Database.GetDatabase().sheeps)
+            {
+                if (sheepChanged.UUID == sheepObj.Sheeps[0].Sheep_UUID)
+                {
+                    sheepChanged.isDeleted = int.Parse(sheepObj.Sheeps[0].Is_Deleted);
+                    sheepChanged.lastModified = long.Parse(sheepObj.Sheeps[0].Last_Modified);
+                    sheepChanged.sheepTag = sheepObj.Sheeps[0].Sheep_Label;
+                    sheepChanged.tsBorn = long.Parse(sheepObj.Sheeps[0].Timestamp_Born);
+                }
+            }
+        }
+        else
+        {
+            //update cloud sheep
+            StartCoroutine(PutSheep(sheep));
+        }
+    }
+
+#endregion
+
+    #region Lot
+
     private IEnumerator PostLots()
     {
         foreach (var lot in Database.GetDatabase().Lots)
@@ -151,6 +201,55 @@ public class SheepDataReader : MonoBehaviour
         yield return new WaitForEndOfFrame();
     }
 
+    private IEnumerator GetLots()
+    {
+        foreach (var lot in Database.GetDatabase().Lots)
+        {
+            yield return StartCoroutine(GetLot(lot));
+        }
+    }
+
+    private IEnumerator GetLot(LotObject lot)
+    {
+        Debug.Log("Asking for lot");
+        string[] result = Database.ProgressData(MethodType.Get, lot);
+        Debug.Log(Helpers.CodeToMessage(result[0]));
+        yield return new WaitForEndOfFrame();
+
+        while (!receivedAnswers.Contains(result[1]))
+        {
+            yield return new WaitForSeconds(1);
+        }
+
+        LotCollectionJson lotObj = JsonUtility.FromJson<LotCollectionJson>("{\"Lots\":" + DBST.Instance.dataPackages[result[1]] + "}");
+        DBST.Instance.dataPackages.Remove(result[1]);
+        receivedAnswers.Remove(result[1]);
+
+        if (lot.lastModified < long.Parse(lotObj.Lots[0].Last_Modified))
+        {
+            //update local lot
+            foreach (var lotChanged in Database.GetDatabase().Lots)
+            {
+                if (lotChanged.UUID == lotObj.Lots[0].Lot_UUID)
+                {
+                    lotChanged.isDeleted = int.Parse(lotObj.Lots[0].Is_Deleted);
+                    lotChanged.lastModified = long.Parse(lotObj.Lots[0].Last_Modified);
+                    lotChanged.perceelName = lotObj.Lots[0].Lot_Name;
+                    lotChanged.surfaceQuality = float.Parse(lotObj.Lots[0].Lot_Quality);
+                    lotChanged.surfaceSqrMtr = int.Parse(lotObj.Lots[0].Lot_Surface);
+                    lotChanged.lastMowedTs = long.Parse(lotObj.Lots[0].Lot_Mowed_TS);
+                }
+            }
+        }
+        else
+        {
+            //update cloud lot
+            StartCoroutine(PutLot(lot));
+        }
+    }
+
+    #endregion
+
     IEnumerator PostDatabase()
     {
         yield return StartCoroutine(PostLots());
@@ -179,10 +278,7 @@ public class SheepDataReader : MonoBehaviour
         sheepDataViewer.sheepDataReader = this;
         LotDataViewer.sheepDataReader = this;
         
-
-
         LoadSheepData(sheepDataFile);
-        //StartCoroutine(PutSheeps());
         OnDatabaseLoaded();
     }
 
@@ -239,13 +335,17 @@ public class SheepDataReader : MonoBehaviour
         return null;
     }
 
-    public void UpdateSheepData(SheepObject sheep)
+    public IEnumerator UpdateSheepData(SheepObject sheep)
     {
+        Debug.Log("updatesheepdata, tag = " + sheep.sheepTag);
         int nChilds = sheepDataViewer.buttonContainer.childCount;
 
         // editing existing sheep
         if (sheepDataViewer.panelMode == DetailsPanelMode.EditingElement)
         {
+            yield return StartCoroutine(PutSheep(sheep));
+
+            /*
             // update the actual data
             var shp = GetSheepObjectByUUID(sheepDataViewer.selectedSheep.UUID);
 
@@ -273,6 +373,7 @@ public class SheepDataReader : MonoBehaviour
 
                 shp.pairCollectionID = newKoppelID;
             }
+            */
 
             // update the visuals representing the data
             for (int i = 0; i < nChilds; i++)
@@ -288,12 +389,24 @@ public class SheepDataReader : MonoBehaviour
         // TODO check if UUID doesnt already exist
         else
         {
-            Database.GetDatabase().sheeps.Add(sheep);
+            foreach (var tmpSheep in Database.GetDatabase().sheeps)
+            {
+                if (tmpSheep.UUID == sheep.UUID)
+                {
+                    Debug.LogError("Cant add sheep! UUID already exists!");
+                    yield return 0;
+                }
+            }
+
+            //TODO get request to check if already exists
+            yield return PostSheep(sheep);
+            //Database.GetDatabase().sheeps.Add(sheep);
             var obj = sheepDataViewer.CreateNewButton(sheep);
             sheepDataViewer.MoveScrollViewToElement(obj.GetComponent<RectTransform>());
         }
 
         sheepDataViewer.panelMode = DetailsPanelMode.None;
+        yield return 0;
     }
 
     public void UpdateLotData(LotObject Lot)
