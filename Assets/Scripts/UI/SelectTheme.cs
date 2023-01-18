@@ -8,7 +8,7 @@ public class SelectTheme : MonoBehaviour
 {
     public ColorPalette theme;
     
-    private TextMeshProUGUI[] TextComponents => FindObjectsOfType<TextMeshProUGUI>();
+    private TextMeshProUGUI[] TextComponents => FindObjectsOfType<TextMeshProUGUI>(true);
     
     private List<GameObject> BackgroundImageComponents => FindAllGameObjectsWithTag("background");
     private List<GameObject> ContextBackgroundImageComponents => FindAllGameObjectsWithTag("contextBackground");
@@ -45,22 +45,30 @@ public class SelectTheme : MonoBehaviour
 
         foreach (GameObject gameObj in BackgroundImageComponents)
         {
-            gameObj.GetComponent<Image>().color = theme.backgroundColor0;
+            Image image = gameObj.GetComponent<Image>();
+            if (image == null) continue;
+            image.color = theme.backgroundColor0;
         }
         
         foreach (GameObject gameObj in ContextBackgroundImageComponents)
         {
-            gameObj.GetComponent<Image>().color = theme.backgroundColor1;
+            Image image = gameObj.GetComponent<Image>();
+            if (image == null) continue;
+            image.color = theme.backgroundColor1;
         }
 
         foreach (GameObject gameObj in ButtonImageComponents)
         {
-            gameObj.GetComponent<Image>().color = theme.buttonColor;
+            Image image = gameObj.GetComponent<Image>();
+            if (image == null) continue;
+            image.color = theme.buttonColor;
         }
 
         foreach (GameObject gameObj in IconImageComponents)
         {
-            gameObj.GetComponent<Image>().color = theme.iconColor;
+            Image image = gameObj.GetComponent<Image>();
+            if (image == null) continue;
+            image.color = theme.iconColor;
         }
     }
 
