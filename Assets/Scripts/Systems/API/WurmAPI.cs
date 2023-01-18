@@ -37,9 +37,9 @@ public static class WurmAPI
         return Database.GetSheepCollection();
     }
 
-    public static List<SheepKoppel> GetSheepKoppelCollection()
+    public static List<PairCollection> GetPairCollection()
     {
-        return Database.GetSheepKoppelCollection();
+        return Database.GetPairCollection();
     }
 
     public static List<WormObject> GetWormCollection()
@@ -47,8 +47,8 @@ public static class WurmAPI
         return Database.GetWormCollection();
     }
 
-    public static List<WeideObject> GetWeideCollection()
+    public static List<LotObject> GetLotCollection()
     {
-        return Database.GetWeideCollection();
+        return Database.GetLotCollection();
     }
 }

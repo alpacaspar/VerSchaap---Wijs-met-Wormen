@@ -5,14 +5,14 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
-public class KoppelButton : MonoBehaviour
+public class PairButton : MonoBehaviour
 {
-    public TextMeshProUGUI txtKoppelName;
+    public TextMeshProUGUI txtPairName;
 
     public Button button;
     public Button btnDelete;
-    public SheepKoppel element;
-    public KoppelDataViewer dataViewer;
+    public PairCollection element;
+    public PairCollectionDataViewer dataViewer;
 
     // Start is called before the first frame update
     private void Start()
@@ -26,14 +26,14 @@ public class KoppelButton : MonoBehaviour
         btnDelete.onClick.AddListener(delegate
         {
             dataViewer.dataReader.DeleteButtonClicked(element);
-            //dataViewer.dataReader.DeleteKoppel(element); 
+            //dataViewer.dataReader.DeletePair(element); 
         });
     }
 
-    public void SetInfo(SheepKoppel _element, KoppelDataViewer _dataViewer)
+    public void SetInfo(PairCollection _element, PairCollectionDataViewer _dataViewer)
     {
         element = _element;
         dataViewer = _dataViewer;
-        txtKoppelName.text = element.koppelName;
+        txtPairName.text = element.pairCollectionName;
     }
 }

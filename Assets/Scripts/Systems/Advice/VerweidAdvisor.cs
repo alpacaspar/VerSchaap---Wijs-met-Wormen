@@ -4,29 +4,19 @@ using System.Linq;
 
 public static class VerweidAdvisor
 {	
-	private static WeatherInfo weather;
-	public static WeatherInfo Weather
-	{
-		get => weather;
-		set
-		{
-			weather = value;
-			if (weather != null)
-			{
-				CalcValue();
-				//CronScheduler.instance.SetRepeat(this, "FireCalcValue", 3600);
-			}
-		}
-	}
+	
 	
 	static VerweidAdvisor()
 	{
 		EventSystem<WeatherInfo>.AddListener(EventType.performWeatherUpdate, OnWeatherDataReceived);
 	}
 
+	// This should get the surface area and number of sheep somehow
 	private static void OnWeatherDataReceived(WeatherInfo info)
 	{
-		Weather = info;
+		float surfaceSqrMtr = 400;
+		int nSheep = 100;
+		CalcValue(info, surfaceSqrMtr, nSheep);
 	}
 
 	private static void FireCalcValue()
@@ -54,9 +44,9 @@ public static class VerweidAdvisor
 		return -0.09746 + 0.01063 * T_mean;
 	}
 
-	public static double CalcValue(WeatherInfo weatherInfo = null)
+	public static double CalcValue(WeatherInfo weatherInfo = null, float surfaceSqrMtr = 100, int nSheep = 1)
 	{
-		if (weatherInfo == null) weatherInfo = Weather;
+		if (weatherInfo == null) return -1;
 
 		double c = 1.4; // dialy herbage dry matter intake per host
 		double B = 2000; // standing biomass
@@ -72,7 +62,8 @@ public static class VerweidAdvisor
 
 		// quote https://mijngelderland.nl/inhoud/canons/ermelo/schaapskooi-ermelo: "De schaapskooi van 400m2 biedt plaats aan zo’n 300 schapen."
 		// 400m2 is 0.04 hectare
-		double H = 1;// 300 * 0.04; // number of hosts
+		double H = nSheep * surfaceSqrMtr / 1000;// 300 * 0.04; // host density
+		//double H = 1;// 300 * 0.04; // number of hosts
 
 		double m1 = 0.25; // daily L3 migration rate between faeces and pasture
 		double m2 = 0.2; // proportion of total pasture L3 found on herbage

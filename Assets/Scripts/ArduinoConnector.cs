@@ -7,18 +7,18 @@ public class ArduinoConnector : MonoBehaviour
 
     private void OnEnable()
     {
-        EventSystem<WeideObject>.AddListener(EventType.onAlarmRang, OnAlarmRang);
+        EventSystem<LotObject>.AddListener(EventType.onAlarmRang, OnAlarmRang);
     }
 
     private void OnDisable()
     {
-        EventSystem<WeideObject>.RemoveListener(EventType.onAlarmRang, OnAlarmRang);
+        EventSystem<LotObject>.RemoveListener(EventType.onAlarmRang, OnAlarmRang);
     }
 
-    private void OnAlarmRang(WeideObject weideObject)
+    private void OnAlarmRang(LotObject LotObject)
     {
-        serialController.SendSerialMessage("verweiden");
-        Debug.Log("Sent verweiden to Serial Controller...");
+        serialController.SendSerialMessage("verLotn");
+        Debug.Log("Sent verLotn to Serial Controller...");
         messageSent = false;
     }
 
@@ -27,7 +27,7 @@ public class ArduinoConnector : MonoBehaviour
         serialController = FindObjectOfType<SerialController>();
         
         // For testing only
-        EventSystem<WeideObject>.InvokeEvent(EventType.onAlarmRang, new WeideObject());
+        EventSystem<LotObject>.InvokeEvent(EventType.onAlarmRang, new LotObject());
     }
 
     // use this function if messages are not sent correctly through 
@@ -35,7 +35,7 @@ public class ArduinoConnector : MonoBehaviour
     // {
     //     if (messageSent) return;
     //
-    //     serialController.SendSerialMessage("verweiden");
+    //     serialController.SendSerialMessage("verLotn");
     //
     //     messageSent = true;
     // }

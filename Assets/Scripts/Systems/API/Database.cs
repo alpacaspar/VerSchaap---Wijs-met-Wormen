@@ -33,11 +33,11 @@ public static class Database
         return tempDatabase.worms;
     }
 
-    public static List<WeideObject> GetWeideCollection()
+    public static List<LotObject> GetLotCollection()
     {
         if (tempDatabase == null) InitializeDatabase();
 
-        return tempDatabase.weides;
+        return tempDatabase.Lots;
     }
 
     public static List<SheepObject> GetSheepCollection()
@@ -47,11 +47,11 @@ public static class Database
         return tempDatabase.sheeps;
     }
 
-    public static List<SheepKoppel> GetSheepKoppelCollection()
+    public static List<PairCollection> GetPairCollection()
     {
         if (tempDatabase == null) InitializeDatabase();
 
-        return tempDatabase.sheepKoppels;
+        return tempDatabase.pairCollection;
     }
 
     /// <summary>
@@ -79,20 +79,20 @@ public static class Database
                         newData[0] = (int)Status.Failure5 + "";
                     break;
 
-                case WeideObject newWeideObject:
+                case LotObject newLotObject:
                     handledData = false;
 
-                    if (tempDatabase.weides.Count > 0)
+                    if (tempDatabase.Lots.Count > 0)
                     {
-                        foreach (WeideObject obj in tempDatabase.weides)
+                        foreach (LotObject obj in tempDatabase.Lots)
                         {
-                            if (obj.UUID == newWeideObject.UUID)
+                            if (obj.UUID == newLotObject.UUID)
                             {
-                                obj.surfaceSqrMtr = (newWeideObject.surfaceSqrMtr != obj.surfaceSqrMtr) ? newWeideObject.surfaceSqrMtr : obj.surfaceSqrMtr;
-                                obj.surfaceQuality = (newWeideObject.surfaceQuality != obj.surfaceQuality) ? newWeideObject.surfaceQuality : obj.surfaceQuality;
-                                obj.grassTypes = (newWeideObject.grassTypes != obj.grassTypes) ? newWeideObject.grassTypes : obj.grassTypes;
-                                obj.currentSheeps = (newWeideObject.currentSheeps != obj.currentSheeps) ? newWeideObject.currentSheeps : obj.currentSheeps;
-                                obj.extraRemarks = (newWeideObject.extraRemarks != obj.extraRemarks) ? newWeideObject.extraRemarks : obj.extraRemarks;
+                                obj.surfaceSqrMtr = (newLotObject.surfaceSqrMtr != obj.surfaceSqrMtr) ? newLotObject.surfaceSqrMtr : obj.surfaceSqrMtr;
+                                obj.surfaceQuality = (newLotObject.surfaceQuality != obj.surfaceQuality) ? newLotObject.surfaceQuality : obj.surfaceQuality;
+                                obj.grassTypes = (newLotObject.grassTypes != obj.grassTypes) ? newLotObject.grassTypes : obj.grassTypes;
+                                obj.currentSheeps = (newLotObject.currentSheeps != obj.currentSheeps) ? newLotObject.currentSheeps : obj.currentSheeps;
+                                obj.extraRemarks = (newLotObject.extraRemarks != obj.extraRemarks) ? newLotObject.extraRemarks : obj.extraRemarks;
 
                                 handledData = true;
                                 newData[0] = (int)Status.Success2 + "";
@@ -204,8 +204,8 @@ public static class Database
                     newData[0] = (int)Status.Failure5 + "";
                     break;
 
-                case WeideObject newWeideObject:
-                    newData = AddEntry(newWeideObject, Helpers.WeideToUUID(tempDatabase.weides), new WeideObject().GetType());
+                case LotObject newLotObject:
+                    newData = AddEntry(newLotObject, Helpers.LotToUUID(tempDatabase.Lots), new LotObject().GetType());
                     break;
 
                 case SheepObject newSheepObject:
@@ -216,8 +216,8 @@ public static class Database
                     newData = AddEntry(newWormObject, Helpers.WormToUUID(tempDatabase.worms), new WormObject().GetType());
                     break;
 
-                case SheepKoppel newSheepKoppelObject:
-                    newData = AddEntry(newSheepKoppelObject, Helpers.SheepKoppelToUUID(tempDatabase.sheepKoppels), new SheepKoppel().GetType());
+                case PairCollection newPair:
+                    newData = AddEntry(newPair, Helpers.PairCollectionToUUID(tempDatabase.pairCollection), new PairCollection().GetType());
                     break;
             }
 
@@ -232,8 +232,8 @@ public static class Database
                     newData[1] = tempDatabase.ToString();
                     break;
 
-                case WeideObject newWeideObject:
-                    newData = GetEntry(newWeideObject, Helpers.WeideToUUID(tempDatabase.weides), new WeideObject().GetType());
+                case LotObject newLotObject:
+                    newData = GetEntry(newLotObject, Helpers.LotToUUID(tempDatabase.Lots), new LotObject().GetType());
                     break;
 
                 case SheepObject newSheepObject:
@@ -290,9 +290,9 @@ public static class Database
         tempDatabase = new TemporalDatabaseData();
         tempDatabase.farmerName = "Ploopploop";
         tempDatabase.farmerUUID = Helpers.GenerateUUID();
-        tempDatabase.weides = new List<WeideObject>();
+        tempDatabase.Lots = new List<LotObject>();
         tempDatabase.sheeps = new List<SheepObject>();
-        tempDatabase.sheepKoppels = new List<SheepKoppel>();
+        tempDatabase.pairCollection = new List<PairCollection>();
         tempDatabase.worms = new List<WormObject>();
 
         WriteDatabase(tempDatabase);
@@ -322,11 +322,11 @@ public static class Database
         {
             switch (type.ToString())
             {
-                case "WeideObject":
-                    WeideObject weideObject = (WeideObject)newObject;
-                    tempDatabase.weides.Add(weideObject); 
+                case "LotObject":
+                    LotObject LotObject = (LotObject)newObject;
+                    tempDatabase.Lots.Add(LotObject); 
                     fieldCollection = new string[] { "Lot_UUID", "Lot_Name", "Lot_Surface", "Lot_Quality", "Lot_Mowed_TS", "Lot_State_ID", "Farmer_UUID", "Last_Modified" };
-                    dataCollection = new string[] { weideObject.UUID, weideObject.perceelName, "" + weideObject.surfaceSqrMtr, "" + weideObject.surfaceQuality, "" + weideObject.lastMowedTs, "" + weideObject.surfaceSqrMtr, "" + weideObject.state, tempDatabase.farmerUUID };
+                    dataCollection = new string[] { LotObject.UUID, LotObject.perceelName, "" + LotObject.surfaceSqrMtr, "" + LotObject.surfaceQuality, "" + LotObject.lastMowedTs, "" + LotObject.surfaceSqrMtr, "" + LotObject.state, tempDatabase.farmerUUID };
                     newData[0] = (int)Status.Success5 + "";
                     newData[1] = Helpers.GenerateUUID();
                     DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Post, "AddLot", newData[1]);
@@ -349,11 +349,11 @@ public static class Database
                     newData[1] = Helpers.GenerateUUID();
                     DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Post, "AddNewWorm", newData[1]);
                     break;
-                case "SheepKoppel":
-                    SheepKoppel pairObject = (SheepKoppel)newObject;
-                    tempDatabase.sheepKoppels.Add(pairObject);
+                case "PairCollection":
+                    PairCollection pairObject = (PairCollection)newObject;
+                    tempDatabase.pairCollection.Add(pairObject);
                     fieldCollection = new string[] { "Pair_Name", "Pair_UUID", "Farmer_UUID" };
-                    dataCollection = new string[] { pairObject.koppelName, pairObject.UUID, tempDatabase.farmerUUID };
+                    dataCollection = new string[] { pairObject.pairCollectionName, pairObject.UUID, tempDatabase.farmerUUID };
                     newData[0] = (int)Status.Success5 + "";
                     newData[1] = Helpers.GenerateUUID();
                     DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Post, "AddPair", newData[1]);
@@ -388,10 +388,10 @@ public static class Database
         {
             switch (type.ToString())
             {
-                case "WeideObject":
-                    WeideObject weideObject = (WeideObject)newObject;
+                case "LotObject":
+                    LotObject LotObject = (LotObject)newObject;
                     fieldCollection = new[] { "Lot_UUID", "Lot_Name", "Lot_Surface", "Lot_Quality", "Lot_Mowed_TS", "Lot_State_ID", "Farmer_UUID" };
-                    dataCollection = new[] { weideObject.UUID, weideObject.perceelName, weideObject.surfaceSqrMtr + "", weideObject.surfaceQuality + "", weideObject.lastMowedTs + "", weideObject.state, tempDatabase.farmerUUID };
+                    dataCollection = new[] { LotObject.UUID, LotObject.perceelName, LotObject.surfaceSqrMtr + "", LotObject.surfaceQuality + "", LotObject.lastMowedTs + "", LotObject.state, tempDatabase.farmerUUID };
                     newData[0] = (int)Status.Success5 + "";
                     newData[1] = Helpers.GenerateUUID();
                     DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Put, "UpdateLot", newData[1]);
@@ -412,10 +412,10 @@ public static class Database
                     newData[1] = Helpers.GenerateUUID();
                     DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Put, "UpdateWorm", newData[1]);
                     break;
-                case "SheepKoppel":
-                    SheepKoppel sheepPairObject = (SheepKoppel)newObject;
+                case "PairCollection":
+                    PairCollection sheepPairObject = (PairCollection)newObject;
                     fieldCollection = new[] { "Pair_UUID", "Pair_Name", "TS_Formed", "TS_Removed", "Farmer_UUID", "Last_Modified" };
-                    dataCollection = new[] { sheepPairObject.UUID, sheepPairObject.koppelName, sheepPairObject.tsFormed + "", sheepPairObject.tsRemoved + "", tempDatabase.farmerUUID, sheepPairObject.lastModified + "" };
+                    dataCollection = new[] { sheepPairObject.UUID, sheepPairObject.pairCollectionName, sheepPairObject.tsFormed + "", sheepPairObject.tsRemoved + "", tempDatabase.farmerUUID, sheepPairObject.lastModified + "" };
                     newData[0] = (int)Status.Success5 + "";
                     newData[1] = Helpers.GenerateUUID();
                     DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Put, "UpdateSheepPair", newData[1]);
@@ -435,10 +435,10 @@ public static class Database
 
         switch (type.ToString())
         {
-            case "WeideObject":
-                WeideObject weideObject = (WeideObject)newObject;
+            case "LotObject":
+                LotObject LotObject = (LotObject)newObject;
                 fieldCollection = new string[] { "Lot_UUID", "Farmer_UUID" };
-                dataCollection = new string[] { weideObject.UUID, tempDatabase.farmerUUID };
+                dataCollection = new string[] { LotObject.UUID, tempDatabase.farmerUUID };
                 newData[0] = (int)Status.Success5 + "";
                 newData[1] = Helpers.GenerateUUID();
                 DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Get, GetRequest.GetLot.ToString(), newData[1]);
@@ -462,8 +462,8 @@ public static class Database
                 DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Get, GetRequest.GetWorm.ToString(), newData[1]);
                 handledData = true;
                 break;
-            case "SheepKoppel":
-                SheepKoppel koppelObject = (SheepKoppel)newObject;
+            case "PairCollection":
+                PairCollection koppelObject = (PairCollection)newObject;
                 fieldCollection = new string[] { "Pair_UUID" };
                 dataCollection = new string[] { koppelObject.UUID };
                 newData[0] = (int)Status.Success5 + "";

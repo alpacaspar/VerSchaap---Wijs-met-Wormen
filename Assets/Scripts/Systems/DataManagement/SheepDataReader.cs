@@ -11,9 +11,9 @@ public class SheepDataReader : MonoBehaviour
     public TextAsset sheepDataFile;
     public SheepDataViewer sheepDataViewer;
     public WormDataViewer wormDataViewer;
-    public WeideDataViewer weideDataViewer;
-    public KoppelDataViewer koppelDataViewer;
-    public TemporalDatabaseData testDatabase;
+    public LotDataViewer LotDataViewer;
+    public PairCollectionDataViewer PairCollectionDataViewer;
+    //public TemporalDatabaseData Database.GetDatabase();
 
     public GameObject pnlDelete;
     public Button btnDeleteConfirm;
@@ -55,104 +55,47 @@ public class SheepDataReader : MonoBehaviour
         }
     }
 
-    IEnumerator SndTestMethod()
+    private IEnumerator UploadSheep()
     {
-        int i = 0;
-        foreach (var s in testDatabase.sheeps)
+        foreach (var s in Database.GetDatabase().sheeps)
         {
-            i++;
-            string[] result = Database.ProgressData(MethodType.Put, s);
+            SheepObject newSheep = new SheepObject();
+            newSheep.UUID = s.UUID;
+            string[] result = Database.ProgressData(MethodType.Post, newSheep);
+
+            Debug.Log("result length = " + result.Length);
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                Debug.Log("resultpart " + i + ": " + result[i]);
+            }
+
             Debug.Log(Helpers.CodeToMessage(result[0]));
             yield return new WaitForEndOfFrame();
+        }
+    }
 
-            while (!receivedAnswers.Contains(result[1]))
+    private IEnumerator UploadLots()
+    {
+        foreach (var s in Database.GetDatabase().Lots)
+        {
+            string[] result = Database.ProgressData(MethodType.Post, s);
+
+            Debug.Log("result length = " + result.Length);
+
+            for (int i = 0; i < result.Length; i++)
             {
-                yield return new WaitForSeconds(1);
+                Debug.Log("resultpart " + i + ": " + result[i]);
             }
 
-            Debug.Log(DBST.Instance.dataPackages[result[1]]);
-            SheepCollectionJson sheepObj = JsonUtility.FromJson<SheepCollectionJson>("{\"Sheeps\":" + DBST.Instance.dataPackages[result[1]] + "}");
-            DBST.Instance.dataPackages.Remove(result[1]);
-            receivedAnswers.Remove(result[1]);
-            if (i > 10) break;
+            Debug.Log(Helpers.CodeToMessage(result[0]));
+            yield return new WaitForEndOfFrame();
         }
-
-        Debug.Log("SndTestMethod END");
-
-        /*
-        SheepObject newSheep = new SheepObject();
-        newSheep.UUID = "4dea7913-f4d7-42b3-be55-47f97b8576b2";
-        Debug.Log("Asking for sheep label");
-        string[] result = Database.ProgressData(MethodType.Get, newSheep);
-        Debug.Log(Helpers.CodeToMessage(result[0]));
-        yield return new WaitForEndOfFrame();
-
-        while (!receivedAnswers.Contains(result[1]))
-        {
-            yield return new WaitForSeconds(1);
-        }
-
-        Debug.Log(DBST.Instance.dataPackages[result[1]]);
-        SheepCollectionJson sheepObj = JsonUtility.FromJson<SheepCollectionJson>("{\"Sheeps\":" + DBST.Instance.dataPackages[result[1]] + "}");
-        DBST.Instance.dataPackages.Remove(result[1]);
-        receivedAnswers.Remove(result[1]);
-
-        // TODO check if result found
-        SheepJSON sheep = sheepObj.Sheeps[0];
-        foreach (SheepObject shp in testDatabase.sheeps)
-        {
-            if (shp.UUID == sheep.Sheep_UUID)
-            {
-                if (shp.lastModified < long.Parse(sheep.Last_Modified))
-                {
-                    shp.sheepTag = sheep.Sheep_Label;
-                    shp.lastModified = long.Parse(sheep.Last_Modified);
-                    shp.isDeleted = int.Parse(sheep.Is_Deleted);
-                    shp.tsBorn = long.Parse(sheep.Timestamp_Born);
-                }
-            }
-        }
-
-        Debug.Log("Label recevied: " + sheepObj.Sheeps[0].Sheep_Label);
-        */
     }
 
     IEnumerator TestMethod()
     {
-        SheepObject newSheep = new SheepObject();
-        newSheep.UUID = "4dea7913-f4d7-42b3-be55-47f97b8576b2";
-        Debug.Log("Asking for sheep label");
-        string[] result = Database.ProgressData(MethodType.Get, newSheep);
-        Debug.Log(Helpers.CodeToMessage(result[0]));
-        yield return new WaitForEndOfFrame();
-
-        while (!receivedAnswers.Contains(result[1]))
-        {
-            yield return new WaitForSeconds(1);
-        }
-
-        Debug.Log(DBST.Instance.dataPackages[result[1]]);
-        SheepCollectionJson sheepObj = JsonUtility.FromJson<SheepCollectionJson>("{\"Sheeps\":" + DBST.Instance.dataPackages[result[1]] + "}");
-        DBST.Instance.dataPackages.Remove(result[1]);
-        receivedAnswers.Remove(result[1]);
-
-        // TODO check if result found
-        SheepJSON sheep = sheepObj.Sheeps[0];
-        foreach (SheepObject shp in testDatabase.sheeps)
-        {
-            if (shp.UUID == sheep.Sheep_UUID)
-            {
-                if (shp.lastModified < long.Parse(sheep.Last_Modified))
-                {
-                    shp.sheepTag = sheep.Sheep_Label;
-                    shp.lastModified = long.Parse(sheep.Last_Modified);
-                    shp.isDeleted = int.Parse(sheep.Is_Deleted);
-                    shp.tsBorn = long.Parse(sheep.Timestamp_Born);
-                }
-            }
-        }
-
-        Debug.Log("Label recevied: " + sheepObj.Sheeps[0].Sheep_Label);
+        yield return 0;
     }
 
     private void Start()
@@ -163,19 +106,19 @@ public class SheepDataReader : MonoBehaviour
 
         sheepDataViewer = GetComponent<SheepDataViewer>();
         wormDataViewer = GetComponent<WormDataViewer>();
-        weideDataViewer = GetComponent<WeideDataViewer>();
-        koppelDataViewer = GetComponent<KoppelDataViewer>();
+        LotDataViewer = GetComponent<LotDataViewer>();
+        PairCollectionDataViewer = GetComponent<PairCollectionDataViewer>();
 
-        koppelDataViewer.dataReader = this;
+        PairCollectionDataViewer.dataReader = this;
         wormDataViewer.dataReader = this;
         sheepDataViewer.sheepDataReader = this;
-        weideDataViewer.sheepDataReader = this;
+        LotDataViewer.sheepDataReader = this;
         
 
 
         LoadSheepData(sheepDataFile);
-        StartCoroutine(SndTestMethod());
-        //OnDatabaseLoaded();
+        //StartCoroutine(TestMethod());
+        OnDatabaseLoaded();
     }
 
     /// <summary>
@@ -183,10 +126,10 @@ public class SheepDataReader : MonoBehaviour
     /// </summary>
     public void OnDatabaseLoaded()
     {
-        koppelDataViewer.CreateButtonsFromDB(testDatabase.sheepKoppels);
-        wormDataViewer.CreateWormButtonsFromDB(testDatabase.worms);
-        sheepDataViewer.CreateSheepButtonsFromDB(testDatabase.sheeps);
-        weideDataViewer.CreateSheepButtonsFromDB(testDatabase.weides);
+        PairCollectionDataViewer.CreateButtonsFromDB(Database.GetDatabase().pairCollection);
+        wormDataViewer.CreateWormButtonsFromDB(Database.GetDatabase().worms);
+        sheepDataViewer.CreateSheepButtonsFromDB(Database.GetDatabase().sheeps);
+        LotDataViewer.CreateSheepButtonsFromDB(Database.GetDatabase().Lots);
     }
 
     private T GetElementByUUID<T>(string uuid, List<T> list) where T : ObjectUUID
@@ -201,31 +144,31 @@ public class SheepDataReader : MonoBehaviour
 
     public SheepObject GetSheepObjectByUUID(string uuid)
     {
-        return GetElementByUUID(uuid, testDatabase.sheeps);
+        return GetElementByUUID(uuid, Database.GetDatabase().sheeps);
     }
 
-    public SheepKoppel GetSheepKoppelByUUID(string uuid)
+    public PairCollection GetSheepKoppelByUUID(string uuid)
     {
-        return GetElementByUUID(uuid, testDatabase.sheepKoppels);
+        return GetElementByUUID(uuid, Database.GetDatabase().pairCollection);
     }
 
-    public WeideObject GetWeideObjectByUUID(string uuid)
+    public LotObject GetLotObjectByUUID(string uuid)
     {
-        return GetElementByUUID(uuid, testDatabase.weides);
+        return GetElementByUUID(uuid, Database.GetDatabase().Lots);
     }
 
     public string GetKoppelNameByUUID(string uuid)
     {
-        SheepKoppel kop = GetSheepKoppelByUUID(uuid);
-        if (kop != null) return kop.koppelName;
+        PairCollection kop = GetSheepKoppelByUUID(uuid);
+        if (kop != null) return kop.pairCollectionName;
         return null;
     }
 
     public string GetKoppelUUIDByName(string name)
     {
-        foreach (var koppel in testDatabase.sheepKoppels)
+        foreach (var koppel in Database.GetDatabase().pairCollection)
         {
-            if (koppel.koppelName == name) return koppel.UUID;
+            if (koppel.pairCollectionName == name) return koppel.UUID;
         }
 
         return null;
@@ -233,7 +176,7 @@ public class SheepDataReader : MonoBehaviour
 
     public void UpdateSheepData(SheepObject sheep)
     {
-        int nChilds = sheepDataViewer.sheepButtonContainer.childCount;
+        int nChilds = sheepDataViewer.buttonContainer.childCount;
 
         // editing existing sheep
         if (sheepDataViewer.panelMode == DetailsPanelMode.EditingElement)
@@ -248,28 +191,28 @@ public class SheepDataReader : MonoBehaviour
                 shp.sheepType = sheep.sheepType;
                 shp.tsBorn = sheep.tsBorn;
 
-                var oldKoppelID = shp.sheepKoppelID;
-                var newKoppelID = sheep.sheepKoppelID;
+                var oldKoppelID = shp.pairCollectionID;
+                var newKoppelID = sheep.pairCollectionID;
                 // TODO check if it is a valid koppelid
 
                 if (oldKoppelID != newKoppelID)
                 {
                     // Remove the sheep from the old koppel
-                    SheepKoppel oldKop = GetSheepKoppelByUUID(oldKoppelID);
+                    PairCollection oldKop = GetSheepKoppelByUUID(oldKoppelID);
                     oldKop?.allSheep.Remove(sheep.UUID);
 
                     // Add the sheep to the new koppel
-                    SheepKoppel newKop = GetSheepKoppelByUUID(newKoppelID);
+                    PairCollection newKop = GetSheepKoppelByUUID(newKoppelID);
                     newKop?.allSheep.Add(shp.UUID);
                 }
 
-                shp.sheepKoppelID = newKoppelID;
+                shp.pairCollectionID = newKoppelID;
             }
 
             // update the visuals representing the data
             for (int i = 0; i < nChilds; i++)
             {
-                var obj = sheepDataViewer.sheepButtonContainer.GetChild(i).gameObject.GetComponentInChildren<SheepButton>();
+                var obj = sheepDataViewer.buttonContainer.GetChild(i).gameObject.GetComponentInChildren<SheepButton>();
                 if (obj.sheep.UUID != sheepDataViewer.selectedSheep.UUID) continue;
                 obj.SetInfo(sheep, sheepDataViewer);
                 break;
@@ -280,7 +223,7 @@ public class SheepDataReader : MonoBehaviour
         // TODO check if UUID doesnt already exist
         else
         {
-            testDatabase.sheeps.Add(sheep);
+            Database.GetDatabase().sheeps.Add(sheep);
             var obj = sheepDataViewer.CreateNewButton(sheep);
             sheepDataViewer.MoveScrollViewToElement(obj.GetComponent<RectTransform>());
         }
@@ -288,42 +231,42 @@ public class SheepDataReader : MonoBehaviour
         sheepDataViewer.panelMode = DetailsPanelMode.None;
     }
 
-    public void UpdateWeideData(WeideObject weide)
+    public void UpdateLotData(LotObject Lot)
     {
-        int nChilds = sheepDataViewer.sheepButtonContainer.childCount;
+        int nChilds = sheepDataViewer.buttonContainer.childCount;
 
-        // editing existing weide
-        if (weideDataViewer.panelMode == DetailsPanelMode.EditingElement)
+        // editing existing Lot
+        if (LotDataViewer.panelMode == DetailsPanelMode.EditingElement)
         {
             // update the actual data
-            WeideObject wds = GetWeideObjectByUUID(weideDataViewer.selectedElement.UUID);
+            LotObject wds = GetLotObjectByUUID(LotDataViewer.selectedElement.UUID);
             
             if (wds != null)
             {
-                wds.perceelName = weide.perceelName;
-                wds.surfaceQuality = weide.surfaceQuality;
-                wds.surfaceSqrMtr = weide.surfaceSqrMtr;
+                wds.perceelName = Lot.perceelName;
+                wds.surfaceQuality = Lot.surfaceQuality;
+                wds.surfaceSqrMtr = Lot.surfaceSqrMtr;
             }
 
             // update the visuals representing the data
             for (int i = 0; i < nChilds; i++)
             {
-                var obj = weideDataViewer.WeideButtonContainer.GetChild(i).gameObject.GetComponentInChildren<WeideButton>();
-                if (obj.weide.UUID != weideDataViewer.selectedElement.UUID) continue;
-                obj.SetInfo(weide, weideDataViewer);
+                var obj = LotDataViewer.LotButtonContainer.GetChild(i).gameObject.GetComponentInChildren<LotButton>();
+                if (obj.Lot.UUID != LotDataViewer.selectedElement.UUID) continue;
+                obj.SetInfo(Lot, LotDataViewer);
                 break;
             }
         }
 
-        // Adding a new weide
+        // Adding a new Lot
         // TODO check if UUID doesnt already exist
         else
         {
-            testDatabase.weides.Add(weide);
-            weideDataViewer.CreateNewButton(weide);
+            Database.GetDatabase().Lots.Add(Lot);
+            LotDataViewer.CreateNewButton(Lot);
         }
 
-        weideDataViewer.panelMode = DetailsPanelMode.None;
+        LotDataViewer.panelMode = DetailsPanelMode.None;
     }
 
     private bool DeleteElement<T>(T element, List<T> list, DataViewer dataViewer = null) where T : ObjectUUID
@@ -348,17 +291,17 @@ public class SheepDataReader : MonoBehaviour
 
     public void DeleteSheep(SheepObject sheep)
     {
-        DeleteElement(sheep, testDatabase.sheeps, sheepDataViewer);
+        DeleteElement(sheep, Database.GetDatabase().sheeps, sheepDataViewer);
     }
 
-    public void DeleteKoppel(SheepKoppel koppel)
+    public void DeleteKoppel(PairCollection koppel)
     {
-        if (DeleteElement(koppel, testDatabase.sheepKoppels, koppelDataViewer))
+        if (DeleteElement(koppel, Database.GetDatabase().pairCollection, PairCollectionDataViewer))
         {
             // Set koppelID to "" for all sheeps using this koppel
-            foreach (var sheep in testDatabase.sheeps.Where(sheep => string.Equals(sheep.sheepKoppelID, koppel.UUID, StringComparison.CurrentCultureIgnoreCase)))
+            foreach (var sheep in Database.GetDatabase().sheeps.Where(sheep => string.Equals(sheep.pairCollectionID, koppel.UUID, StringComparison.CurrentCultureIgnoreCase)))
             {
-                sheep.sheepKoppelID = "";
+                sheep.pairCollectionID = "";
             }
         }
     }
@@ -368,8 +311,8 @@ public class SheepDataReader : MonoBehaviour
         bConfirmToDelete = bDeleteToggle.isOn;
 
         UnityEngine.Events.UnityAction sheepDeleteEvent = delegate { DeleteSheep(obj as SheepObject); };
-        UnityEngine.Events.UnityAction weideDeleteEvent = delegate { DeleteWeide(obj as WeideObject); };
-        UnityEngine.Events.UnityAction sheepKoppelDeleteEvent = delegate { DeleteKoppel(obj as SheepKoppel); };
+        UnityEngine.Events.UnityAction LotDeleteEvent = delegate { DeleteLot(obj as LotObject); };
+        UnityEngine.Events.UnityAction sheepKoppelDeleteEvent = delegate { DeleteKoppel(obj as PairCollection); };
 
         if (bConfirmToDelete)
         {
@@ -381,10 +324,10 @@ public class SheepDataReader : MonoBehaviour
                 case SheepObject sheepObject:
                     btnDeleteConfirm.onClick.AddListener(sheepDeleteEvent);
                     break;
-                case WeideObject weideObject:
-                    btnDeleteConfirm.onClick.AddListener(weideDeleteEvent);
+                case LotObject LotObject:
+                    btnDeleteConfirm.onClick.AddListener(LotDeleteEvent);
                     break;
-                case SheepKoppel sheepKoppel:
+                case PairCollection sheepKoppel:
                     btnDeleteConfirm.onClick.AddListener(sheepKoppelDeleteEvent);
                     break;
             }
@@ -399,19 +342,19 @@ public class SheepDataReader : MonoBehaviour
                 case SheepObject sheepObject:
                     sheepDeleteEvent.Invoke();
                     break;
-                case WeideObject weideObject:
-                    weideDeleteEvent.Invoke();
+                case LotObject LotObject:
+                    LotDeleteEvent.Invoke();
                     break;
-                case SheepKoppel sheepKoppel:
+                case PairCollection sheepKoppel:
                     sheepKoppelDeleteEvent.Invoke();
                     break;
             }
         }
     }
 
-    public void DeleteWeide(WeideObject weide)
+    public void DeleteLot(LotObject Lot)
     {
-        DeleteElement(weide, testDatabase.weides, weideDataViewer);
+        DeleteElement(Lot, Database.GetDatabase().Lots, LotDataViewer);
     }
 
     /// <summary>
@@ -420,6 +363,7 @@ public class SheepDataReader : MonoBehaviour
     /// /// <param name="inputFile"></param>
     private void LoadSheepData(TextAsset inputFile)
     {
+        /*
         if (inputFile == null)
         {
             Debug.LogError("Sheep input data file missing!");
@@ -436,22 +380,26 @@ public class SheepDataReader : MonoBehaviour
         {
             LoadSheepDataFromJsonFile(inputFile);
         }
+        */
     }
 
+    /*
     /// <summary>
     /// Loads sheep data from a JSON file into the database.
     /// </summary>
     /// <param name="inputFile"></param>
     private void LoadSheepDataFromJsonFile(TextAsset inputFile)
     {
-        testDatabase = JsonUtility.FromJson<TemporalDatabaseData>(inputFile.text);
+        Database.GetDatabase() = JsonUtility.FromJson<TemporalDatabaseData>(inputFile.text);
         
         // Assumes the timestamp is in nanoseconds and converts it to seconds
-        foreach (var s in testDatabase.sheeps)
+        foreach (var s in Database.GetDatabase().sheeps)
         {
             s.tsBorn /= 1000000000;
         }
     }
+
+    */
 
     /// <summary>
     /// Loads sheep data from a CSV file into the database.
@@ -459,6 +407,6 @@ public class SheepDataReader : MonoBehaviour
     /// <param name="inputFile"></param>
     private void LoadSheepDataFromCsvFile(TextAsset inputFile)
     {
-        testDatabase.sheeps = WurmFileHandler.GetDataFromCsvFile<SheepObject>(inputFile);
+        Database.GetDatabase().sheeps = WurmFileHandler.GetDataFromCsvFile<SheepObject>(inputFile);
     }
 }

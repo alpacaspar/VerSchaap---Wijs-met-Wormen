@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AdviceDisplayManager : MonoBehaviour
 {
-    private List<WeideObject> weideObjects = new();
+    private List<LotObject> LotObjects = new();
     
     private void Start()
     {
@@ -16,14 +16,14 @@ public class AdviceDisplayManager : MonoBehaviour
         EventSystem.InvokeEvent(EventType.performAdviceUpdate);
     }
 
-    private void GetWeideObjects()
+    private void GetLotObjects()
     {
-        weideObjects.Clear();
+        LotObjects.Clear();
         
-        var results = WurmAPI.MethodHandler<WeideObject>(MethodType.Get, null);
+        var results = WurmAPI.MethodHandler<LotObject>(MethodType.Get, null);
         foreach (var result in results)
         {
-            weideObjects.Add(JsonUtility.FromJson<WeideObject>(result));
+            LotObjects.Add(JsonUtility.FromJson<LotObject>(result));
         }
     }
 }

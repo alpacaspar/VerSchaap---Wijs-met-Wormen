@@ -17,7 +17,7 @@
 	elseif ($_GET['request'] == 'AddLot')
 	{
 		if (isset($_GET["Lot_UUID"]) and isset($_GET["Farmer_UUID"]))
-		{
+		{   
 		    $result = $mysqli->query("INSERT INTO `VerweidklokLotTable` (Lot_UUID, Lot_Name, Lot_Surface, Lot_Quality, Lot_Mowed_TS, Lot_State_ID, Farmer_UUID)"
 				." VALUES ('".$_GET["Lot_UUID"]."','".$_GET["Lot_Name"]."','".$_GET["Lot_Surface"]."','".$_GET["Lot_Quality"]."','".$_GET["Lot_Mowed_TS"]."','".$_GET["Lot_State_ID"]."','".$_GET["Farmer_UUID"]."');");
 		}

@@ -6,33 +6,33 @@ using UnityEngine.UI;
 using System;
 using System.Linq;
 
-public class KoppelDataViewer : DataViewer
+public class PairCollectionDataViewer : DataViewer
 {
     [Header("Prefabs")]
-    public GameObject KoppelButtonPrefab;
+    public GameObject PairButtonPrefab;
     public GameObject SheepButtonPrefab;
 
     [Header("UI Panels")]
-    public RectTransform koppelButtonContainer;
-    public RectTransform koppelSheepListButtonContainer;
+    public RectTransform PairButtonContainer;
+    public RectTransform PairSheepListButtonContainer;
     public GameObject overviewPanel;
     public GameObject detailsPanel;
     public GameObject sheepListPanel;
     public GameObject addSheepPanel;
     public RectTransform addSheepContainer;
 
-    [Header("Koppel variable fields")]
+    [Header("Pair variable fields")]
     public TMP_InputField inputName;
 
     [Header("Element Options")]
     public Button btnCancel;
     public Button btnSave;
     public Button btnAddSheep;
-    public Button btnAddKoppel;
+    public Button btnAddPair;
     public Button btnShowAllSheep;
 
     [HideInInspector]
-    public SheepKoppel selectedElement;
+    public PairCollection selectedElement;
     //[HideInInspector]
     //public bool bAddingElement = false;
     [HideInInspector]
@@ -43,23 +43,23 @@ public class KoppelDataViewer : DataViewer
 
     public override GameObject CreateNewButton(ObjectUUID objToAdd)
     {
-        SheepKoppel koppel = objToAdd as SheepKoppel;
-        var buttonGameObject = Instantiate(KoppelButtonPrefab, koppelButtonContainer);
-        buttonGameObject.GetComponentInChildren<KoppelButton>().SetInfo(koppel, this);
+        PairCollection Pair = objToAdd as PairCollection;
+        var buttonGameObject = Instantiate(PairButtonPrefab, PairButtonContainer);
+        buttonGameObject.GetComponentInChildren<PairButton>().SetInfo(Pair, this);
         return buttonGameObject;
     }
 
     public override void RemoveButton(ObjectUUID objToRemove)
     {
-        SheepKoppel koppel = objToRemove as SheepKoppel;
-        if (koppel == null) return;
+        PairCollection Pair = objToRemove as PairCollection;
+        if (Pair == null) return;
 
-        for (int i = 0; i < koppelButtonContainer.childCount; i++)
+        for (int i = 0; i < PairButtonContainer.childCount; i++)
         {
-            var butObj = koppelButtonContainer.GetChild(i).gameObject;
-            var but = butObj.GetComponentInChildren<KoppelButton>();
+            var butObj = PairButtonContainer.GetChild(i).gameObject;
+            var but = butObj.GetComponentInChildren<PairButton>();
 
-            if (but.element.UUID == koppel.UUID)
+            if (but.element.UUID == Pair.UUID)
             {
                 Destroy(butObj);
                 break;
@@ -81,23 +81,23 @@ public class KoppelDataViewer : DataViewer
             dataReader.sheepDataViewer.overviewPanel.SetActive(true);
         });
 
-        // Button for adding new koppel
-        btnAddKoppel.onClick.AddListener(delegate
+        // Button for adding new Pair
+        btnAddPair.onClick.AddListener(delegate
         {
             panelMode = DetailsPanelMode.CreatingElement;
             //bAddingElement = true;
-            selectedElement = new SheepKoppel
+            selectedElement = new PairCollection
             {
-                koppelName = "Nieuwe koppel",
+                pairCollectionName = "Nieuwe Koppel",
                 UUID = Helpers.GenerateUUID()
             };
 
-            dataReader.testDatabase.sheepKoppels.Add(selectedElement);
-            CreateButtonsFromDB(dataReader.testDatabase.sheepKoppels);
+            Database.GetDatabase().pairCollection.Add(selectedElement);
+            CreateButtonsFromDB(Database.GetDatabase().pairCollection);
             ShowDetails(selectedElement);
         });
 
-        // Button for adding sheep to koppel
+        // Button for adding sheep to Pair
         btnAddSheep.onClick.AddListener(delegate
         {
             bool panelActive = !addSheepPanel.activeSelf;
@@ -109,27 +109,27 @@ public class KoppelDataViewer : DataViewer
             {
                 RemoveAllChildren(addSheepContainer);
 
-                foreach (var sheep in dataReader.testDatabase.sheeps)
+                foreach (var sheep in Database.GetDatabase().sheeps)
                 {
-                    if (sheep.sheepKoppelID == "")
+                    if (sheep.pairCollectionID == "")
                     {
                         var panelGameObject = Instantiate(SheepButtonPrefab, addSheepContainer);
                         var sheepButton = panelGameObject.GetComponentInChildren<SheepButton>();
-                        sheepButton.buttonMode = SheepButtonMode.ClickToAddToKoppel;
+                        sheepButton.buttonMode = SheepButtonMode.ClickToAddToPairCollection;
                         sheepButton.SetInfo(sheep, FindObjectOfType<SheepDataViewer>());
                     }
                 }
             }
         });
 
-        // Koppel name input field
+        // Pair name input field
         inputName.onEndEdit.AddListener(delegate
         {
-            selectedElement.koppelName = inputName.text;
+            selectedElement.pairCollectionName = inputName.text;
 
-            for (int i = 0; i < koppelButtonContainer.childCount; i++)
+            for (int i = 0; i < PairButtonContainer.childCount; i++)
             {
-                KoppelButton but = koppelButtonContainer.GetChild(i).GetComponentInChildren<KoppelButton>();
+                PairButton but = PairButtonContainer.GetChild(i).GetComponentInChildren<PairButton>();
                 if (but.element.UUID == selectedElement.UUID)
                 {
                     but.SetInfo(selectedElement, this);
@@ -139,13 +139,13 @@ public class KoppelDataViewer : DataViewer
         });
     }
 
-    public void CreateButtonsFromDB(List<SheepKoppel> elementList)
+    public void CreateButtonsFromDB(List<PairCollection> elementList)
     {
-        RemoveAllChildren(koppelButtonContainer);
+        RemoveAllChildren(PairButtonContainer);
 
-        foreach (SheepKoppel s in elementList)
+        foreach (PairCollection p in elementList)
         {
-            CreateNewButton(s);
+            CreateNewButton(p);
         }
     }
 
@@ -159,7 +159,7 @@ public class KoppelDataViewer : DataViewer
 
     public GameObject CreateNewSheepButtons()
     {
-        RemoveAllChildren(koppelSheepListButtonContainer);
+        RemoveAllChildren(PairSheepListButtonContainer);
 
         foreach (var sheepuuid in selectedElement.allSheep)
         {
@@ -168,9 +168,9 @@ public class KoppelDataViewer : DataViewer
             // sheep with this uuid was found in the database
             if (foundSheep != null)
             {
-                var panelGameObject = Instantiate(SheepButtonPrefab, koppelSheepListButtonContainer);
+                var panelGameObject = Instantiate(SheepButtonPrefab, PairSheepListButtonContainer);
                 var sheepButton = panelGameObject.GetComponentInChildren<SheepButton>();
-                sheepButton.buttonMode = SheepButtonMode.ClickToRemoveFromKoppel;
+                sheepButton.buttonMode = SheepButtonMode.ClickToRemoveFromPairCollection;
                 sheepButton.SetInfo(foundSheep, FindObjectOfType<SheepDataViewer>());
             }
         }
@@ -181,7 +181,7 @@ public class KoppelDataViewer : DataViewer
     public void MoveScrollViewToElement(RectTransform target)
     {
         Canvas.ForceUpdateCanvases();
-        koppelButtonContainer.anchoredPosition = (Vector2)scrollRect.transform.InverseTransformPoint(koppelButtonContainer.position) - (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
+        PairButtonContainer.anchoredPosition = (Vector2)scrollRect.transform.InverseTransformPoint(PairButtonContainer.position) - (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
     }
 
     public void SetupDetailsPanel()
@@ -195,12 +195,12 @@ public class KoppelDataViewer : DataViewer
         if (detailsPanel != null) detailsPanel.SetActive(showDetails);
     }
 
-    public void ShowDetails(SheepKoppel element)
+    public void ShowDetails(PairCollection element)
     {
         selectedElement = element;
-        inputName.SetTextWithoutNotify(selectedElement.koppelName);
+        inputName.SetTextWithoutNotify(selectedElement.pairCollectionName);
         SetPanelVisibilty(true);
-        SetDetailsPanelTitle("Koppel");
+        SetDetailsPanelTitle("Pair");
         CreateNewSheepButtons();
     }
 }

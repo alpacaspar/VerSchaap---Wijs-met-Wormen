@@ -6,17 +6,17 @@ using UnityEngine.UI;
 using System;
 using System.Linq;
 
-public class WeideDataViewer : DataViewer
+public class LotDataViewer : DataViewer
 {
     [Header("Prefabs")]
-    public GameObject WeideButtonPrefab;
+    public GameObject LotButtonPrefab;
     
     [Header("UI Panels")]
-    public RectTransform WeideButtonContainer;
+    public RectTransform LotButtonContainer;
     public GameObject overviewPanel;
     public GameObject detailsPanel;
 
-    [Header("Weide variable fields")]
+    [Header("Lot variable fields")]
     public TMP_InputField inputPerceelName;
     public TMP_InputField inputSurfaceArea;
     public TMP_InputField inputSurfaceQuality;
@@ -28,7 +28,7 @@ public class WeideDataViewer : DataViewer
     public Button btnAddElement;
     
     [HideInInspector]
-    public WeideObject selectedElement;
+    public LotObject selectedElement;
     [HideInInspector]
     public SheepDataReader sheepDataReader;
     
@@ -36,23 +36,23 @@ public class WeideDataViewer : DataViewer
 
     public override GameObject CreateNewButton(ObjectUUID objToAdd)
     {
-        WeideObject weide = objToAdd as WeideObject;
-        var buttonGameObject = Instantiate(WeideButtonPrefab, WeideButtonContainer);
-        buttonGameObject.GetComponentInChildren<WeideButton>().SetInfo(weide, this);
+        LotObject Lot = objToAdd as LotObject;
+        var buttonGameObject = Instantiate(LotButtonPrefab, LotButtonContainer);
+        buttonGameObject.GetComponentInChildren<LotButton>().SetInfo(Lot, this);
         return buttonGameObject;
     }
 
     public override void RemoveButton(ObjectUUID objToRemove)
     {
-        WeideObject weide = objToRemove as WeideObject;
-        if (weide == null) return;
+        LotObject Lot = objToRemove as LotObject;
+        if (Lot == null) return;
 
-        for (int i = 0; i < WeideButtonContainer.childCount; i++)
+        for (int i = 0; i < LotButtonContainer.childCount; i++)
         {
-            var butObj = WeideButtonContainer.GetChild(i).gameObject;
-            var but = butObj.GetComponentInChildren<WeideButton>();
+            var butObj = LotButtonContainer.GetChild(i).gameObject;
+            var but = butObj.GetComponentInChildren<LotButton>();
 
-            if (but.weide.UUID == weide.UUID)
+            if (but.Lot.UUID == Lot.UUID)
             {
                 Destroy(butObj);
                 break;
@@ -90,14 +90,12 @@ public class WeideDataViewer : DataViewer
         {
             SetPanelVisibilty(false);
             panelMode = DetailsPanelMode.None;
-            //bAddingElement = false;
         });
 
         btnAddElement.onClick.AddListener(delegate
         {
             panelMode = DetailsPanelMode.CreatingElement;
-            //bAddingElement = true;
-            selectedElement = new WeideObject
+            selectedElement = new LotObject
             {
                 UUID = Helpers.GenerateUUID()
             };
@@ -108,7 +106,7 @@ public class WeideDataViewer : DataViewer
         btnSave.onClick.AddListener(delegate
         {
 
-            WeideObject tmpWeide = new WeideObject
+            LotObject tmpLot = new LotObject
             {
                 UUID = selectedElement != null ? selectedElement.UUID : Helpers.GenerateUUID(),
                 perceelName = inputPerceelName.text,
@@ -119,14 +117,14 @@ public class WeideDataViewer : DataViewer
                 //extraRemarks = new List<string>()
             };
 
-            sheepDataReader.UpdateWeideData(tmpWeide);
+            sheepDataReader.UpdateLotData(tmpLot);
             SetPanelVisibilty(false);
         });
     }
 
-    public void CreateSheepButtonsFromDB(List<WeideObject> database)
+    public void CreateSheepButtonsFromDB(List<LotObject> database)
     {
-        foreach (WeideObject s in database)
+        foreach (LotObject s in database)
         {
             CreateNewButton(s);
         }
@@ -143,7 +141,7 @@ public class WeideDataViewer : DataViewer
         detailsPanel.SetActive(showDetails);   
     }
 
-    public void ShowDetails(WeideObject element)
+    public void ShowDetails(LotObject element)
     {
         selectedElement = element;
         SetDetailsPanelTitle("Perceel");

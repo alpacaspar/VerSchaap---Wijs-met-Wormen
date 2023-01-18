@@ -13,6 +13,9 @@ public enum DetailsPanelMode
 public class DataViewer : MonoBehaviour
 {
     public TextMeshProUGUI detailPanelTitle;
+
+    public RectTransform buttonContainer;
+
     [HideInInspector]
     public DetailsPanelMode panelMode = DetailsPanelMode.None;
 
@@ -23,7 +26,20 @@ public class DataViewer : MonoBehaviour
 
     public virtual void RemoveButton(ObjectUUID objToRemove)
     {
+        //SheepObject sheep = objToRemove as SheepObject;
+        if (objToRemove == null) return;
 
+        for (int i = 0; i < buttonContainer.childCount; i++)
+        {
+            var butObj = buttonContainer.GetChild(i).gameObject;
+            var but = butObj.GetComponentInChildren<ObjectUUIDButton>();
+
+            if (but.element.UUID == objToRemove.UUID)
+            {
+                Destroy(butObj);
+                break;
+            }
+        }
     }
 
     public void SetDetailsPanelTitle(string txt)
@@ -43,5 +59,13 @@ public class DataViewer : MonoBehaviour
         }
 
         detailPanelTitle.text = tmpTxt;
+    }
+
+    public void RemoveAllButtons()
+    {
+        for (int i = buttonContainer.childCount - 1; i >= 0; i--)
+        {
+            Destroy(buttonContainer.GetChild(i).gameObject);
+        }
     }
 }

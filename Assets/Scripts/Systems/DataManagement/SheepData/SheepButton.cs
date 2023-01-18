@@ -9,8 +9,8 @@ public enum SheepButtonMode
 {
     Nothing,
     ClickToEditOrRemove,
-    ClickToRemoveFromKoppel,
-    ClickToAddToKoppel
+    ClickToRemoveFromPairCollection,
+    ClickToAddToPairCollection
 }
 
 public class SheepButton : ObjectUUIDButton
@@ -34,32 +34,32 @@ public class SheepButton : ObjectUUIDButton
                 dataViewer.panelMode = DetailsPanelMode.EditingElement;
                 dataViewer.ShowDetails(sheep);
                 break;
-            // Button is inside koppel details menu
-            case SheepButtonMode.ClickToRemoveFromKoppel:
+            // Button is inside PairCollection details menu
+            case SheepButtonMode.ClickToRemoveFromPairCollection:
                 dataViewer.panelMode = DetailsPanelMode.EditingElement;
                 dataViewer.ShowDetails(sheep);
                 break;
-            // Button is inside add to koppel menu
-            case SheepButtonMode.ClickToAddToKoppel:
-                // Set koppelID for the sheep
-                foreach (var tmpSheep in dataViewer.sheepDataReader.testDatabase.sheeps)
+            // Button is inside add to PairCollection menu
+            case SheepButtonMode.ClickToAddToPairCollection:
+                // Set PairCollectionID for the sheep
+                foreach (var tmpSheep in Database.GetDatabase().sheeps)
                 {
                     if (tmpSheep.UUID == sheep.UUID)
                     {
-                        tmpSheep.sheepKoppelID = dataViewer.sheepDataReader.koppelDataViewer.selectedElement.UUID;
+                        tmpSheep.pairCollectionID = dataViewer.sheepDataReader.PairCollectionDataViewer.selectedElement.UUID;
                         break;
                     }
                 }
 
-                // Add the sheep to the koppel
-                foreach (var tmpKoppel in dataViewer.sheepDataReader.testDatabase.sheepKoppels)
+                // Add the sheep to the PairCollection
+                foreach (var tmpPairCollection in Database.GetDatabase().pairCollection)
                 {
-                    if (tmpKoppel.UUID == sheep.sheepKoppelID)
+                    if (tmpPairCollection.UUID == sheep.pairCollectionID)
                     {
-                        tmpKoppel.allSheep.Add(sheep.UUID);
-                        dataViewer.sheepDataReader.koppelDataViewer.ShowDetails(tmpKoppel);
-                        dataViewer.sheepDataReader.koppelDataViewer.addSheepPanel.gameObject.SetActive(false);
-                        dataViewer.sheepDataReader.koppelDataViewer.sheepListPanel.SetActive(true);
+                        tmpPairCollection.allSheep.Add(sheep.UUID);
+                        dataViewer.sheepDataReader.PairCollectionDataViewer.ShowDetails(tmpPairCollection);
+                        dataViewer.sheepDataReader.PairCollectionDataViewer.addSheepPanel.gameObject.SetActive(false);
+                        dataViewer.sheepDataReader.PairCollectionDataViewer.sheepListPanel.SetActive(true);
                         break;
                     }
                 }
@@ -77,27 +77,27 @@ public class SheepButton : ObjectUUIDButton
                 dataViewer.sheepDataReader.DeleteButtonClicked(sheep);
                 //dataViewer.sheepDataReader.DeleteSheep(sheep);
                 break;
-            case SheepButtonMode.ClickToRemoveFromKoppel:
-                string koppelUUID = "";
+            case SheepButtonMode.ClickToRemoveFromPairCollection:
+                string PairCollectionUUID = "";
 
-                // Clear koppelID of the sheep
-                foreach (var tmpSheep in dataViewer.sheepDataReader.testDatabase.sheeps)
+                // Clear PairCollectionID of the sheep
+                foreach (var tmpSheep in Database.GetDatabase().sheeps)
                 {
                     if (tmpSheep.UUID == sheep.UUID)
                     {
-                        koppelUUID = tmpSheep.sheepKoppelID;
-                        tmpSheep.sheepKoppelID = "";
+                        PairCollectionUUID = tmpSheep.pairCollectionID;
+                        tmpSheep.pairCollectionID = "";
                         break;
                     }
                 }
 
-                // Remove the sheep from the koppel
-                foreach (var tmpKoppel in dataViewer.sheepDataReader.testDatabase.sheepKoppels)
+                // Remove the sheep from the PairCollection
+                foreach (var tmpPairCollection in Database.GetDatabase().pairCollection)
                 {
-                    if (tmpKoppel.UUID == koppelUUID)
+                    if (tmpPairCollection.UUID == PairCollectionUUID)
                     {
-                        tmpKoppel.allSheep.Remove(sheep.UUID);
-                        dataViewer.sheepDataReader.koppelDataViewer.ShowDetails(tmpKoppel);
+                        tmpPairCollection.allSheep.Remove(sheep.UUID);
+                        dataViewer.sheepDataReader.PairCollectionDataViewer.ShowDetails(tmpPairCollection);
                         break;
                     }
                 }
@@ -114,7 +114,7 @@ public class SheepButton : ObjectUUIDButton
             case SheepButtonMode.Nothing:
                 btnDelete.gameObject.SetActive(false);
                 break;
-            case SheepButtonMode.ClickToAddToKoppel:
+            case SheepButtonMode.ClickToAddToPairCollection:
                 btnDelete.gameObject.SetActive(false);
                 break;
         }

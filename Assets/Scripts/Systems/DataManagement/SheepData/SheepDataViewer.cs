@@ -12,7 +12,7 @@ public class SheepDataViewer : DataViewer
     public GameObject sheepButtonPrefab;
 
     [Header("UI Panels")]
-    public RectTransform sheepButtonContainer;
+    //public RectTransform sheepButtonContainer;
     public GameObject overviewPanel;
     public GameObject detailsPanel;
     
@@ -46,21 +46,22 @@ public class SheepDataViewer : DataViewer
     public override GameObject CreateNewButton(ObjectUUID objToAdd)
     {
         SheepObject s = objToAdd as SheepObject;
-        var buttonGameObject = Instantiate(sheepButtonPrefab, sheepButtonContainer);
+        var buttonGameObject = Instantiate(sheepButtonPrefab, buttonContainer);
         var but = buttonGameObject.GetComponentInChildren<SheepButton>();
         but.SetInfo(s, this);
         but.buttonMode = SheepButtonMode.ClickToEditOrRemove;
         return buttonGameObject;
     }
 
+    
     public override void RemoveButton(ObjectUUID objToRemove)
     {
         SheepObject sheep = objToRemove as SheepObject;
         if (sheep == null) return;
 
-        for (int i = 0; i < sheepButtonContainer.childCount; i++)
+        for (int i = 0; i < buttonContainer.childCount; i++)
         {
-            var butObj = sheepButtonContainer.GetChild(i).gameObject;
+            var butObj = buttonContainer.GetChild(i).gameObject;
             var but = butObj.GetComponentInChildren<SheepButton>();
 
             if (but.sheep.UUID == sheep.UUID)
@@ -68,14 +69,6 @@ public class SheepDataViewer : DataViewer
                 Destroy(butObj);
                 break;
             }
-        }
-    }
-
-    private void RemoveAllButtons()
-    {
-        for (int i = sheepButtonContainer.childCount - 1; i >= 0; i--)
-        {
-            Destroy(sheepButtonContainer.GetChild(i).gameObject);
         }
     }
 
@@ -139,7 +132,7 @@ public class SheepDataViewer : DataViewer
                 sheepType = sheepType,
                 tsBorn = calendarWidget.timeStamp.ToUnixTimeSeconds(),
                 weight = graph.sheepWeights,
-                sheepKoppelID = koppelID
+                pairCollectionID = koppelID
             };
             
             sheepDataReader.UpdateSheepData(tmpSheep);
@@ -158,7 +151,7 @@ public class SheepDataViewer : DataViewer
     public void MoveScrollViewToElement(RectTransform target)
     {
         Canvas.ForceUpdateCanvases();
-        sheepButtonContainer.anchoredPosition = (Vector2)scrollRect.transform.InverseTransformPoint(sheepButtonContainer.position) - (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
+        buttonContainer.anchoredPosition = (Vector2)scrollRect.transform.InverseTransformPoint(buttonContainer.position) - (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
     }
     
     public void UpdateTSButton(DateTimeOffset time)
@@ -203,9 +196,9 @@ public class SheepDataViewer : DataViewer
         inputKoppel.options = new List<TMP_Dropdown.OptionData>();
         List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
 
-        foreach (var val in sheepDataReader.testDatabase.sheepKoppels)
+        foreach (var val in Database.GetDatabase().pairCollection)
         {
-            options.Add(new TMP_Dropdown.OptionData(val.koppelName));
+            options.Add(new TMP_Dropdown.OptionData(val.pairCollectionName));
         }
 
         inputKoppel.AddOptions(options);
@@ -241,7 +234,7 @@ public class SheepDataViewer : DataViewer
         for (int i = 0; i < inputKoppel.options.Count; i++)
         {
             // TODO convert from uuid to readible koppel name
-            if (!string.Equals(inputKoppel.options[i].text, sheepDataReader.GetKoppelNameByUUID(sheep.sheepKoppelID), StringComparison.CurrentCultureIgnoreCase)) continue;
+            if (!string.Equals(inputKoppel.options[i].text, sheepDataReader.GetKoppelNameByUUID(sheep.pairCollectionID), StringComparison.CurrentCultureIgnoreCase)) continue;
             inputKoppel.value = i;
             break;
         }

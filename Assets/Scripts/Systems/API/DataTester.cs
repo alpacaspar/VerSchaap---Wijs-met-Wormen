@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class DataTester : MonoBehaviour
 {
     // This should be replaced with a GET from the database
-    private List<SheepKoppel> koppels = new List<SheepKoppel>();
+    private List<PairCollection> koppels = new List<PairCollection>();
 
     void Start()
     {
@@ -69,7 +69,7 @@ public class DataTester : MonoBehaviour
             }
 
             var koppel = koppels[Random.Range(0, koppels.Count)];
-            newSheep.sheepKoppelID = koppel.UUID;
+            newSheep.pairCollectionID = koppel.UUID;
             koppel.allSheep.Add(newSheep.UUID);
             string[] response = WurmAPI.MethodHandler(MethodType.Post, newSheep);
             Debug.Log(Helpers.CodeToMessage(response[0]));
@@ -100,7 +100,7 @@ public class DataTester : MonoBehaviour
     }
 
     /// <summary>
-    ///     Generate dummy data for weides
+    ///     Generate dummy data for Lots
     /// </summary>
     /// <param name="quantity">
     ///     How many sheeps do we need?
@@ -109,13 +109,13 @@ public class DataTester : MonoBehaviour
     {
         for (int i = 0; i < quantity; i++)
         {
-            WeideObject newWeide = new WeideObject();
-            newWeide.UUID = Helpers.GenerateUUID();
-            newWeide.perceelName = $"Perceel {i}";
-            newWeide.surfaceSqrMtr = Random.Range(50, 500);
-            newWeide.surfaceQuality = Random.Range(10, 95);
+            LotObject newLot = new LotObject();
+            newLot.UUID = Helpers.GenerateUUID();
+            newLot.perceelName = $"Perceel {i}";
+            newLot.surfaceSqrMtr = Random.Range(50, 500);
+            newLot.surfaceQuality = Random.Range(10, 95);
 
-            string[] response = WurmAPI.MethodHandler(MethodType.Post, newWeide);
+            string[] response = WurmAPI.MethodHandler(MethodType.Post, newLot);
             Debug.Log(Helpers.CodeToMessage(response[0]));
         }
     }
@@ -127,9 +127,9 @@ public class DataTester : MonoBehaviour
     {
         for (int i = 0; i < quantity; i++)
         {
-            SheepKoppel newKoppel = new SheepKoppel()
+            PairCollection newKoppel = new PairCollection()
             {
-                koppelName = $"Koppel {i + 1}"
+                pairCollectionName = $"Koppel {i + 1}"
             };
             newKoppel.UUID = Helpers.GenerateUUID();
             koppels.Add(newKoppel);
@@ -165,8 +165,8 @@ public class DataTester : MonoBehaviour
         List<string> httpsMessages = new List<string>();
         List<string> data = new List<string>();
 
-        // iterate through all weides from database
-        foreach (WeideObject newObj in tempDatabase.weides)
+        // iterate through all Lots from database
+        foreach (LotObject newObj in tempDatabase.Lots)
         {
             string[] response = WurmAPI.MethodHandler(type, newObj);
             httpsMessages.Add(response[0]);
@@ -182,7 +182,7 @@ public class DataTester : MonoBehaviour
         }
 
         // iterate through all sheep koppels from database
-        foreach (SheepKoppel newObj in tempDatabase.sheepKoppels)
+        foreach (PairCollection newObj in tempDatabase.pairCollection)
         {
             string[] response = WurmAPI.MethodHandler(type, newObj);
             httpsMessages.Add(response[0]);

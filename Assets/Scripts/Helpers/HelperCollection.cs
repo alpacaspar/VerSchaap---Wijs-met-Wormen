@@ -41,18 +41,18 @@ public static class Helpers
     }
 
     /// <summary>
-    ///     Converts list of WeideObjects to list of ObjectUUIDs
+    ///     Converts list of LotObjects to list of ObjectUUIDs
     /// </summary>
     /// <param name="objects">
-    ///     List of WeideObjects
+    ///     List of LotObjects
     /// </param>
     /// <returns>
     ///     Returns a collection of ObjectUUIDs
     /// </returns>
-    public static List<ObjectUUID> WeideToUUID(List<WeideObject> objects)
+    public static List<ObjectUUID> LotToUUID(List<LotObject> objects)
     {
         List<ObjectUUID> uuids = new List<ObjectUUID>();
-        foreach (WeideObject obj in objects)
+        foreach (LotObject obj in objects)
         {
             uuids.Add(obj);
         }
@@ -80,7 +80,7 @@ public static class Helpers
     }
 
     /// <summary>
-    ///     Converts list of SheepKoppel to list of ObjectUUIDs
+    ///     Converts list of PairCollection to list of ObjectUUIDs
     /// </summary>
     /// <param name="objects">
     ///     List of WormObjects
@@ -88,10 +88,10 @@ public static class Helpers
     /// <returns>
     ///     Returns a collection of ObjectUUIDs
     /// </returns>
-    public static List<ObjectUUID> SheepKoppelToUUID(List<SheepKoppel> objects)
+    public static List<ObjectUUID> PairCollectionToUUID(List<PairCollection> objects)
     {
         List<ObjectUUID> uuids = new List<ObjectUUID>();
-        foreach (SheepKoppel obj in objects)
+        foreach (PairCollection obj in objects)
         {
             uuids.Add(obj);
         }

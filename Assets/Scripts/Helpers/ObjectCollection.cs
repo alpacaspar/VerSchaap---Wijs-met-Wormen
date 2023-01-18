@@ -8,10 +8,10 @@ public class TemporalDatabaseData : IObject
 {
     public string farmerName;
     public string farmerUUID;
-    public List<WeideObject> weides;
+    public List<LotObject> Lots;
     public List<SheepObject> sheeps;
     public List<WormObject> worms;
-    public List<SheepKoppel> sheepKoppels;
+    public List<PairCollection> pairCollection;
 }
 
 [Serializable]
@@ -21,7 +21,7 @@ public abstract class ObjectUUID : IObject
 }
 
 [Serializable]
-public class WeideObject : ObjectUUID
+public class LotObject : ObjectUUID
 {
     public string perceelName = "Perceel";
     public int surfaceSqrMtr = 0;
@@ -43,7 +43,7 @@ public class SheepObject : ObjectUUID
     public Sex sex = Sex.Female;
     public SheepType sheepType = 0;
     public List<string> extraRemarks = new List<string>();
-    public string sheepKoppelID = "";
+    public string pairCollectionID = "";
     public long lastModified = 0;
     public int isDeleted = 0;
 }
@@ -64,9 +64,9 @@ public class WormObject : ObjectUUID
 }
 
 [Serializable]
-public class SheepKoppel : ObjectUUID
+public class PairCollection : ObjectUUID
 {
-    public string koppelName = "koppel";
+    public string pairCollectionName = "koppel";
     public long tsFormed = 0;
     public long tsRemoved = 0;
     public long lastModified = 0;

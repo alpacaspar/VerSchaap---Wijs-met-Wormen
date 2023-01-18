@@ -8,7 +8,7 @@ public class ObjectUUIDButton : MonoBehaviour
 {
     public Button button;
     public Button btnDelete;
-
+    public ObjectUUID element;
     
     public virtual void OnButtonClicked()
     {
