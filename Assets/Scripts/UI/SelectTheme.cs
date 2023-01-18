@@ -8,12 +8,12 @@ public class SelectTheme : MonoBehaviour
 {
     public ColorPalette theme;
     
-    private TextMeshProUGUI[] TextComponents => FindObjectsOfType<TextMeshProUGUI>(true);
+    private IEnumerable<TextMeshProUGUI> TextComponents => FindObjectsOfType<TextMeshProUGUI>(true);
     
-    private List<GameObject> BackgroundImageComponents => FindAllGameObjectsWithTag("background");
-    private List<GameObject> ContextBackgroundImageComponents => FindAllGameObjectsWithTag("contextBackground");
-    private List<GameObject> ButtonImageComponents => FindAllGameObjectsWithTag("button");
-    private List<GameObject> IconImageComponents => FindAllGameObjectsWithTag("Icon");
+    private IEnumerable<GameObject> BackgroundImageComponents => FindAllGameObjectsWithTag("background");
+    private IEnumerable<GameObject> ContextBackgroundImageComponents => FindAllGameObjectsWithTag("contextBackground");
+    private IEnumerable<GameObject> ButtonImageComponents => FindAllGameObjectsWithTag("button");
+    private IEnumerable<GameObject> IconImageComponents => FindAllGameObjectsWithTag("Icon");
 
     private void OnEnable()
     {
@@ -31,11 +31,18 @@ public class SelectTheme : MonoBehaviour
         Invoke(nameof(UpdateTheme), 3);
     }
 
+    /// <summary>
+    /// Refresh the UI Theme.
+    /// </summary>
     public void UpdateTheme()
     {
         SetTheme(theme);
     }
 
+    /// <summary>
+    /// Set the theme of the UI.
+    /// </summary>
+    /// <param name="theme"></param>
     public void SetTheme(ColorPalette theme)
     {
         foreach (TextMeshProUGUI component in TextComponents)
@@ -72,10 +79,15 @@ public class SelectTheme : MonoBehaviour
         }
     }
 
-    public static List<GameObject> FindAllGameObjectsWithTag(string tag)
+    /// <summary>
+    /// Find all GameObjects within the current scene with specified tag, includes inactive GameObjects.
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <returns></returns>
+    public static IEnumerable<GameObject> FindAllGameObjectsWithTag(string tag)
     {
         Transform[] transforms = FindObjectsOfType<Transform>(true);
 
-        return (from tf in transforms where tf.CompareTag(tag) select tf.gameObject).ToList();
+        return (from tf in transforms where tf.CompareTag(tag) select tf.gameObject);
     }
 }
