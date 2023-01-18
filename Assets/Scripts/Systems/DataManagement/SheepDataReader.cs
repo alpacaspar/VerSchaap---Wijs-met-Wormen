@@ -55,47 +55,112 @@ public class SheepDataReader : MonoBehaviour
         }
     }
 
-    private IEnumerator UploadSheep()
+    private IEnumerator PostSheeps()
     {
-        foreach (var s in Database.GetDatabase().sheeps)
+        foreach (var sheep in Database.GetDatabase().sheeps)
         {
-            SheepObject newSheep = new SheepObject();
-            newSheep.UUID = s.UUID;
-            string[] result = Database.ProgressData(MethodType.Post, newSheep);
-
-            Debug.Log("result length = " + result.Length);
-
-            for (int i = 0; i < result.Length; i++)
-            {
-                Debug.Log("resultpart " + i + ": " + result[i]);
-            }
-
-            Debug.Log(Helpers.CodeToMessage(result[0]));
-            yield return new WaitForEndOfFrame();
+            yield return StartCoroutine(PostSheep(sheep));
         }
     }
 
-    private IEnumerator UploadLots()
+    private IEnumerator PostSheep(SheepObject sheep)
     {
-        foreach (var s in Database.GetDatabase().Lots)
+        string[] result = Database.ProgressData(MethodType.Post, sheep);
+
+        Debug.Log("result length = " + result.Length);
+
+        for (int i = 0; i < result.Length; i++)
         {
-            string[] result = Database.ProgressData(MethodType.Post, s);
+            Debug.Log("resultpart " + i + ": " + result[i]);
+        }
 
-            Debug.Log("result length = " + result.Length);
+        Debug.Log(Helpers.CodeToMessage(result[0]));
+        yield return new WaitForEndOfFrame();
+    }
 
-            for (int i = 0; i < result.Length; i++)
-            {
-                Debug.Log("resultpart " + i + ": " + result[i]);
-            }
-
-            Debug.Log(Helpers.CodeToMessage(result[0]));
-            yield return new WaitForEndOfFrame();
+    private IEnumerator PutSheeps()
+    {
+        foreach (var sheep in Database.GetDatabase().sheeps)
+        {
+            yield return StartCoroutine(PutSheep(sheep));
         }
     }
 
-    IEnumerator TestMethod()
+    private IEnumerator PutSheep(SheepObject sheep)
     {
-        yield return 0;
+        //sheep.sheepTag = "NL-" + UnityEngine.Random.Range(100000, 500000) + "-" + UnityEngine.Random.Range(1, 9) + "-" + UnityEngine.Random.Range(10000, 90000);
+        //sheep.tsBorn = UnityEngine.Random.Range(1604051182, 1672051182);
+        //TODO check which is newer
+        string[] result = Database.ProgressData(MethodType.Put, sheep);
+
+        Debug.Log("result length = " + result.Length);
+
+        for (int i = 0; i < result.Length; i++)
+        {
+            Debug.Log("resultpart " + i + ": " + result[i]);
+        }
+
+        Debug.Log(Helpers.CodeToMessage(result[0]));
+        yield return new WaitForEndOfFrame();
+    }
+
+    private IEnumerator PostLots()
+    {
+        foreach (var lot in Database.GetDatabase().Lots)
+        {
+            yield return StartCoroutine(PostLot(lot));
+        }
+    }
+
+    private IEnumerator PostLot(LotObject lot)
+    {
+        string[] result = Database.ProgressData(MethodType.Post, lot);
+
+        Debug.Log("result length = " + result.Length);
+
+        for (int i = 0; i < result.Length; i++)
+        {
+            Debug.Log("resultpart " + i + ": " + result[i]);
+        }
+
+        Debug.Log(Helpers.CodeToMessage(result[0]));
+        yield return new WaitForEndOfFrame();
+    }
+
+    private IEnumerator PutLots()
+    {
+        foreach (var lot in Database.GetDatabase().Lots)
+        {
+            yield return StartCoroutine(PutLot(lot));
+        }
+    }
+
+    private IEnumerator PutLot(LotObject lot)
+    {
+        //TODO check which is newer
+        string[] result = Database.ProgressData(MethodType.Put, lot);
+
+        Debug.Log("result length = " + result.Length);
+
+        for (int i = 0; i < result.Length; i++)
+        {
+            Debug.Log("resultpart " + i + ": " + result[i]);
+        }
+
+        Debug.Log(Helpers.CodeToMessage(result[0]));
+        yield return new WaitForEndOfFrame();
+    }
+
+    IEnumerator PostDatabase()
+    {
+        yield return StartCoroutine(PostLots());
+        yield return StartCoroutine(PostSheeps());
+    }
+
+    IEnumerator PutDatabase()
+    {
+        yield return StartCoroutine(PutLots());
+        yield return StartCoroutine(PutSheeps());
     }
 
     private void Start()
@@ -117,7 +182,7 @@ public class SheepDataReader : MonoBehaviour
 
 
         LoadSheepData(sheepDataFile);
-        //StartCoroutine(TestMethod());
+        //StartCoroutine(PutSheeps());
         OnDatabaseLoaded();
     }
 
