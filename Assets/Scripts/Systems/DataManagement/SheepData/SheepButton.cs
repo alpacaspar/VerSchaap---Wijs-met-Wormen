@@ -46,7 +46,7 @@ public class SheepButton : ObjectUUIDButton
                 {
                     if (tmpSheep.UUID == sheep.UUID)
                     {
-                        tmpSheep.pairCollectionID = dataViewer.sheepDataReader.PairCollectionDataViewer.selectedElement.UUID;
+                        tmpSheep.pairCollectionID = dataViewer.sheepDataReader.pairCollectionDataViewer.selectedElement.UUID;
                         break;
                     }
                 }
@@ -57,9 +57,9 @@ public class SheepButton : ObjectUUIDButton
                     if (tmpPairCollection.UUID == sheep.pairCollectionID)
                     {
                         tmpPairCollection.allSheep.Add(sheep.UUID);
-                        dataViewer.sheepDataReader.PairCollectionDataViewer.ShowDetails(tmpPairCollection);
-                        dataViewer.sheepDataReader.PairCollectionDataViewer.addSheepPanel.gameObject.SetActive(false);
-                        dataViewer.sheepDataReader.PairCollectionDataViewer.sheepListPanel.SetActive(true);
+                        dataViewer.sheepDataReader.pairCollectionDataViewer.ShowDetails(tmpPairCollection);
+                        dataViewer.sheepDataReader.pairCollectionDataViewer.addSheepPanel.gameObject.SetActive(false);
+                        dataViewer.sheepDataReader.pairCollectionDataViewer.sheepListPanel.SetActive(true);
                         break;
                     }
                 }
@@ -97,7 +97,7 @@ public class SheepButton : ObjectUUIDButton
                     if (tmpPairCollection.UUID == PairCollectionUUID)
                     {
                         tmpPairCollection.allSheep.Remove(sheep.UUID);
-                        dataViewer.sheepDataReader.PairCollectionDataViewer.ShowDetails(tmpPairCollection);
+                        dataViewer.sheepDataReader.pairCollectionDataViewer.ShowDetails(tmpPairCollection);
                         break;
                     }
                 }

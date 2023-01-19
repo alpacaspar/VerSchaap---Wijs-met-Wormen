@@ -132,6 +132,7 @@ public static class Database
                                 obj.sheepTag = (newSheepObject.sheepTag != obj.sheepTag && newSheepObject.sheepTag != "") ? newSheepObject.sheepTag : obj.sheepTag;
                                 obj.tsBorn = (newSheepObject.tsBorn != obj.tsBorn && newSheepObject.tsBorn != 0) ? newSheepObject.tsBorn : obj.tsBorn;
                                 obj.extraRemarks = (newSheepObject.extraRemarks != obj.extraRemarks) ? newSheepObject.extraRemarks : obj.extraRemarks;
+                                obj.isDeleted = (newSheepObject.isDeleted != obj.isDeleted) ? newSheepObject.isDeleted : obj.isDeleted;
 
                                 handledData = true;
                                 newData = UpdateEntry(obj, Helpers.SheepToUUID(tempDatabase.sheeps), new SheepObject().GetType());
@@ -335,8 +336,8 @@ public static class Database
                 case "SheepObject":
                     SheepObject sheepObject = (SheepObject)newObject;
                     tempDatabase.sheeps.Add(sheepObject);
-                    fieldCollection = new string[] { "Sheep_UUID", "Sheep_Label", "Sheep_Female", "Timestamp_Born", "Farmer_UUID" };
-                    dataCollection = new string[] { sheepObject.UUID, sheepObject.sheepTag, "" + (int)sheepObject.sex, "" + sheepObject.tsBorn, tempDatabase.farmerUUID };
+                    fieldCollection = new string[] { "Sheep_UUID", "Sheep_Label", "Sheep_Female", "Timestamp_Born", "Is_Deleted", "Farmer_UUID" };
+                    dataCollection = new string[] { sheepObject.UUID, sheepObject.sheepTag, "" + (int)sheepObject.sex, "" + sheepObject.tsBorn, "" + sheepObject.isDeleted, tempDatabase.farmerUUID };
                     newData[0] = (int)Status.Success5 + "";
                     newData[1] = Helpers.GenerateUUID();
                     DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Post, "AddSheep", newData[1]);
@@ -399,8 +400,8 @@ public static class Database
                     break;
                 case "SheepObject":
                     SheepObject sheepObject = (SheepObject)newObject;
-                    fieldCollection = new[] { "Sheep_UUID", "Sheep_Label", "Sheep_Female", "Timestamp_Born", "Farmer_UUID" };
-                    dataCollection = new[] { sheepObject.UUID, sheepObject.sheepTag, "" + (int)sheepObject.sex, "" + sheepObject.tsBorn, tempDatabase.farmerUUID };
+                    fieldCollection = new[] { "Sheep_UUID", "Sheep_Label", "Sheep_Female", "Timestamp_Born", "Is_Deleted", "Farmer_UUID" };
+                    dataCollection = new[] { sheepObject.UUID, sheepObject.sheepTag, "" + (int)sheepObject.sex, "" + sheepObject.tsBorn, "" + sheepObject.isDeleted, tempDatabase.farmerUUID };
                     newData[0] = (int)Status.Success5 + "";
                     newData[1] = Helpers.GenerateUUID();
                     DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Put, "UpdateSheep", newData[1]);
@@ -417,14 +418,19 @@ public static class Database
                     PairCollection sheepPairObject = (PairCollection)newObject;
                     fieldCollection = new[] { "Pair_UUID", "Pair_Name", "TS_Formed", "TS_Removed", "Farmer_UUID", "Last_Modified" };
                     dataCollection = new[] { sheepPairObject.UUID, sheepPairObject.pairCollectionName, sheepPairObject.tsFormed + "", sheepPairObject.tsRemoved + "", tempDatabase.farmerUUID, sheepPairObject.lastModified + "" };
-                    newData[0] = (int)Status.Success5 + "";
-                    newData[1] = Helpers.GenerateUUID();
-                    DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Put, "UpdateSheepPair", newData[1]);
+                    UpdateEntryInner(fieldCollection, dataCollection, newData, "UpdateSheepPair");
                     break;
             }
         }
 
         return newData;
+    }
+
+    private static void UpdateEntryInner(string[] fieldCollection, string[] dataCollection, string[] newData, string phpMethod)
+    {
+        newData[0] = (int)Status.Success5 + "";
+        newData[1] = Helpers.GenerateUUID();
+        DBST.Instance.FireURI(fieldCollection, dataCollection, MethodType.Put, phpMethod, newData[1]);
     }
 
     private static string[] GetEntry(ObjectUUID newObject, List<ObjectUUID> collection, System.Type type)

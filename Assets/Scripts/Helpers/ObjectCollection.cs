@@ -18,6 +18,7 @@ public class TemporalDatabaseData : IObject
 public abstract class ObjectUUID : IObject
 {
     public string UUID = Helpers.GenerateUUID();
+    public int isDeleted = 0;
 }
 
 [Serializable]
@@ -32,7 +33,7 @@ public class LotObject : ObjectUUID
     public List<SheepType[]> currentSheeps = new List<SheepType[]>();
     public List<string> extraRemarks = new List<string>();
     public long lastModified = 0;
-    public int isDeleted = 0;
+    //public int isDeleted = 0;
 }
 
 [Serializable]
@@ -47,7 +48,7 @@ public class SheepObject : ObjectUUID
     public List<string> extraRemarks = new List<string>();
     public string pairCollectionID = "";
     public long lastModified = 0;
-    public int isDeleted = 0;
+    //public int isDeleted = 0;
 }
 
 [Serializable]

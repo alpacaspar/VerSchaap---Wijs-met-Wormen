@@ -163,7 +163,7 @@ public class PairCollectionDataViewer : DataViewer
 
         foreach (var sheepuuid in selectedElement.allSheep)
         {
-            var foundSheep = dataReader.GetSheepObjectByUUID(sheepuuid);
+            var foundSheep = dataReader.GetElementByUUID(sheepuuid, Database.GetDatabase().sheeps);
 
             // sheep with this uuid was found in the database
             if (foundSheep != null)

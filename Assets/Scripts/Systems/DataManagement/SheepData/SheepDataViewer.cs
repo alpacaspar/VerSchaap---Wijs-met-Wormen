@@ -20,7 +20,7 @@ public class SheepDataViewer : DataViewer
     public TMP_InputField inputTag;
     public TMP_Dropdown inputSex;
     public TMP_Dropdown inputSheepType;   
-    public TMP_Dropdown inputKoppel;   
+    public TMP_Dropdown inputPairCollection;   
     public Button inputTSBorn;
     public UICalendarWidget calendarWidget;
     public Window_Graph graph;
@@ -122,7 +122,7 @@ public class SheepDataViewer : DataViewer
         {
             Enum.TryParse<Sex>(inputSex.GetComponentInChildren<TextMeshProUGUI>().text, out Sex sex);
             Enum.TryParse<SheepType>(inputSheepType.GetComponentInChildren<TextMeshProUGUI>().text, out SheepType sheepType);
-            var koppelID = sheepDataReader.GetKoppelUUIDByName(inputKoppel.GetComponentInChildren<TextMeshProUGUI>().text);
+            var pairCollectionID = sheepDataReader.GetPairCollectionUUIDByName(inputPairCollection.GetComponentInChildren<TextMeshProUGUI>().text);
 
             SheepObject tmpSheep = new SheepObject
             {
@@ -132,7 +132,7 @@ public class SheepDataViewer : DataViewer
                 sheepType = sheepType,
                 tsBorn = calendarWidget.timeStamp.ToUnixTimeSeconds(),
                 weight = graph.sheepWeights,
-                pairCollectionID = koppelID
+                pairCollectionID = pairCollectionID
             };
             
             StartCoroutine(sheepDataReader.UpdateSheepData(tmpSheep));
@@ -192,9 +192,9 @@ public class SheepDataViewer : DataViewer
         detailsPanel.SetActive(showDetails);   
     }
 
-    public void UpdateKoppelDropDown()
+    public void UpdatePairCollectionDropDown()
     {
-        inputKoppel.options = new List<TMP_Dropdown.OptionData>();
+        inputPairCollection.options = new List<TMP_Dropdown.OptionData>();
         List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
 
         foreach (var val in Database.GetDatabase().pairCollection)
@@ -202,7 +202,7 @@ public class SheepDataViewer : DataViewer
             options.Add(new TMP_Dropdown.OptionData(val.pairCollectionName));
         }
 
-        inputKoppel.AddOptions(options);
+        inputPairCollection.AddOptions(options);
     }
 
     public void ShowDetails(SheepObject sheep)
@@ -210,7 +210,7 @@ public class SheepDataViewer : DataViewer
         selectedSheep = sheep;
         SetDetailsPanelTitle("Schaap");
         SetPanelVisibilty(true);
-        UpdateKoppelDropDown();
+        UpdatePairCollectionDropDown();
         UpdateSheepImage(selectedSheep.sheepType.ToString());
         calendarWidget.SetDate(sheep.tsBorn);
         inputTag.SetTextWithoutNotify(sheep.sheepTag);
@@ -231,12 +231,12 @@ public class SheepDataViewer : DataViewer
             break;
         }
 
-        // Set the koppel input dropdown to the correct value
-        for (int i = 0; i < inputKoppel.options.Count; i++)
+        // Set the pair input dropdown to the correct value
+        for (int i = 0; i < inputPairCollection.options.Count; i++)
         {
-            // TODO convert from uuid to readible koppel name
-            if (!string.Equals(inputKoppel.options[i].text, sheepDataReader.GetKoppelNameByUUID(sheep.pairCollectionID), StringComparison.CurrentCultureIgnoreCase)) continue;
-            inputKoppel.value = i;
+            // TODO convert from uuid to readible pair name
+            if (!string.Equals(inputPairCollection.options[i].text, sheepDataReader.GetPairCollectionNameByUUID(sheep.pairCollectionID), StringComparison.CurrentCultureIgnoreCase)) continue;
+            inputPairCollection.value = i;
             break;
         }
 
