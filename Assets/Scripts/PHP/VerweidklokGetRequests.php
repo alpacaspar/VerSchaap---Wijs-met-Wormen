@@ -14,12 +14,28 @@
 		}
 		else $missingFields = true;
 	}
+	elseif ($_GET['request'] == 'GetAllSheep')
+	{
+		if (isset($_GET["Farmer_UUID"]))
+		{
+		    $result = $mysqli->query("SELECT * FROM `VerweidklokSheepTable` WHERE Farmer_UUID = '".$_GET["Farmer_UUID"]."';");
+		}
+		else $missingFields = true;
+	}
 	elseif ($_GET['request'] == 'GetLot')
 	{
 		if (isset($_GET["Lot_UUID"]) and isset($_GET["Farmer_UUID"]))
 		{
 		    $result = $mysqli->query("SELECT * FROM `VerweidklokLotTable` WHERE Lot_UUID = " 
 		    	."'".$_GET["Lot_UUID"]."' AND Farmer_UUID = '".$_GET["Farmer_UUID"]."';");
+		}
+		else $missingFields = true;
+	}
+	elseif ($_GET['request'] == 'GetAllLot')
+	{
+		if (isset($_GET["Farmer_UUID"]))
+		{
+		    $result = $mysqli->query("SELECT * FROM `VerweidklokLotTable` WHERE Farmer_UUID = '".$_GET["Farmer_UUID"]."';");
 		}
 		else $missingFields = true;
 	}
@@ -32,12 +48,24 @@
 		}
 		else $missingFields = true;
 	}
+	elseif ($_GET['request'] == 'GetAllWorm')
+	{
+		$result = $mysqli->query("SELECT * FROM `VerweidklokWormCollection`;");
+	}
 	elseif ($_GET['request'] == 'GetPair')
 	{
 		if (isset($_GET["Pair_UUID"]) and isset($_GET["Farmer_UUID"]))
 		{
 		    $result = $mysqli->query("SELECT * FROM `VerweidklokPairCollection` WHERE Pair_DB_ID = " 
 		    	."'".$_GET["Pair_UUID"]."' AND Farmer_UUID = '".$_GET["Farmer_UUID"]."';");
+		}
+		else $missingFields = true;
+	}
+	elseif ($_GET['request'] == 'GetAllPair')
+	{
+		if (isset($_GET["Farmer_UUID"]))
+		{
+		    $result = $mysqli->query("SELECT * FROM `VerweidklokPairCollection` WHERE Farmer_UUID = '".$_GET["Farmer_UUID"]."';");
 		}
 		else $missingFields = true;
 	}
