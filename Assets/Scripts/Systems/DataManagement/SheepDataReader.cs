@@ -442,6 +442,18 @@ public class SheepDataReader : MonoBehaviour
         DeleteElement(sheep, Database.GetDatabase().sheeps, sheepDataViewer);
     }
 
+    public IEnumerator DeleteSheepCoroutine(SheepObject sheep)
+    {
+        var tmpSheep = sheep;
+        tmpSheep.isDeleted = 1;
+        yield return StartCoroutine(PutElement(tmpSheep));
+
+        // Make the dataviewer remove the button associated with the object
+        if (sheepDataViewer != null) sheepDataViewer.RemoveButton(sheep);
+
+        yield return 0;
+    }
+
     public void DeleteKoppel(PairCollection koppel)
     {
         if (DeleteElement(koppel, Database.GetDatabase().pairCollection, PairCollectionDataViewer))
@@ -458,7 +470,8 @@ public class SheepDataReader : MonoBehaviour
     {
         bConfirmToDelete = bDeleteToggle.isOn;
 
-        UnityEngine.Events.UnityAction sheepDeleteEvent = delegate { DeleteSheep(obj as SheepObject); };
+        UnityEngine.Events.UnityAction sheepDeleteEvent = delegate { StartCoroutine(DeleteSheepCoroutine(obj as SheepObject)); };
+        //UnityEngine.Events.UnityAction sheepDeleteEvent = delegate { DeleteSheep(obj as SheepObject); };
         UnityEngine.Events.UnityAction LotDeleteEvent = delegate { DeleteLot(obj as LotObject); };
         UnityEngine.Events.UnityAction sheepKoppelDeleteEvent = delegate { DeleteKoppel(obj as PairCollection); };
 

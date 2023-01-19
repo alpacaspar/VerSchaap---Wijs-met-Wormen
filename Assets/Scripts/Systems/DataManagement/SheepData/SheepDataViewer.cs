@@ -144,6 +144,7 @@ public class SheepDataViewer : DataViewer
     {
         foreach (SheepObject s in sheepDatabase)
         {
+            if (s.isDeleted == 1) continue;
             CreateNewButton(s);
         }
     }
