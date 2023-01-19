@@ -20685,8 +20685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6b3d0c82aff1446943929ff7146b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncButton: {fileID: 0}
-  buttonTimeout: 5
+  syncButton: {fileID: 1670516770}
 --- !u!1 &966994408
 GameObject:
   m_ObjectHideFlags: 0

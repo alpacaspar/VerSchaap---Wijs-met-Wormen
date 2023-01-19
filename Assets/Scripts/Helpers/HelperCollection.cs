@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class Helpers
 {
@@ -141,5 +142,20 @@ public static class Helpers
     public static string CodeToMessage(string response)
     {
         return (response + ": " + HttpMessage[(Status)int.Parse(response)]);
+    }
+
+    public static long StringToTimestamp(string input)
+    {
+        try
+        {
+            if (input.Length == 0) return 0;
+            return long.Parse(input);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(input);
+            DateTime dateTime = DateTime.Parse(input);
+            return((DateTimeOffset)dateTime).ToUnixTimeSeconds();
+        }
     }
 }

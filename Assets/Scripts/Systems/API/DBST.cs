@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -100,16 +101,17 @@ public class DBST : MonoBehaviour
                         {
                             if (sheepObj.UUID == shp.Sheep_UUID)
                             {
-                                if (sheepObj.lastModified < long.Parse(shp.Last_Modified))
+                                long lastModified = Helpers.StringToTimestamp(shp.Last_Modified);
+                                if (sheepObj.lastModified < lastModified)
                                 {
                                     sheepObj.sheepTag = shp.Sheep_Label;
                                     sheepObj.isDeleted = int.Parse(shp.Is_Deleted);
-                                    sheepObj.lastModified = long.Parse(shp.Last_Modified);
+                                    sheepObj.lastModified = lastModified;
                                     sheepObj.sex = (int.Parse(shp.Sheep_Female) == 0) ? Sex.Male : Sex.Female;
-                                    sheepObj.tsBorn = long.Parse(shp.Timestamp_Born);
+                                    sheepObj.tsBorn = Helpers.StringToTimestamp(shp.Timestamp_Born);
                                     Debug.Log("Locally updating sheep with UUID: " + sheepObj.UUID);
                                 }
-                                else
+                                else if (sheepObj.lastModified != lastModified)
                                 {
                                     Database.ProgressData(MethodType.Put, sheepObj);
                                     Debug.Log("Cloud updating sheep with UUID: " + sheepObj.UUID);
@@ -121,13 +123,15 @@ public class DBST : MonoBehaviour
                         }
                         if (!foundHit)
                         {
-                            SheepObject newSheep = new SheepObject();
-                            newSheep.sheepTag = shp.Sheep_Label;
-                            newSheep.UUID = shp.Sheep_UUID;
-                            newSheep.isDeleted = int.Parse(shp.Is_Deleted);
-                            newSheep.lastModified = long.Parse(shp.Last_Modified);
-                            newSheep.sex = (int.Parse(shp.Sheep_Female) == 0) ? Sex.Male : Sex.Female;
-                            newSheep.tsBorn = long.Parse(shp.Timestamp_Born);
+                            SheepObject newSheep = new SheepObject
+                            {
+                                sheepTag = shp.Sheep_Label,
+                                UUID = shp.Sheep_UUID,
+                                isDeleted = int.Parse(shp.Is_Deleted),
+                                lastModified = Helpers.StringToTimestamp(shp.Last_Modified),
+                                sex = (int.Parse(shp.Sheep_Female) == 0) ? Sex.Male : Sex.Female,
+                                tsBorn = Helpers.StringToTimestamp(shp.Timestamp_Born)
+                            };
                             Database.GetSheepCollection().Add(newSheep);
                             Debug.Log("Added sheep to local db with UUID: " + newSheep.UUID);
                         }
@@ -185,12 +189,14 @@ public class DBST : MonoBehaviour
                         }
                         if (!foundHit)
                         {
-                            WormObject newWorm = new WormObject();
-                            newWorm.UUID = wrm.Worm_UUID;
-                            newWorm.nonScienceName = wrm.Worm_Normal_Name;
-                            newWorm.scientificName = wrm.Worm_Latin_Name;
-                            newWorm.eggDescription = wrm.Worm_Egg_Description;
-                            newWorm.EPGDanger = float.Parse(wrm.Worm_EPG_Danger);
+                            WormObject newWorm = new WormObject
+                            {
+                                UUID = wrm.Worm_UUID,
+                                nonScienceName = wrm.Worm_Normal_Name,
+                                scientificName = wrm.Worm_Latin_Name,
+                                eggDescription = wrm.Worm_Egg_Description,
+                                EPGDanger = float.Parse(wrm.Worm_EPG_Danger)
+                            };
                             Database.GetWormCollection().Add(newWorm);
                             Debug.Log("Added worm to local db with UUID: " + newWorm.UUID);
                         }
@@ -236,15 +242,16 @@ public class DBST : MonoBehaviour
                         {
                             if (pairObj.UUID == pr.Pair_UUID)
                             {
-                                if (pairObj.lastModified < long.Parse(pr.Last_Modified))
+                                long lastModified = Helpers.StringToTimestamp(pr.Last_Modified);
+                                if (pairObj.lastModified < lastModified)
                                 {
                                     pairObj.pairCollectionName = pr.Pair_Name;
-                                    pairObj.tsRemoved = long.Parse(pr.TS_Removed);
-                                    pairObj.lastModified = long.Parse(pr.Last_Modified);
-                                    pairObj.tsFormed = long.Parse(pr.TS_Formed);
+                                    pairObj.tsRemoved = Helpers.StringToTimestamp(pr.TS_Removed);
+                                    pairObj.lastModified = lastModified;
+                                    pairObj.tsFormed = Helpers.StringToTimestamp(pr.TS_Formed);
                                     Debug.Log("Locally updating pair with UUID: " + pairObj.UUID);
                                 }
-                                else
+                                else if (pairObj.lastModified != lastModified)
                                 {
                                     Database.ProgressData(MethodType.Put, pairObj);
                                     Debug.Log("Cloud updating pair with UUID: " + pairObj.UUID);
@@ -256,12 +263,14 @@ public class DBST : MonoBehaviour
                         }
                         if (!foundHit)
                         {
-                            PairCollection newPair = new PairCollection();
-                            newPair.UUID = pr.Pair_UUID;
-                            newPair.pairCollectionName = pr.Pair_Name;
-                            newPair.tsRemoved = long.Parse(pr.TS_Removed);
-                            newPair.lastModified = long.Parse(pr.Last_Modified);
-                            newPair.tsFormed = long.Parse(pr.TS_Formed);
+                            PairCollection newPair = new PairCollection
+                            {
+                                UUID = pr.Pair_UUID,
+                                pairCollectionName = pr.Pair_Name,
+                                tsRemoved = Helpers.StringToTimestamp(pr.TS_Removed),
+                                lastModified = Helpers.StringToTimestamp(pr.Last_Modified),
+                                tsFormed = Helpers.StringToTimestamp(pr.TS_Formed)
+                            };
                             Database.GetPairCollection().Add(newPair);
                             Debug.Log("Added pair to local db with UUID: " + newPair.UUID);
                         }
@@ -307,18 +316,19 @@ public class DBST : MonoBehaviour
                         {
                             if (lotObj.UUID == lt.Lot_UUID)
                             {
-                                if (lotObj.lastModified < long.Parse(lt.Last_Modified))
+                                long lastModified = Helpers.StringToTimestamp(lt.Last_Modified);
+                                if (lotObj.lastModified < lastModified)
                                 {
                                     lotObj.surfaceSqrMtr = int.Parse(lt.Lot_Surface);
                                     lotObj.surfaceQuality = float.Parse(lt.Lot_Quality);
                                     lotObj.isDeleted = int.Parse(lt.Is_Deleted);
-                                    lotObj.lastModified = long.Parse(lt.Last_Modified);
-                                    lotObj.lastMowedTs = long.Parse(lt.Lot_Mowed_TS);
+                                    lotObj.lastModified = lastModified;
+                                    lotObj.lastMowedTs = Helpers.StringToTimestamp(lt.Lot_Mowed_TS);
                                     lotObj.state = lt.Lot_State_ID;
                                     lotObj.perceelName = lt.Lot_Name;
                                     Debug.Log("Locally updating lot with UUID: " + lotObj.UUID);
                                 }
-                                else
+                                else if (lotObj.lastModified != lastModified)
                                 {
                                     Database.ProgressData(MethodType.Put, lotObj);
                                     Debug.Log("Cloud updating lot with UUID: " + lotObj.UUID);
@@ -330,15 +340,17 @@ public class DBST : MonoBehaviour
                         }
                         if (!foundHit)
                         {
-                            LotObject newLot = new LotObject();
-                            newLot.UUID = lt.Lot_UUID;
-                            newLot.surfaceSqrMtr = int.Parse(lt.Lot_Surface);
-                            newLot.surfaceQuality = float.Parse(lt.Lot_Quality);
-                            newLot.isDeleted = int.Parse(lt.Is_Deleted);
-                            newLot.lastModified = long.Parse(lt.Last_Modified);
-                            newLot.lastMowedTs = long.Parse(lt.Lot_Mowed_TS);
-                            newLot.state = lt.Lot_State_ID;
-                            newLot.perceelName = lt.Lot_Name;
+                            LotObject newLot = new LotObject
+                            {
+                                UUID = lt.Lot_UUID,
+                                surfaceSqrMtr = int.Parse(lt.Lot_Surface),
+                                surfaceQuality = float.Parse(lt.Lot_Quality),
+                                isDeleted = int.Parse(lt.Is_Deleted),
+                                lastModified = Helpers.StringToTimestamp(lt.Last_Modified),
+                                lastMowedTs = Helpers.StringToTimestamp(lt.Lot_Mowed_TS),
+                                state = lt.Lot_State_ID,
+                                perceelName = lt.Lot_Name
+                            };
                             Database.GetLotCollection().Add(newLot);
                             Debug.Log("Added lot to local db with UUID: " + newLot.UUID);
                         }

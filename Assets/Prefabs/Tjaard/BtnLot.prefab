@@ -55,7 +55,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1338592553821737466}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 4514704409011349218}
   m_Layer: 5
   m_Name: BtnSheep
-  m_TagString: Untagged
+  m_TagString: button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -215,15 +215,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55d0847e5dde2354b930485e4d207a89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  txtPerceelName: {fileID: 2832064773506261584}
   button: {fileID: 2832064773502889358}
   btnDelete: {fileID: 7430259849556857893}
-  weide:
-    UUID: 
+  txtPerceelName: {fileID: 2832064773506261584}
+  Lot:
+    UUID: 6c84f112-b42c-441a-afbf-a6b0d0059442
+    isDeleted: 0
     perceelName: Perceel
     surfaceSqrMtr: 0
     surfaceQuality: 0
+    lastMowedTs: 0
+    state: 
     extraRemarks: []
+    lastModified: 0
   dataViewer: {fileID: 0}
   adviceDisplay: {fileID: 6660661353454239840}
 --- !u!114 &4514704409011349218
@@ -265,7 +269,7 @@ GameObject:
   - component: {fileID: 2832064773506261584}
   m_Layer: 5
   m_Name: TxtPerceelName
-  m_TagString: Untagged
+  m_TagString: Icon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -536,7 +540,7 @@ GameObject:
   - component: {fileID: 7430259849556857893}
   m_Layer: 5
   m_Name: BtnDefault
-  m_TagString: Untagged
+  m_TagString: button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

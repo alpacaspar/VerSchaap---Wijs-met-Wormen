@@ -33,11 +33,13 @@ public class SheepDataReader : MonoBehaviour
     private void OnEnable()
     {
         EventSystem<string>.AddListener(EventType.checkDatabaseResponse, CheckResponse);
+        EventSystem.AddListener(EventType.syncedWithDatabase, OnDatabaseLoaded);
     }
 
     private void OnDisable()
     {
         EventSystem<string>.RemoveListener(EventType.checkDatabaseResponse, CheckResponse);
+        EventSystem.RemoveListener(EventType.syncedWithDatabase, OnDatabaseLoaded);
     }
 
     public void CheckResponse(string methodUUID)
@@ -236,7 +238,7 @@ public class SheepDataReader : MonoBehaviour
     {
         btnDeleteCancel.onClick.AddListener(delegate { pnlDelete.SetActive(false); });
 
-        FarmerUUIDInputField.SetTextWithoutNotify("4dea7913-f4d7-42b3-be55-47f97b8576b2");
+        FarmerUUIDInputField.SetTextWithoutNotify(Database.GetDatabase().farmerUUID);
 
         sheepDataViewer = GetComponent<SheepDataViewer>();
         wormDataViewer = GetComponent<WormDataViewer>();
@@ -270,10 +272,17 @@ public class SheepDataReader : MonoBehaviour
     /// </summary>
     public void OnDatabaseLoaded()
     {
+        sheepDataViewer.RemoveAllButtons();
+        wormDataViewer.RemoveAllButtons();
+        pairCollectionDataViewer.RemoveAllButtons();
+        lotDataViewer.RemoveAllButtons();
+        
         pairCollectionDataViewer.CreateButtonsFromDB(Database.GetDatabase().pairCollection);
         wormDataViewer.CreateWormButtonsFromDB(Database.GetDatabase().worms);
         sheepDataViewer.CreateSheepButtonsFromDB(Database.GetDatabase().sheeps);
         lotDataViewer.CreateSheepButtonsFromDB(Database.GetDatabase().Lots);
+        
+        EventSystem.InvokeEvent(EventType.onSceneReady);
     }
 
     public T GetElementByUUID<T>(string uuid, List<T> list) where T : ObjectUUID

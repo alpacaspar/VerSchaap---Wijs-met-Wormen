@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5223344687176922949}
   m_Layer: 5
   m_Name: Scrollbar Horizontal
-  m_TagString: Untagged
+  m_TagString: contextBackground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 2250133491875100862}
   m_Layer: 5
   m_Name: Handle
-  m_TagString: Untagged
+  m_TagString: button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 2610735800372963412}
   m_Layer: 5
   m_Name: ObjectDetailsPanel
-  m_TagString: Untagged
+  m_TagString: contextBackground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -549,7 +549,7 @@ GameObject:
   - component: {fileID: 1273691146679897877}
   m_Layer: 5
   m_Name: Scrollbar Vertical
-  m_TagString: Untagged
+  m_TagString: contextBackground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -675,7 +675,7 @@ GameObject:
   - component: {fileID: 607232503894559613}
   m_Layer: 5
   m_Name: Handle
-  m_TagString: Untagged
+  m_TagString: button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

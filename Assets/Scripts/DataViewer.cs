@@ -63,9 +63,9 @@ public class DataViewer : MonoBehaviour
 
     public void RemoveAllButtons()
     {
-        for (int i = buttonContainer.childCount - 1; i >= 0; i--)
+        foreach (RectTransform tf in buttonContainer)
         {
-            Destroy(buttonContainer.GetChild(i).gameObject);
+            Destroy(tf.gameObject);
         }
     }
 }

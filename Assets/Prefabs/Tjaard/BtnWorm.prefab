@@ -55,7 +55,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1338592553821737466}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 3253659493155934979}
   m_Layer: 5
   m_Name: BtnSheep
-  m_TagString: Untagged
+  m_TagString: button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -242,12 +242,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WormUuidText: {fileID: 2832064773506261584}
+  WormNonScienceNameText: {fileID: 0}
   WormTypeText: {fileID: 7277122180076111537}
   button: {fileID: 2832064773502889358}
   btnDelete: {fileID: 7430259849556857893}
   worm:
     UUID: 
+    isDeleted: 0
     wormType: 0
+    nonScienceName: worm
+    scientificName: 
+    EPGDanger: 0
+    eggDescription: 
     effectiveMedicines: []
     resistences: []
     symptoms: []
@@ -267,7 +273,7 @@ GameObject:
   - component: {fileID: 2832064773506261584}
   m_Layer: 5
   m_Name: TxtUuid
-  m_TagString: Untagged
+  m_TagString: Icon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -402,7 +408,7 @@ GameObject:
   - component: {fileID: 7277122180076111537}
   m_Layer: 5
   m_Name: TxtGender
-  m_TagString: Untagged
+  m_TagString: Icon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -537,7 +543,7 @@ GameObject:
   - component: {fileID: 5758101376261529581}
   m_Layer: 5
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: Icon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -673,7 +679,7 @@ GameObject:
   - component: {fileID: 7430259849556857893}
   m_Layer: 5
   m_Name: BtnDefault
-  m_TagString: Untagged
+  m_TagString: button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
