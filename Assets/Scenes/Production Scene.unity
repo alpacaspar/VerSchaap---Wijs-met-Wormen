@@ -29477,7 +29477,7 @@ GameObject:
   - component: {fileID: 1419266849}
   m_Layer: 5
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33159,7 +33159,7 @@ GameObject:
   - component: {fileID: 1620046367}
   m_Layer: 5
   m_Name: background
-  m_TagString: background
+  m_TagString: button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

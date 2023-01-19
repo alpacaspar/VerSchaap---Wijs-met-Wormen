@@ -96,12 +96,6 @@ public class SheepDataReader : MonoBehaviour
     private IEnumerator PostSheeps()
     {
         yield return PostCollection(Database.GetDatabase().sheeps);
-        /*
-        foreach (var sheep in Database.GetDatabase().sheeps)
-        {
-            yield return StartCoroutine(PostElement(sheep));
-        }
-        */
     }
 
     private IEnumerator PutSheeps()
