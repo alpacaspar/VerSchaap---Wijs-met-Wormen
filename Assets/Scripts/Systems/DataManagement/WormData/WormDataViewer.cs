@@ -62,10 +62,10 @@ public class WormDataViewer : DataViewer
         }
     }
 
-    public void UpdateImage(string sheepName)
+    public void UpdateImage(string wormName)
     {
         Sprite spr = null;
-        wormImages.TryGetValue(sheepName, out spr);
+        wormImages.TryGetValue(wormName, out spr);
         wormImg.sprite = spr;
     }
 
@@ -85,20 +85,7 @@ public class WormDataViewer : DataViewer
 
     public void SetupDetailsPanel()
     {
-        WormType[] valsWormType = (WormType[])Enum.GetValues(typeof(WormType));
-        /*
-        List<TMP_Dropdown.OptionData> options = valsWormType.Select(val => new TMP_Dropdown.OptionData(val.ToString())).ToList();
-        
-        inputWormType.AddOptions(options);
-        options = new List<TMP_Dropdown.OptionData>();
-
-        foreach (var val in valsWormType)
-        {
-            options.Add(new TMP_Dropdown.OptionData(val.ToString()));
-        }
-
-        inputWormType.onValueChanged.AddListener(delegate { UpdateImage(inputWormType.captionText.text); });
-        */
+        //WormType[] valsWormType = (WormType[])Enum.GetValues(typeof(WormType));
     }
 
     /// <summary>
@@ -113,17 +100,7 @@ public class WormDataViewer : DataViewer
         detailsPanelTitle.text = worm.nonScienceName;
         inputNonScienceName.SetTextWithoutNotify(worm.nonScienceName);
         inputWormType.SetTextWithoutNotify(worm.wormType.ToString());
-        inputDescription.SetTextWithoutNotify(worm.extraRemarks.Count > 0 ? worm.extraRemarks[0] : "");
+        inputDescription.SetTextWithoutNotify(worm.eggDescription);
         UpdateImage(selectedWorm.wormType.ToString());
-
-        /*
-        // Set the worm type input dropdown to the correct value
-        for (int i = 0; i < inputWormType.options.Count; i++)
-        {
-            if (!string.Equals(inputWormType.options[i].text, worm.wormType.ToString(), StringComparison.CurrentCultureIgnoreCase)) continue;
-            inputWormType.value = i;
-            break;
-        }
-        */
     }
 }

@@ -82,10 +82,14 @@ public class SheepDataViewer : DataViewer
         }
     }
 
-    public void UpdateSheepImage(string sheepName)
+    /// <summary>
+    /// Updates the image of the sheep
+    /// </summary>
+    /// <param name="sheepSpecies"></param>
+    public void UpdateSheepImage(string sheepSpecies)
     {
         Sprite spr = null;
-        sheepImages.TryGetValue(sheepName, out spr);
+        sheepImages.TryGetValue(sheepSpecies, out spr);
         sheepImg.sprite = spr;
     }
 
@@ -103,13 +107,11 @@ public class SheepDataViewer : DataViewer
         {
             SetPanelVisibilty(false);
             panelMode = DetailsPanelMode.None;
-            //bAddingSheep = false;
         });
 
         btnAddSheep.onClick.AddListener(delegate
         {
             panelMode = DetailsPanelMode.CreatingElement;
-            //bAddingSheep = true;
             selectedSheep = new SheepObject
             {
                 tsBorn = tmpTime.ToUnixTimeSeconds()
@@ -149,12 +151,20 @@ public class SheepDataViewer : DataViewer
         }
     }
 
+    /// <summary>
+    /// Moves the scrollview to a specific element
+    /// </summary>
+    /// <param name="target">element to scroll to</param>
     public void MoveScrollViewToElement(RectTransform target)
     {
         Canvas.ForceUpdateCanvases();
         buttonContainer.anchoredPosition = (Vector2)scrollRect.transform.InverseTransformPoint(buttonContainer.position) - (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
     }
     
+    /// <summary>
+    /// Updates the text of the birthdate field
+    /// </summary>
+    /// <param name="time">birthdate</param>
     public void UpdateTSButton(DateTimeOffset time)
     {
         string tsBornString = time.Day + "-" + time.Month + "-" + time.Year;
@@ -186,6 +196,10 @@ public class SheepDataViewer : DataViewer
         });
     }
 
+    /// <summary>
+    /// Sets the visibilty of the overview and details panels
+    /// </summary>
+    /// <param name="showDetails">show the details panel</param>
     public void SetPanelVisibilty(bool showDetails)
     {
         overviewPanel.SetActive(!showDetails);

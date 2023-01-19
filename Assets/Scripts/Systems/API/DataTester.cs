@@ -7,15 +7,15 @@ using Random = UnityEngine.Random;
 public class DataTester : MonoBehaviour
 {
     // This should be replaced with a GET from the database
-    private List<PairCollection> koppels = new List<PairCollection>();
+    private List<PairCollection> pairCollections = new List<PairCollection>();
 
     void Start()
     {
         // populate file
-        InitKoppels(5);
-        //PopulateSheeps(250);
-        CreateKoppels();
-        //PopulateWorms(5);
+        InitPairCollections(5);
+        PopulateSheeps(250);
+        CreatePairCollections();
+        PopulateWorms(5);
         PopulateSurfaces(20);
     }
 
@@ -68,9 +68,9 @@ public class DataTester : MonoBehaviour
                 newSheep.weight.Add(weight);
             }
 
-            var koppel = koppels[Random.Range(0, koppels.Count)];
-            newSheep.pairCollectionID = koppel.UUID;
-            koppel.allSheep.Add(newSheep.UUID);
+            var pairCollection = pairCollections[Random.Range(0, pairCollections.Count)];
+            newSheep.pairCollectionID = pairCollection.UUID;
+            pairCollection.allSheep.Add(newSheep.UUID);
             string[] response = WurmAPI.MethodHandler(MethodType.Post, newSheep);
             Debug.Log(Helpers.CodeToMessage(response[0]));
         }
@@ -123,27 +123,24 @@ public class DataTester : MonoBehaviour
     /// <summary>
     ///     Make sheep groups
     /// </summary>
-    public void InitKoppels(int quantity)
+    public void InitPairCollections(int quantity)
     {
         for (int i = 0; i < quantity; i++)
         {
-            PairCollection newKoppel = new PairCollection()
+            PairCollection newPair = new PairCollection()
             {
                 pairCollectionName = $"Koppel {i + 1}"
             };
-            newKoppel.UUID = Helpers.GenerateUUID();
-            koppels.Add(newKoppel);
-
-            //string[] response = WurmAPI.MethodHandler(MethodType.Post, newKoppel);
-            //Debug.Log(Helpers.CodeToMessage(response));
+            newPair.UUID = Helpers.GenerateUUID();
+            pairCollections.Add(newPair);
         }
     }
 
-    public void CreateKoppels()
+    public void CreatePairCollections()
     {
-        foreach (var newKoppel in koppels)
+        foreach (var newPair in pairCollections)
         {
-            string[] response = WurmAPI.MethodHandler(MethodType.Post, newKoppel);
+            string[] response = WurmAPI.MethodHandler(MethodType.Post, newPair);
             Debug.Log(Helpers.CodeToMessage(response[0]));
         }
     }

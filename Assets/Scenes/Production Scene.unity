@@ -1683,13 +1683,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a828a4daf0e5420439747aa394da041d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topAdviceDisplay: {fileID: 660192740}
-  topAdviceTextComponent: {fileID: 2014915991}
-  quickAdviceDisplays:
-  - quickAdviceDisplay: {fileID: 1739774160}
-    lotNameTextComponent: {fileID: 2010563765}
-  - quickAdviceDisplay: {fileID: 1975967305}
-    lotNameTextComponent: {fileID: 972963297}
+  topAdviceDisplay: {fileID: 0}
+  topAdviceTextComponent: {fileID: 0}
+  quickAdviceDisplays: []
 --- !u!1 &78565847
 GameObject:
   m_ObjectHideFlags: 0
@@ -5625,12 +5621,12 @@ GameObject:
   - component: {fileID: 245061708}
   - component: {fileID: 245061707}
   m_Layer: 5
-  m_Name: InputKoppel
+  m_Name: InputPair
   m_TagString: contextBackground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &245061706
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10485,12 +10481,12 @@ GameObject:
   - component: {fileID: 513175344}
   - component: {fileID: 513175343}
   m_Layer: 5
-  m_Name: TxtKoppel
+  m_Name: TxtPair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &513175342
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20689,7 +20685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6b3d0c82aff1446943929ff7146b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncButton: {fileID: 1670516770}
+  syncButton: {fileID: 0}
   buttonTimeout: 5
 --- !u!1 &966994408
 GameObject:
@@ -40441,8 +40437,8 @@ MonoBehaviour:
   sheepDataFile: {fileID: 4900000, guid: 9844226eba79cc24f9c4ac80df32d5e1, type: 3}
   sheepDataViewer: {fileID: 0}
   wormDataViewer: {fileID: 0}
-  LotDataViewer: {fileID: 0}
-  PairCollectionDataViewer: {fileID: 0}
+  lotDataViewer: {fileID: 0}
+  pairCollectionDataViewer: {fileID: 0}
   pnlDelete: {fileID: 63685820}
   btnDeleteConfirm: {fileID: 1886281884}
   btnDeleteCancel: {fileID: 2025242546}
@@ -40471,7 +40467,7 @@ MonoBehaviour:
   inputTag: {fileID: 376596196}
   inputSex: {fileID: 1270109594}
   inputSheepType: {fileID: 134946910}
-  inputKoppel: {fileID: 245061707}
+  inputPairCollection: {fileID: 245061707}
   inputTSBorn: {fileID: 1883502354}
   calendarWidget: {fileID: 1843537006}
   graph: {fileID: 757051721}
@@ -40481,6 +40477,7 @@ MonoBehaviour:
   btnAddSheep: {fileID: 415465714}
   selectedSheep:
     UUID: 
+    isDeleted: 0
     sheepTag: NL-000000-0-00000
     tsBorn: 0
     weight: []
@@ -40490,7 +40487,6 @@ MonoBehaviour:
     extraRemarks: []
     pairCollectionID: 
     lastModified: 0
-    isDeleted: 0
   sheepDataReader: {fileID: 1972799791}
   scrollRect: {fileID: 832735549}
 --- !u!114 &1972799794
@@ -40519,6 +40515,7 @@ MonoBehaviour:
   wormImg: {fileID: 1991703779}
   selectedWorm:
     UUID: 
+    isDeleted: 0
     wormType: 0
     nonScienceName: worm
     scientificName: 
@@ -40559,6 +40556,7 @@ MonoBehaviour:
   btnAddElement: {fileID: 1235022871}
   selectedElement:
     UUID: 
+    isDeleted: 0
     perceelName: Perceel
     surfaceSqrMtr: 0
     surfaceQuality: 0
@@ -40566,7 +40564,6 @@ MonoBehaviour:
     state: 
     extraRemarks: []
     lastModified: 0
-    isDeleted: 0
   sheepDataReader: {fileID: 0}
 --- !u!114 &1972799796
 MonoBehaviour:
@@ -40600,6 +40597,7 @@ MonoBehaviour:
   btnShowAllSheep: {fileID: 23740449}
   selectedElement:
     UUID: 
+    isDeleted: 0
     pairCollectionName: koppel
     tsFormed: 0
     tsRemoved: 0

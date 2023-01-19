@@ -247,8 +247,22 @@ public class SheepDataReader : MonoBehaviour
         wormDataViewer.dataReader = this;
         sheepDataViewer.sheepDataReader = this;
         lotDataViewer.sheepDataReader = this;
-        
+
         OnDatabaseLoaded();
+    }
+
+    private IEnumerator TestFunc()
+    {
+        var list = Database.GetDatabase().sheeps;
+
+        foreach (var s in list)
+        {
+            s.sheepType = (SheepType)UnityEngine.Random.Range(0, Enum.GetNames(typeof(SheepType)).Length - 1); //-1 to exclude 'other'
+            yield return StartCoroutine(PutElement(s));
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield return 0;
     }
 
     /// <summary>
