@@ -10,6 +10,8 @@ public enum EventType
     checkDatabaseResponse,
     onSceneReady,
     onAlarmRang,
+    syncedWithDatabase,
+    performSync, // this is a heavy method!!
 }
 
 public enum MethodType
