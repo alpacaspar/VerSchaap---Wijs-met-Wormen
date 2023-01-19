@@ -22,11 +22,13 @@ public class DBST : MonoBehaviour
     private void OnEnable()
     {
         EventSystem.AddListener(EventType.performSync, UpdateFromCloud);
+        EventSystem.AddListener(EventType.hardSetFarmUUID, HardSetFarmerUUID);
     }
 
     private void OnDisable()
     {
         EventSystem.RemoveListener(EventType.performSync, UpdateFromCloud);
+        EventSystem.RemoveListener(EventType.hardSetFarmUUID, HardSetFarmerUUID);
     }
 
     /// <summary>
@@ -39,6 +41,17 @@ public class DBST : MonoBehaviour
         {
             StartCoroutine(PullFromDatabase());
         }
+    }
+
+    /// <summary>
+    ///     Dirty method used for testing purposes
+    /// </summary>
+    public void HardSetFarmerUUID()
+    {
+        TemporalDatabaseData curDb = Database.GetDatabase();
+        curDb.farmerUUID = "48b5722d-0b82-4b88-8aaf-3934f423110d";
+        Database.WriteDatabase(curDb);
+        EventSystem.InvokeEvent(EventType.updateFarmBtn);
     }
 
     private IEnumerator PullFromDatabase()

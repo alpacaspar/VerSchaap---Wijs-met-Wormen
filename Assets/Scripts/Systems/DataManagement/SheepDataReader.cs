@@ -34,12 +34,14 @@ public class SheepDataReader : MonoBehaviour
     {
         EventSystem<string>.AddListener(EventType.checkDatabaseResponse, CheckResponse);
         EventSystem.AddListener(EventType.syncedWithDatabase, OnDatabaseLoaded);
+        EventSystem.AddListener(EventType.updateFarmBtn, UpdateButtonFarmUUID);
     }
 
     private void OnDisable()
     {
         EventSystem<string>.RemoveListener(EventType.checkDatabaseResponse, CheckResponse);
         EventSystem.RemoveListener(EventType.syncedWithDatabase, OnDatabaseLoaded);
+        EventSystem.RemoveListener(EventType.updateFarmBtn, UpdateButtonFarmUUID);
     }
 
     public void CheckResponse(string methodUUID)
@@ -237,8 +239,7 @@ public class SheepDataReader : MonoBehaviour
     private void Start()
     {
         btnDeleteCancel.onClick.AddListener(delegate { pnlDelete.SetActive(false); });
-
-        FarmerUUIDInputField.SetTextWithoutNotify(Database.GetDatabase().farmerUUID);
+        UpdateButtonFarmUUID();
 
         sheepDataViewer = GetComponent<SheepDataViewer>();
         wormDataViewer = GetComponent<WormDataViewer>();
@@ -251,6 +252,11 @@ public class SheepDataReader : MonoBehaviour
         lotDataViewer.sheepDataReader = this;
 
         OnDatabaseLoaded();
+    }
+
+    public void UpdateButtonFarmUUID()
+    {
+        FarmerUUIDInputField.SetTextWithoutNotify(Database.GetDatabase().farmerUUID);
     }
 
     private IEnumerator TestFunc()

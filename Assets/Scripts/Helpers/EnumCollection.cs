@@ -12,6 +12,8 @@ public enum EventType
     onAlarmRang,
     syncedWithDatabase,
     performSync, // this is a heavy method!!
+    hardSetFarmUUID,
+    updateFarmBtn,
 }
 
 public enum MethodType

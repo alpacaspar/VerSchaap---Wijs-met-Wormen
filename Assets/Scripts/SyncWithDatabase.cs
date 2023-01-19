@@ -22,6 +22,11 @@ public class SyncWithDatabase : MonoBehaviour
         EventSystem.InvokeEvent(EventType.performSync);
     }
 
+    public void SetFarmerUUID()
+    {
+        EventSystem.InvokeEvent(EventType.hardSetFarmUUID);
+    }
+
     private void OnDatabaseSynced()
     {
         syncButton.interactable = true;

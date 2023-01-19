@@ -260,7 +260,7 @@ public static class Database
     }
 
     // Save database
-    private static void WriteDatabase(TemporalDatabaseData data)
+    public static void WriteDatabase(TemporalDatabaseData data)
     {
         // write to a clean file
         File.Delete(filePath);
