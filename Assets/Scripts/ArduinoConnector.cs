@@ -7,36 +7,45 @@ public class ArduinoConnector : MonoBehaviour
 
     private void OnEnable()
     {
-        EventSystem<LotObject>.AddListener(EventType.onAlarmRang, OnAlarmRang);
+        EventSystem.AddListener(EventType.onAlarmRang, OnAlarmRang);
     }
 
     private void OnDisable()
     {
-        EventSystem<LotObject>.RemoveListener(EventType.onAlarmRang, OnAlarmRang);
+        EventSystem.RemoveListener(EventType.onAlarmRang, OnAlarmRang);
     }
 
-    private void OnAlarmRang(LotObject LotObject)
+    private void OnAlarmRang()
     {
-        serialController.SendSerialMessage("verLotn");
-        Debug.Log("Sent verLotn to Serial Controller...");
         messageSent = false;
     }
 
     private void Start()
     {
         serialController = FindObjectOfType<SerialController>();
-        
-        // For testing only
-        EventSystem<LotObject>.InvokeEvent(EventType.onAlarmRang, new LotObject());
     }
 
-    // use this function if messages are not sent correctly through 
-    // private void Update()
-    // {
-    //     if (messageSent) return;
-    //
-    //     serialController.SendSerialMessage("verLotn");
-    //
-    //     messageSent = true;
-    // }
+    private void Update()
+    {
+        if (!messageSent)
+        {
+            serialController.SendSerialMessage("A");
+
+            messageSent = true;
+        }
+
+        string message = serialController.ReadSerialMessage();
+
+        if (message == null)
+            return;
+
+        // Check if the message is plain data or a connect/disconnect event.
+        if (ReferenceEquals(message, SerialController.SERIAL_DEVICE_CONNECTED))
+            Debug.Log("Connection established");
+        else if (ReferenceEquals(message, SerialController.SERIAL_DEVICE_DISCONNECTED))
+            Debug.Log("Connection attempt failed or disconnection detected");
+        else
+            Debug.Log("Message arrived: " + message);
+
+    }
 }
