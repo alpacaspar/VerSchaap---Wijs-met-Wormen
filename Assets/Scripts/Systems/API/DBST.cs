@@ -66,7 +66,9 @@ public class DBST : MonoBehaviour
 
     private IEnumerator PullAllSheeps(string url)
     {
-        string uri = "?request=GetAllSheep&Farmer_UUID" + Database.GetDatabase().farmerUUID;
+        string uri = "?request=GetAllSheep&Farmer_UUID=" + Database.GetDatabase().farmerUUID;
+        
+        Debug.Log(url + uri);
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url + uri))
         {
@@ -88,6 +90,8 @@ public class DBST : MonoBehaviour
                 case UnityWebRequest.Result.Success:
                     string data = webRequest.downloadHandler.text;
 
+                    Debug.Log(data);
+                    
                     SheepCollectionJson sheepCollection = JsonUtility.FromJson<SheepCollectionJson>("{\"Sheeps\":" + data + "}");
                     foreach (SheepJSON shp in sheepCollection.Sheeps)
                     {
@@ -202,7 +206,7 @@ public class DBST : MonoBehaviour
 
     private IEnumerator PullAllPairs(string url)
     {
-        string uri = "?request=GetAllPair&Farmer_UUID" + Database.GetDatabase().farmerUUID;
+        string uri = "?request=GetAllPair&Farmer_UUID=" + Database.GetDatabase().farmerUUID;
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url + uri))
         {
@@ -273,7 +277,7 @@ public class DBST : MonoBehaviour
 
     private IEnumerator PullAllLots(string url)
     {
-        string uri = "?request=GetAllLot&Farmer_UUID" + Database.GetDatabase().farmerUUID;
+        string uri = "?request=GetAllLot&Farmer_UUID=" + Database.GetDatabase().farmerUUID;
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url + uri))
         {

@@ -8,6 +8,8 @@ public class QuickAdviceDisplay : MonoBehaviour
     private Image[] dots;
     private Image[] Dots => dots ??= GetComponentsInChildren<Image>();
 
+    private bool isActive;
+
     // /// <summary>
     // /// Test function. Uses the surface quality instead of the value from the verweid formula
     // /// </summary>
@@ -29,6 +31,14 @@ public class QuickAdviceDisplay : MonoBehaviour
         for (int i = 0; i < Dots.Length; i++)
         {
             Dots[i].color = i < amount ? colorGradient.Evaluate((amount - 1) / (Dots.Length - 1f)) : Color.gray;
+        }
+    }
+    
+    public void SetActive(bool value)
+    {
+        foreach (var dot in dots)
+        {
+            dot.enabled = value;
         }
     }
 }

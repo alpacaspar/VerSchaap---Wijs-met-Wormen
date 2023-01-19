@@ -1,25 +1,29 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SyncWithDatabase : MonoBehaviour
 {
     [SerializeField] private Button syncButton;
-    [SerializeField] private float buttonTimeout = 5;
-
     private bool isRunning;
+
+    private void OnEnable()
+    {
+        EventSystem.AddListener(EventType.syncedWithDatabase, OnDatabaseSynced);
+    }
+
+    private void OnDisable()
+    {
+        EventSystem.RemoveListener(EventType.syncedWithDatabase, OnDatabaseSynced);
+    }
     
     public void Sync()
     {
-        StartCoroutine(SyncDatabase());
+        syncButton.interactable = false;
+        EventSystem.InvokeEvent(EventType.performSync);
     }
 
-    private IEnumerator SyncDatabase()
+    private void OnDatabaseSynced()
     {
-        syncButton.interactable = false;
-
-        yield return new WaitForSeconds(buttonTimeout);
-        
         syncButton.interactable = true;
     }
 }
