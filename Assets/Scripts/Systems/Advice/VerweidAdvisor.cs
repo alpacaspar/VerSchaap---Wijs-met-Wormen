@@ -1,10 +1,11 @@
 using System;
 using UnityEngine;
 using System.Linq;
+using Unity.VisualScripting;
 
 public static class VerweidAdvisor
-{	
-	
+{
+	public static WeatherInfo weatherInfo;
 	
 	static VerweidAdvisor()
 	{
@@ -17,6 +18,8 @@ public static class VerweidAdvisor
 		float surfaceSqrMtr = 400;
 		int nSheep = 100;
 		CalcValue(info, surfaceSqrMtr, nSheep);
+
+		weatherInfo = info;
 	}
 
 	private static void FireCalcValue()
@@ -46,7 +49,16 @@ public static class VerweidAdvisor
 
 	public static double CalcValue(WeatherInfo weatherInfo = null, float surfaceSqrMtr = 100, int nSheep = 1)
 	{
-		if (weatherInfo == null) return -1;
+		WeatherInfo currentWeatherInfo;
+		if (VerweidAdvisor.weatherInfo != null)
+		{
+			currentWeatherInfo = VerweidAdvisor.weatherInfo;
+		}
+		else if (weatherInfo != null)
+		{
+			currentWeatherInfo = weatherInfo;
+		}
+		else return -1;
 
 		double c = 1.4; // dialy herbage dry matter intake per host
 		double B = 2000; // standing biomass
@@ -71,7 +83,7 @@ public static class VerweidAdvisor
 		Debug.Log("verweidadvisor weerbericht:");
 
 		double[] temperatures = new double[24];
-		Array.Copy(weatherInfo.hourly.temperature_2m, 0, temperatures, 0, 24);
+		Array.Copy(currentWeatherInfo.hourly.temperature_2m, 0, temperatures, 0, 24);
 		double temperature_max = temperatures.Max();
 		double temperature_min = temperatures.Min();
 		double temperature_average = temperatures.Average();
@@ -81,7 +93,7 @@ public static class VerweidAdvisor
 
 		// Neerslag doet wat raars met de formule, maakt Q0 vaak 0 bij lage waardes
 		double[] precipitation = new double[24];
-		Array.Copy(weatherInfo.hourly.precipitation, 0, precipitation, 0, 24);
+		Array.Copy(currentWeatherInfo.hourly.precipitation, 0, precipitation, 0, 24);
 		Debug.Log("totale neerslag = " + precipitation.Sum());
  
 		//double[] neerslag = { 19, 17, 22, 12, 20, 24, 28, 21, 12, 14, 14, 20 };

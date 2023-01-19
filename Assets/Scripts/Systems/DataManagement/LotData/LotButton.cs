@@ -30,6 +30,6 @@ public class LotButton : ObjectUUIDButton
         Lot = _Lot;
         dataViewer = _dataViewer;
         txtPerceelName.text = Lot.perceelName;
-        adviceDisplay.UpdateDotsBasedOnQuality(Lot.surfaceQuality);
+        adviceDisplay.UpdateDots((float)VerweidAdvisor.CalcValue(null, Lot.surfaceSqrMtr, Lot.currentSheeps.Count));
     }
 }
