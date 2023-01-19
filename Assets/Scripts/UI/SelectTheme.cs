@@ -53,29 +53,61 @@ public class SelectTheme : MonoBehaviour
         foreach (GameObject gameObj in BackgroundImageComponents)
         {
             Image image = gameObj.GetComponent<Image>();
-            if (image == null) continue;
-            image.color = theme.backgroundColor0;
+            if (image != null)
+            {
+                image.color = theme.backgroundColor0;
+            }
+
+            TextMeshProUGUI text = gameObj.GetComponent<TextMeshProUGUI>();
+            if (text != null)
+            {
+                text.color = theme.backgroundColor0;
+            }
         }
         
         foreach (GameObject gameObj in ContextBackgroundImageComponents)
         {
             Image image = gameObj.GetComponent<Image>();
-            if (image == null) continue;
-            image.color = theme.backgroundColor1;
+            if (image != null)
+            {
+                image.color = theme.backgroundColor1;
+            }
+            
+            TextMeshProUGUI text = gameObj.GetComponent<TextMeshProUGUI>();
+            if (text != null)
+            {
+                text.color = theme.backgroundColor1;
+            }
         }
 
         foreach (GameObject gameObj in ButtonImageComponents)
         {
             Image image = gameObj.GetComponent<Image>();
-            if (image == null) continue;
-            image.color = theme.buttonColor;
+            if (image != null)
+            {
+                image.color = theme.buttonColor;
+            }
+            
+            TextMeshProUGUI text = gameObj.GetComponent<TextMeshProUGUI>();
+            if (text != null)
+            {
+                text.color = theme.buttonColor;
+            }
         }
 
         foreach (GameObject gameObj in IconImageComponents)
         {
             Image image = gameObj.GetComponent<Image>();
-            if (image == null) continue;
-            image.color = theme.iconColor;
+            if (image != null)
+            {
+                image.color = theme.iconColor;
+            }
+            
+            TextMeshProUGUI text = gameObj.GetComponent<TextMeshProUGUI>();
+            if (text != null)
+            {
+                text.color = theme.iconColor;
+            }
         }
     }
 
