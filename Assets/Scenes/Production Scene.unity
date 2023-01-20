@@ -21068,7 +21068,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df5a43f35a7d5984eaf96dca9bbaee2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theme: {fileID: 11400000, guid: a2beb52da7423ad4cbea858e9ea807d2, type: 2}
+  theme: {fileID: 11400000, guid: 54f5e6186d13b484c958d9a5c6025d3f, type: 2}
 --- !u!114 &961692736
 MonoBehaviour:
   m_ObjectHideFlags: 0
