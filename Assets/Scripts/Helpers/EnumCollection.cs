@@ -252,21 +252,3 @@ public enum WeatherType
     ThunderstormSlightHail = 96,    // Only in Central Europe.
     ThunderstormHeavyHail = 99, // Only in Central Europe.
 }
-
-public enum Quality
-{
-    Excellent,
-    VeryGood,
-    Good,
-    Mediocre,
-    Poor,
-    VeryPoor,
-    Appalling
-}
-
-public enum SheepAge
-{
-    Lamb,
-    Adult,
-    Elder
-}
