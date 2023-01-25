@@ -26,7 +26,7 @@ public class WebTester : MonoBehaviour
         SheepObject newSheep = new SheepObject();
         newSheep.UUID = "4dea7913-f4d7-42b3-be55-47f97b8576b2";
         Debug.Log("Asking for sheep label");
-        string[] result = Database.ProgressData(MethodType.Get, newSheep);
+        string[] result = WurmAPI.MethodHandler(MethodType.Get, newSheep);
         Debug.Log(Helpers.CodeToMessage(result[0]));
         yield return new WaitForEndOfFrame();
 
