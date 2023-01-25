@@ -142,11 +142,4 @@ public static class Dictionaries
         { Sex.Female,   "Ooi" },
         { Sex.Male,     "Ram" }
     };
-
-    public static Dictionary<SheepAge, string> sheepAges = new Dictionary<SheepAge, string>
-    {
-        { SheepAge.Lamb,    "Lam"},
-        { SheepAge.Adult,   "Volwassenen"},
-        { SheepAge.Elder,   "Ouderling"}
-    };
 }
