@@ -1,0 +1,755 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AdviceDisplayManager" Collapsed="true">
+    <Position X="19" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>iAAAAAAAACAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\AdviceDisplayManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AlarmAudioSource" Collapsed="true">
+    <Position X="22.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAQAAAAEAAIAAAAAAAACAA=</HashCode>
+      <FileName>Assets\Scripts\AlarmAudioSource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ArduinoConnector" Collapsed="true">
+    <Position X="24.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQAAAAABCAAAAAAAAAAAAAAAABAAAAIAAAAAAAACAA=</HashCode>
+      <FileName>Assets\Scripts\ArduinoConnector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CodingStandards" Collapsed="true">
+    <Position X="26" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAABAAAEAAAAJAAAAAwAAAAABAIAAAAA=</HashCode>
+      <FileName>Assets\Scripts\CodingStandards.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataViewer" Collapsed="true">
+    <Position X="8" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAgAAAAAAAAAAACABAAAAAAAAQAAAAAAAAYAA=</HashCode>
+      <FileName>Assets\Scripts\DataViewer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CronScheduler" Collapsed="true">
+    <Position X="29.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAgAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\CronScheduler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Helpers" Collapsed="true">
+    <Position X="20.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>YAAAgAAAAAAAAAQQAAACACAAAAIQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\HelperCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LotCollectionJson" Collapsed="true">
+    <Position X="22.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\JsonBodies.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LotJSON" Collapsed="true">
+    <Position X="24.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAABBAAIAAAAAAAAAAJAAAAAAAEAQABA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\JsonBodies.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SheepCollectionJson" Collapsed="true">
+    <Position X="27.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\JsonBodies.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SheepJSON" Collapsed="true">
+    <Position X="17.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAgAABBAAAAAQAAAAAAAAAAAABAAAAUAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\JsonBodies.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WormCollectionJson" Collapsed="true">
+    <Position X="20.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\JsonBodies.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WormJSON" Collapsed="true">
+    <Position X="22.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAQAAAAAAAgQAAAAQAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\JsonBodies.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PairCollectionJson" Collapsed="true">
+    <Position X="19" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\JsonBodies.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PairJSON" Collapsed="true">
+    <Position X="20.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAEABBAgAAAAAAIAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\JsonBodies.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TemporalDatabaseData" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="27.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAQAAAAAAAAEAAAAAAAAAAAAAAAMAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\ObjectCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ObjectUUID" Collapsed="true">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\ObjectCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LotObject" Collapsed="true">
+    <Position X="4.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAIAAAAAgBAAAAAAAAAAAAAAAAAgAEgAAAAgIAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\ObjectCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SheepObject" Collapsed="true">
+    <Position X="7" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAEAAIAAAAQAAAAABAAAAgAgABAAAgAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\ObjectCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WormObject" Collapsed="true">
+    <Position X="9.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAgAgAAQAAAAAAAAAgAAAAQgEAAAAAAAgAAAAE=</HashCode>
+      <FileName>Assets\Scripts\Helpers\ObjectCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PairCollection" Collapsed="true">
+    <Position X="11.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAIAAAAQAABAI=</HashCode>
+      <FileName>Assets\Scripts\Helpers\ObjectCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dictionaries" Collapsed="true">
+    <Position X="26" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAABAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\ObjectCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StringTransformer" Collapsed="true">
+    <Position X="20.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\StringTransformer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HomeScreenAdvice" Collapsed="true">
+    <Position X="22.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAQAAAACAAAAQAAAAAAAAAgAAAAAAABABA=</HashCode>
+      <FileName>Assets\Scripts\HomeScreenAdvice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NetworkTest" Collapsed="true">
+    <Position X="26" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\NetworkTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectUUIDButton" Collapsed="true">
+    <Position X="13.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABBACAAAAAAEAQAAAAIAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Assets\Scripts\ObjectUUIDButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PairCollectionDataViewer" Collapsed="true">
+    <Position X="9.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAYAAACABAAkQACgAgCAABgIEAKAAAAAERAJA4QA=</HashCode>
+      <FileName>Assets\Scripts\PairCollectionDataViewer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DisplayPanel" Collapsed="true">
+    <Position X="27.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAQAAAAA=</HashCode>
+      <FileName>Assets\Scripts\PanelDisplayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PanelDisplayer" Collapsed="true">
+    <Position X="22.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACACgAAAAAAAAAAAAAAAAAAAAAAAgwAAAAA=</HashCode>
+      <FileName>Assets\Scripts\PanelDisplayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickAdviceDisplay" Collapsed="true">
+    <Position X="24.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABBAAAAQABAAAAAAABAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Assets\Scripts\QuickAdviceDisplay.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShowcaseDebug" Collapsed="true">
+    <Position X="19" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\ShowcaseDebug.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SyncWithDatabase" Collapsed="true">
+    <Position X="22.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAADAAAAAgAAAAAAAAAAIAgAAAAAACAA=</HashCode>
+      <FileName>Assets\Scripts\SyncWithDatabase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Advice" Collapsed="true">
+    <Position X="7" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\Advice\Advice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BaseAdvice" Collapsed="true">
+    <Position X="4.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\Advice\BaseAdvice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InputAdvice" Collapsed="true">
+    <Position X="7" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\Advice\InputAdvice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VerweidAdvisor" Collapsed="true">
+    <Position X="19" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAQCBAAAAAQEAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\Advice\VerweidAdvisor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeatherAdvice" Collapsed="true">
+    <Position X="9.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\Advice\WeatherAdvice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdviceImplementer" Collapsed="true">
+    <Position X="20.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAACAAAAAAAACAAAAAAAAgAAAAAAAABAAADAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\AdviceImplementer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Database" Collapsed="true">
+    <Position X="20.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABBghAAAAAQAAQAgAMAAAAAAAAAUAEAEEAAAAAAAgAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\API\Database.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataTester" Collapsed="true">
+    <Position X="22.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEIQAoICAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\API\DataTester.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DBST" Collapsed="true">
+    <Position X="24.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QEAAAKAAQACAAAAAAAAAAEQYAAAAAEAISAAAAAAASEA=</HashCode>
+      <FileName>Assets\Scripts\Systems\API\DBST.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebTester" Collapsed="true">
+    <Position X="27.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAACAAAAAAAAACAQAAAAAAAAAIAAAAAAAACAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\API\WebTester.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WurmAPI" Collapsed="true">
+    <Position X="26" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABQAAAAAAAAAAAMAAAAAAAAAAAAAAEAAAAAAAgAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\API\WurmAPI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LotButton" Collapsed="true">
+    <Position X="12.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgBAAAAAAAAAAQAAAAAAwgABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\DataManagement\LotData\LotButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LotDataViewer" Collapsed="true">
+    <Position X="7" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAJIAEAACCABAAEWACAAAiAAAAAAAAIAAQEA4AIAYAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\DataManagement\LotData\LotDataViewer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectDetailsEditor" Collapsed="true">
+    <Position X="27.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAIAAAAgAAEAEAAAgAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\DataManagement\ObjectDetailsEditor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectDetailsPanel" Collapsed="true">
+    <Position X="29.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAgAAAAAAAACAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\DataManagement\ObjectDetailsPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PairCollectionButton" Collapsed="true">
+    <Position X="17.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAACAAAAAAAAACAAAIAQAABAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Assets\Scripts\Systems\DataManagement\PairCollectionButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SheepButton" Collapsed="true">
+    <Position X="14.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAgAAAABAQAAAAAAEAQAAAAAAQAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\DataManagement\SheepData\SheepButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SheepDataViewer" Collapsed="true">
+    <Position X="11.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAZAAcAACKABBAESACIAAAAECgEgAIIAAQAAQAIQYQA=</HashCode>
+      <FileName>Assets\Scripts\Systems\DataManagement\SheepData\SheepDataViewer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SheepDataReader" Collapsed="true">
+    <Position X="29.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAACgEQAiBqAEIgHAGCIYAAAACAABCIBDgYAAAACDA=</HashCode>
+      <FileName>Assets\Scripts\Systems\DataManagement\SheepDataReader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WindowGraph" Collapsed="true">
+    <Position X="17.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAACAAAAAAAAAAAAAAAAAAAJAAAAAIAAEA=</HashCode>
+      <FileName>Assets\Scripts\Systems\DataManagement\WindowGraph.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WormButton" Collapsed="true">
+    <Position X="19" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAABAAiAAAAAAhAAAAAAAAQAABAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Assets\Scripts\Systems\DataManagement\WormData\WormButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WormDataViewer" Collapsed="true">
+    <Position X="4.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACKggAAAICAhAA0QACAAAAQQAACAABAAAAAAAAAAYAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\DataManagement\WormData\WormDataViewer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EventSystem" Collapsed="true">
+    <Position X="17.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAABAAAAAAAAAAAAAAIAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\EventSystem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EventSystem&lt;T&gt;" Collapsed="true">
+    <Position X="29.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAABAAAAAAAAAAAAAAIAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\EventSystem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Location" Collapsed="true">
+    <Position X="19" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAACAAIgAIhAAAgAAAAACAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\Location.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LocationInfo" Collapsed="true">
+    <Position X="20.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IASAIAAgAAMAAAgIAAAICIAACCkAAAACQAAYgAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\Location.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HttpClientTest" Collapsed="true">
+    <Position X="29.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAACAAAAAACAAAAIAACAAAACAIAAAAAAAACAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\Networking\HttpClientTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HttpListenerTest" Collapsed="true">
+    <Position X="17.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABCAAAAAgAAAAAAAAAMAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\Networking\HttpListenerTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TCPTestClient" Collapsed="true">
+    <Position X="24.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgQAABAAACAAAAAEACIAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\Networking\TCPTestClient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TCPTestServer" Collapsed="true">
+    <Position X="26" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAABgAQCAAAAAgACAAAEAAQIAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\Networking\TCPTestServer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UICalendarWidget" Collapsed="true">
+    <Position X="17.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQAABACAAAABAAAABIAAIEAAQAAAAIAEAEEAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Systems\UICalendarWidget.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Weather" Collapsed="true">
+    <Position X="22.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAEAAAAAAAAAAAAAAAAAAJUAAAAAAACAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\Weather.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeatherInfo" Collapsed="true">
+    <Position X="26" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAACgAAAAAIAACAAAABBAAAgAAEAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\Weather.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hourly" Collapsed="true">
+    <Position X="24.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAACAAgABBAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\Weather.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HourlyUnits" Collapsed="true">
+    <Position X="27.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAACAAgABAAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\Weather.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WurmFileHandler" Collapsed="true">
+    <Position X="27.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\WurmFileHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestAlarm" Collapsed="true">
+    <Position X="29.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\TestAlarm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdviceDisplay" Collapsed="true">
+    <Position X="17.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAQAAAAAAAAAAAAAAAAAAAAAAEAAAgAAEAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\AdviceDisplay.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ColorPalette" Collapsed="true">
+    <Position X="27.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAACAAAgAAAAAAAAAAAMAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\ColorPalette.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CurrentInfo" Collapsed="true">
+    <Position X="17.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABBEAAAAgAAAIAQCAAAAAAAADAIgAAAQAAAAAAJAAE=</HashCode>
+      <FileName>Assets\Scripts\UI\CurrentInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DailyForecast" Collapsed="true">
+    <Position X="19" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAEAAEAAAAAAAAAAACCAAAAACAAAAAAAAAAAAIAAEAA=</HashCode>
+      <FileName>Assets\Scripts\UI\DailyForecast.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FontSizeSettings" Collapsed="true">
+    <Position X="19" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAACAAAAAgAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\FontSizeSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HourlyForecast" Collapsed="true">
+    <Position X="26" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAAAARkAAAIAACCAAAAAAQAAAAAQBAAIAAAAJAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\HourlyForecast.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SelectTheme" Collapsed="true">
+    <Position X="26" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAECAAATAAAAAAAAAAAACACAAQACAIAAAAAAAACAA=</HashCode>
+      <FileName>Assets\Scripts\UI\SelectTheme.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeeklyForecast" Collapsed="true">
+    <Position X="29.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAABAAAAAAAAAIAASAAAAAAAAAAAAMABAAAAAAABAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\WeeklyForecast.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Voronoi" Collapsed="true">
+    <Position X="20.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Assets\Scripts\Voronoi.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeatherIconsObject" Collapsed="true">
+    <Position X="24.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\WeatherIconsObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WormNoise" Collapsed="true">
+    <Position X="24.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAACAAAAAAACAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\WormNoise.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="SheepWeight" Collapsed="true">
+    <Position X="19" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\ObjectCollection.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SheepDiseases" Collapsed="true">
+    <Position X="17.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\ObjectCollection.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="WormMedicines" Collapsed="true">
+    <Position X="22.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\ObjectCollection.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="WormResistences" Collapsed="true">
+    <Position X="24.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\ObjectCollection.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="WormSymptoms" Collapsed="true">
+    <Position X="26" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\ObjectCollection.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="WormFaveConditions" Collapsed="true">
+    <Position X="20.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\ObjectCollection.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="IStartInterfaceWithI" Collapsed="true">
+    <Position X="19" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\CodingStandards.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IObject" Collapsed="true">
+    <Position X="17.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\ObjectCollection.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="DetailsPanelMode" Collapsed="true">
+    <Position X="19" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAEAEAAAA=</HashCode>
+      <FileName>Assets\Scripts\DataViewer.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="EventType" Collapsed="true">
+    <Position X="22.5" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hAAgAAAAAAAAAAEACAAgAAAAAKAgAAAAAAAAAAEAAAE=</HashCode>
+      <FileName>Assets\Scripts\Helpers\EnumCollection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="MethodType" Collapsed="true">
+    <Position X="29.5" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAABAAACAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Assets\Scripts\Helpers\EnumCollection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="GetRequest" Collapsed="true">
+    <Position X="24.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAIQCBAAAAAAAQwAAIhEAAAAAAAIAAgAAAAEAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\EnumCollection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="PutRequest" Collapsed="true">
+    <Position X="19" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABQAAAAAACABAAAAAACAAAAAAAwAiABAIAQAEAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\EnumCollection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="PostRequest" Collapsed="true">
+    <Position X="17.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAEgggADAAAAgiAAIAAAAAAIABAAAkAAAFEAEEAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\EnumCollection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Status" Collapsed="true">
+    <Position X="29.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAYAAAAAAAEAAAAAAgGAgAACAwEAQAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\EnumCollection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="GrassType" Collapsed="true">
+    <Position X="26" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\EnumCollection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SheepType" Collapsed="true">
+    <Position X="27.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BBIAAABEEQFAAAzgAIBRAAABTEEwiAQBDCBKryEFURA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\EnumCollection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sex" Collapsed="true">
+    <Position X="22.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\EnumCollection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Disease" Collapsed="true">
+    <Position X="20.75" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAEAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\EnumCollection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="WormType" Collapsed="true">
+    <Position X="20.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAQAAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\EnumCollection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Medicine" Collapsed="true">
+    <Position X="27.75" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\EnumCollection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Symptom" Collapsed="true">
+    <Position X="17.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\EnumCollection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Condition" Collapsed="true">
+    <Position X="17.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\EnumCollection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="WeatherType" Collapsed="true">
+    <Position X="19" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEUAAACGABAQAkCAAEAABICAMAQAAAQAAmAMABAGQAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\EnumCollection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Quality" Collapsed="true">
+    <Position X="20.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgCCAEAAAAAAAAAAAAAAAAAIAAAAIAAAAAAAAAAE=</HashCode>
+      <FileName>Assets\Scripts\Helpers\EnumCollection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SheepAge" Collapsed="true">
+    <Position X="24.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEACAAAACAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\EnumCollection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SheepButtonMode" Collapsed="true">
+    <Position X="26" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAACAAAAAAAAAIAAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Systems\DataManagement\SheepData\SheepButton.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
